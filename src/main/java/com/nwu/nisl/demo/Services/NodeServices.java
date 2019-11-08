@@ -1,7 +1,7 @@
 package com.nwu.nisl.demo.Services;
 
 import com.nwu.nisl.demo.Entity.Node;
-import com.nwu.nisl.demo.Entity.SuccsRel;
+import com.nwu.nisl.demo.Entity.SuccNode;
 import com.nwu.nisl.demo.Repository.NodeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-
 @Service
 public class NodeServices {
     private final static Logger LOG = LoggerFactory.getLogger(NodeServices.class);//反射机制,
@@ -28,17 +27,17 @@ public class NodeServices {
             Node pnode = results.next();
             //添加不存在的结点
             int source;
-            Map<String,Object> nodeMap=map("filename",pnode.getFileName(),"label","node");
+            Map<String,Object> nodeMap=map("filename",pnode.getFileMethodName(),"label","node");
             if (nodes.indexOf(nodeMap) == -1) {
-                nodes.add(map("filename", pnode.getFileName(), "label", "node"));
+                nodes.add(map("filename", pnode.getFileMethodName(), "label", "node"));
                 source = i;
                 i++;
             }
             else {
                 source=nodes.indexOf(nodeMap);
             }
-            for (SuccsRel succsRel : pnode.getSuccsRels()) {//获取后继结点的关系
-                Map<String, Object> node = map("filename", succsRel.getEndnode().getFileName(), "label", "node");
+            for (SuccNode succNode : pnode.getSuccNodes()) {//获取后继结点的关系
+                Map<String, Object> node = map("filename", succNode.getEndnode().getFileMethodName(), "label", "node");
                 //查找当前结点的后继结点，构建后继关系
                 int target = nodes.indexOf(node);
                 if (target == -1) {
@@ -66,15 +65,15 @@ public class NodeServices {
 
     @Transactional(readOnly = true)
     public Node findByNodeType(String nodeType) {
-        Node result = nodeRepository.findByNodeType(nodeType);
-        return result;
+        //Node result = nodeRepository.findByNodeType(nodeType);
+        return null;
     }
 
     @Transactional(readOnly = true)
     public Collection<Node> findByNodeTypeLikes(String nodeType) {
         //no instance
-        Collection<Node> nodes = nodeRepository.findByNodeTypeLike(nodeType);
-        return nodes;
+        //Collection<Node> nodes = nodeRepository.findByNodeTypeLike(nodeType);
+        return null;
     }
 
     @Transactional(readOnly = true)

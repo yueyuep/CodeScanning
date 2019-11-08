@@ -7,9 +7,7 @@ import com.nwu.nisl.demo.Repository.NodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.*;
-
 @Service
 public class MainServices {
     @Autowired
@@ -52,8 +50,8 @@ public class MainServices {
                     start = count - 1;
                 }
 
-                for (SuccsRel succsRel : ((Node) object).getSuccsRels()) {
-                    Node target = succsRel.getEndnode();
+                for (SuccNode succNode : ((Node) object).getSuccNodes()) {
+                    Node target = succNode.getEndnode();
                     Map<String, Object> targetNode = getNodeAttribute(target);
                     if (json_nodes.indexOf(targetNode) == -1) {
                         json_nodes.add(targetNode);
@@ -64,8 +62,8 @@ public class MainServices {
                     json_edges.add(getNodeCollection(start, end));
                 }
                 //建立call关系
-                for (CallRel callRel : ((Node) object).getCallMethods()) {
-                    Method target = callRel.getEndmethod();
+                for (CallMethod callMethod : ((Node) object).getCallMethods()) {
+                    Method target = callMethod.getEndmethod();
                     Map<String, Object> targetMethod = getNodeAttribute(target);
                     if (json_nodes.indexOf(targetMethod) == -1) {
                         json_nodes.add(targetMethod);
@@ -88,8 +86,8 @@ public class MainServices {
                     count++;
                     start = count - 1;
                 }
-                for (IncludeRel includeRel : ((Method) object).getIncludeRels()) {
-                    Node target = includeRel.getEndNode();
+                for (HasNode hasNode : ((Method) object).getHasNodes()) {
+                    Node target = hasNode.getEndNode();
                     Map<String, Object> targetNode = getNodeAttribute(target);
                     if (json_nodes.indexOf(targetNode) == -1) {
                         json_nodes.add(targetNode);
@@ -109,8 +107,8 @@ public class MainServices {
                     count++;
                     start = count - 1;
                 }
-                for (HasMethodRel hasMethodRel : ((File) object).getMethods()) {
-                    Method targetMethod = hasMethodRel.getEndMethod();
+                for (HasMethod hasMethod : ((File) object).getMethods()) {
+                    Method targetMethod = hasMethod.getEndMethod();
                     Map<String, Object> targetNode = getNodeAttribute(targetMethod);
                     if (json_nodes.indexOf(targetNode) == -1) {
                         json_nodes.add(targetNode);
@@ -146,22 +144,22 @@ public class MainServices {
         Map<String, Object> map = new HashMap<>();
         if (object instanceof Node) {
 
-            map.put("fileName", ((Node) object).getFileName());
+            map.put("fileName", ((Node) object).getFileMethodName());
             map.put("version", ((Node) object).getVersion());
             map.put("attribute", ((Node) object).getAttribute());
-            map.put("nodeType", ((Node) object).getNodeType());
+           //map.put("nodeType", ((Node) object).getNodeType());
 
         } else if (object instanceof Method) {
-            map.put("fileName", ((Method) object).getFileName());
+            map.put("fileName", ((Method) object).getFileMethodName());
             map.put("version", ((Method) object).getVersion());
-            map.put("nodeType", ((Method) object).getNodeType());
+            //map.put("nodeType", ((Method) object).getNodeType());
             //包含的文件内容先不显示
 
         } else if (object instanceof File) {
             //包含的文件内容先不显示
             map.put("fileName", ((File) object).getFileName());
             map.put("version", ((File) object).getVersion());
-            map.put("nodeType", ((File) object).getNodeType());
+            //map.put("nodeType", ((File) object).getNodeType());
 
         } else {
             //无操作

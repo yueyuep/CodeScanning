@@ -1,8 +1,8 @@
 package com.nwu.nisl.demo.Entity;
 
 import org.neo4j.ogm.annotation.*;
-@RelationshipEntity(type = "call")
-public class CallRel {
+@RelationshipEntity(type = "callMethod")
+public class CallMethod {
     @Id
     @GeneratedValue
     private Long id;

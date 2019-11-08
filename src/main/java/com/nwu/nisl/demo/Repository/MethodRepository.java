@@ -14,4 +14,7 @@ public interface MethodRepository extends Neo4jRepository<Method,Long> {
     //查找特定版本的数据
     @Query("MATCH(p:Method{version={param1}})-[r]->(q) RETURN p,r,q")
     Collection<Method> findAllByVersion(@Param("param1") String version);
+    //通过函数和版本进行查找
+    Method findByfileMethodNameAndVersion(@Param("param1") String fileMethodName, @Param("param2") String version);
+
 }

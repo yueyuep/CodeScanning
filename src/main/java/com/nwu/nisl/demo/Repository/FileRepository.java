@@ -14,4 +14,6 @@ public interface FileRepository extends Neo4jRepository<File,Long> {
     Collection<File> findAllByVersion(@Param("param1") String version );
     @Query("MATCH (p)-[r]->(q) RETURN p,r,q LIMIT{param1}")
     Collection<File> findFiles(@Param("param1") int limit);
+    File findByFileName(@Param("fileName") String fileName);
+
 }

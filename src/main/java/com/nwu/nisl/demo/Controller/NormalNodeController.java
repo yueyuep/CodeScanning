@@ -27,7 +27,7 @@ public class NormalNodeController {
     @GetMapping("/graph")
     public Map<String, Object> graph(@RequestParam(value = "limit", required = false) Integer limit) {
         System.out.println("start");
-        return mainServices.getallNodes(limit = 200);
+        return mainServices.getallNodes(limit = 80);
     }
 
 

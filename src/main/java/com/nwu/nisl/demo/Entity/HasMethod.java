@@ -2,7 +2,7 @@ package com.nwu.nisl.demo.Entity;
 
 import org.neo4j.ogm.annotation.*;
 @RelationshipEntity(type = "hasMethod")
-public class HasMethodRel {
+public class HasMethod {
 
     @Id
     @GeneratedValue

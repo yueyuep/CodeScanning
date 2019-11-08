@@ -2,8 +2,8 @@ package com.nwu.nisl.demo.Entity;
 
 import org.neo4j.ogm.annotation.*;
 
-@RelationshipEntity(type = "succs")
-public class IncludeRel {
+@RelationshipEntity(type = "hasNode")
+public class HasNode {
     @Id
     @GeneratedValue
     private Long id;

@@ -1,0 +1,10 @@
+{"CWE190_Integer_Overflow__int_Environment_preinc_81a.java_v1.0": {"bad": {"connecting": "include"}, "good": {"connecting": "include"}, "goodG2B": {"connecting": "include"}, "goodB2G": {"connecting": "include"}, "main": {"connecting": "include"}}}
+{"bad": {"action": {"connecting": "call"}}}
+{"action": {}}
+{"good": {"goodG2B": {"connecting": "call"}, "goodB2G": {"connecting": "call"}}}
+{"goodG2B": {"action": {"connecting": "call"}}}
+{"goodB2G": {"action": {"connecting": "call"}}}
+{"main": {}}
+{"CWE190_Integer_Overflow__int_Environment_preinc_81_bad.java_v1.0": {"action": {"connecting": "include"}}}
+{"CWE190_Integer_Overflow__int_Environment_preinc_81_goodB2G.java_v1.0": {"action": {"connecting": "include"}}}
+{"CWE190_Integer_Overflow__int_Environment_preinc_81_goodG2B.java_v1.0": {"action": {"connecting": "include"}}}

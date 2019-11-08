@@ -18,7 +18,7 @@ public class File {
     private String nodeType;
     private List<String> hasMethodName = new ArrayList<>();
     @Relationship(type = "hasMethod", direction = Relationship.OUTGOING)
-    private List<HasMethodRel> methods = new ArrayList<>();
+    private List<HasMethod> methods = new ArrayList<>();
 
     public File() {
 
@@ -41,7 +41,7 @@ public class File {
         return version;
     }
 
-    public List<HasMethodRel> getMethods() {
+    public List<HasMethod> getMethods() {
         return methods;
     }
 

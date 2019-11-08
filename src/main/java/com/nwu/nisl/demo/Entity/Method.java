@@ -13,20 +13,19 @@ public class Method {
     @Id
     @GeneratedValue
     private Long id;
-    private String fileName;
+    private String fileMethodName;
     private String version;
-    private String methodName;
     private String nodeType;
-    @Relationship(type = "succs", direction = Relationship.OUTGOING)
-    private List<IncludeRel> includeRels = new ArrayList<>();
+    private String num;
+    @Relationship(type = "hasNode", direction = Relationship.OUTGOING)
+    private List<HasNode> hasNodes = new ArrayList<>();
 
     public Method() {
     }
 
-    public Method(String fileName, String version, String methodName) {
-        this.fileName = fileName;
+    public Method(String fileMethodName, String version) {
+        this.fileMethodName = fileMethodName;
         this.version = version;
-        this.methodName = methodName;
     }
 
     public String getVersion() {
@@ -37,20 +36,20 @@ public class Method {
         return id;
     }
 
-    public String getMethodName() {
-        return methodName;
-    }
 
     public String getNodeType() {
         return nodeType;
     }
 
-
-    public String getFileName() {
-        return fileName;
+    public String getNum() {
+        return num;
     }
 
-    public List<IncludeRel> getIncludeRels() {
-        return includeRels;
+    public String getFileMethodName() {
+        return fileMethodName;
+    }
+
+    public List<HasNode> getHasNodes() {
+        return hasNodes;
     }
 }
