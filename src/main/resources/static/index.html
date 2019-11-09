@@ -9,79 +9,22 @@
 <body>
 <div id="graph">
 </div>
-<div role="navigation" class="navbar navbar-default navbar-static-top">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-md-6">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <form role="search" class="navbar-form" id="search">
-                            <div class="form-group">
-                                <input type="text" value="Matrix" placeholder="Search for Movie Title"
-                                       class="form-control" name="search">
-                            </div>
-                            <button class="btn btn-default" type="submit">Search</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-            <div class="navbar-header col-sm-6 col-md-6">
-                <div class="logo-well">
-                    <a href="https://neo4j.com/developer">
-                        <img src="http://neo4j-contrib.github.io/developer-resources/language-guides/assets/img/logo-white.svg"
-                             alt="Neo4j World's Leading Graph Database" id="logo">
-                    </a>
-                </div>
-                <div class="navbar-brand">
-                    <div class="brand">Neo4j Movies</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-5">
-        <div class="panel panel-default">
-            <div class="panel-heading">Search Results</div>
-            <table id="results" class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th>Movie</th>
-                    <th>Released</th>
-                    <th>Tagline</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col-md-7">
-        <div class="panel panel-default">
-            <div class="panel-heading" id="title">Details</div>
-            <div class="row">
-                <div class="col-sm-4 col-md-4">
-                    <img src="" class="well" id="poster"/>
-                </div>
-                <div class="col-md-8 col-sm-8">
-                    <h4>Crew</h4>
-                    <ul id="crew">
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <style type="text/css">
-    .node.actor {
-        fill: #888;
+    .tooltip {
+        font-family: simsun;
+        font-size: 16px;
+        width: 120px;
+        height: auto;
+        position: absolute;
+        text-align: center;
+        border-style: hidden;
+        border-width: 1px;
+        background-color: white;
+        border-radius: 5px;
     }
 
-    .node.movie {
-        fill: #BBB;
-    }
-
+</style>
+<style type="text/css">
     .link {
         stroke: #99161f;
         stroke-opacity: .6;
@@ -95,22 +38,15 @@
 
 <script type="text/javascript">
     var width = 800, height = 800;
-    var tooltip = d3.select('body')
-        .append('div')
-        .style('position', 'absolute')
-        .style('z-index', '10')
-        .style('color', '#3497db')
-        .style('visibility', 'hidden')   // 是否可见（一开始设置为隐藏）
-        .style('font-size', '12px')
-        .style('font-weight', 'bold')
-        .text('')
     var force = d3.layout.force()
         .charge(-200).linkDistance(30).size([width, height]);
 
     var svg = d3.select("#graph").append("svg")
         .attr("width", "100%").attr("height", "100%")
         .attr("pointer-events", "all");
-
+    var tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .attr("opacity", 0.0);
     d3.json("/graph", function (error, graph) {
         if (error) return;
         force.nodes(graph.nodes).links(graph.links).start();
@@ -121,6 +57,9 @@
         var node = svg.selectAll(".node")
             .data(graph.nodes).enter()
             .append("circle")
+            .attr("r",function (d) {
+             return Math.sqrt(d.size) / 10 || 4.5;
+        })
             .style("fill", function (node) {
                 if (node.nodeType == "node")
                     return "#239965";
@@ -129,12 +68,18 @@
                 else return "#968D99";
             })
             .attr("r", 15)//设置结点的半径
-            .call(force.drag)
-            .on("click", function (d, i) {
-                d3.select(this).attr("text", "点击")
+            .call(force.drag);
+        node.on("mouseover", function (d) {
+            // TODO 需要根据不同得结点类型添加信息
+            tooltip.html("fileName:" + d.fileName + "</br>" + "version:" + d.version)
+                .style("left", d3.event.pageX + "px")
+                .style("top", d3.event.pageY + "px")
+                .style("opacity", 1.0);
 
+        })
+            .on("mouseout", function () {
+                tooltip.style("opacity", 0.0);
             });
-
         // html title attribute
         var texts = svg.selectAll("text")
             .data(graph.nodes)
@@ -145,9 +90,9 @@
             .attr("dx", 20)
             .attr("dy", 8)
             .text(function (d) {
-                return d.fileMethodName + "-" + d.nodeType;
+                // TODO 需要根据不同的结点设置不同的属性显示
+                return "file"
             });
-
         // tick定时刷新坐标的值
         force.on("tick", function () {
             link.attr("x1", function (d) {
