@@ -1,0 +1,38 @@
+.tooltip {
+    font-family: simsun;
+    font-size: 16px;
+    width: 120px;
+    height: auto;
+    position: absolute;
+    text-align: center;
+    border-style: hidden;
+    border-width: 1px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.link {
+    stroke: #99161f;
+    stroke-opacity: .6;
+    stroke-width: 1px;
+}
+
+.node {
+    cursor: pointer;
+    stroke: #3182bd;
+    stroke-width: 1.5px;
+}
+
+#leftGraph {
+    width: 50%;
+    height: 1000px;
+    float: left;
+    background-color: #85bd80;
+}
+
+#rightGraph {
+    width: 50%;
+    height: 1000px;
+    float: left;
+    background-color: #9ecae1;
+}

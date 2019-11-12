@@ -15,7 +15,7 @@ public class File {
     private Long id;
     private String fileName;
     private String version;
-    private String nodeType;
+    private String nodeType="file";
     private List<String> hasMethodName = new ArrayList<>();
     @Relationship(type = "hasMethod", direction = Relationship.OUTGOING)
     private List<HasMethod> methods = new ArrayList<>();

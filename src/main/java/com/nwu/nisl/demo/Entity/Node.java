@@ -14,6 +14,7 @@ public class Node {
     private String fileMethodName;
     private String version;
     private String attribute;
+    private String nodeType="node";
     @Relationship(type = "succNode", direction = Relationship.OUTGOING)
     private List<SuccNode> SuccNodes = new ArrayList<>();
     @Relationship(type = "callMethod", direction = Relationship.OUTGOING)
@@ -47,6 +48,9 @@ public class Node {
         return callMethods;
     }
 
+    public String getNodeType() {
+        return nodeType;
+    }
 
     public String getAttribute() {
         return attribute;

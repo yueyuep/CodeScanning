@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class CallGraphServices {
     //配置路径当中
     @Autowired
-    private PareJson pareJson;
+
     public CallGraphServices(PareJson pareJson){
 
     }

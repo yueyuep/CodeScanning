@@ -19,13 +19,13 @@ public class Utils {
         Map<String, Object> map = new HashMap<>();
         if (object instanceof Node) {
 
-            map.put("fileName", ((Node) object).getFileMethodName());
+            map.put("fileMethodName", ((Node) object).getFileMethodName());
             map.put("version", ((Node) object).getVersion());
             map.put("attribute", ((Node) object).getAttribute());
-            //map.put("nodeType", ((Node) object).getNodeType());
+            map.put("nodeType", ((Node) object).getNodeType());
 
         } else if (object instanceof Method) {
-            map.put("fileName", ((Method) object).getFileMethodName());
+            map.put("fileMethodName", ((Method) object).getFileMethodName());
             map.put("version", ((Method) object).getVersion());
             map.put("nodeType", ((Method) object).getNodeType());
             //包含的文件内容先不显示

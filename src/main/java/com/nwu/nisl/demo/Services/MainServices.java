@@ -1,5 +1,6 @@
 package com.nwu.nisl.demo.Services;
 
+import com.nwu.nisl.demo.Component.Utils;
 import com.nwu.nisl.demo.Entity.*;
 import com.nwu.nisl.demo.Repository.FileRepository;
 import com.nwu.nisl.demo.Repository.MethodRepository;
@@ -16,6 +17,8 @@ public class MainServices {
     private MethodRepository methodRepository;
     @Autowired
     private NodeRepository nodeRepository;
+    @Autowired
+    private Utils utils;
 
     public MainServices() {
     }
@@ -39,7 +42,7 @@ public class MainServices {
         for (Object object : allnodes) {
             //遍历结点
             int start;
-            Map<String, Object> temp = getNodeAttribute(object);
+            Map<String, Object> temp = utils.getNodeAttribute(object);
             if (object instanceof Node) {
                 //建立后继关系，调用关系
                 if (json_nodes.indexOf(temp) != -1) {
@@ -52,7 +55,7 @@ public class MainServices {
 
                 for (SuccNode succNode : ((Node) object).getSuccNodes()) {
                     Node target = succNode.getEndnode();
-                    Map<String, Object> targetNode = getNodeAttribute(target);
+                    Map<String, Object> targetNode = utils.getNodeAttribute(target);
                     if (json_nodes.indexOf(targetNode) == -1) {
                         json_nodes.add(targetNode);
                         count++;
@@ -64,7 +67,7 @@ public class MainServices {
                 //建立call关系
                 for (CallMethod callMethod : ((Node) object).getCallMethods()) {
                     Method target = callMethod.getEndmethod();
-                    Map<String, Object> targetMethod = getNodeAttribute(target);
+                    Map<String, Object> targetMethod =utils.getNodeAttribute(target);
                     if (json_nodes.indexOf(targetMethod) == -1) {
                         json_nodes.add(targetMethod);
 
@@ -88,7 +91,7 @@ public class MainServices {
                 }
                 for (HasNode hasNode : ((Method) object).getHasNodes()) {
                     Node target = hasNode.getEndNode();
-                    Map<String, Object> targetNode = getNodeAttribute(target);
+                    Map<String, Object> targetNode = utils.getNodeAttribute(target);
                     if (json_nodes.indexOf(targetNode) == -1) {
                         json_nodes.add(targetNode);
                         count++;
@@ -109,7 +112,7 @@ public class MainServices {
                 }
                 for (HasMethod hasMethod : ((File) object).getMethods()) {
                     Method targetMethod = hasMethod.getEndMethod();
-                    Map<String, Object> targetNode = getNodeAttribute(targetMethod);
+                    Map<String, Object> targetNode = utils.getNodeAttribute(targetMethod);
                     if (json_nodes.indexOf(targetNode) == -1) {
                         json_nodes.add(targetNode);
                         count++;
@@ -137,35 +140,7 @@ public class MainServices {
         return graph(methods, nodes, files);
     }
 
-    public Map<String, Object> getNodeAttribute(Object object) {
-        /*/
-         获得所有类型结点的属性信息，分3类
-         */
-        Map<String, Object> map = new HashMap<>();
-        if (object instanceof Node) {
 
-            map.put("fileName", ((Node) object).getFileMethodName());
-            map.put("version", ((Node) object).getVersion());
-            map.put("attribute", ((Node) object).getAttribute());
-           //map.put("nodeType", ((Node) object).getNodeType());
-
-        } else if (object instanceof Method) {
-            map.put("fileName", ((Method) object).getFileMethodName());
-            map.put("version", ((Method) object).getVersion());
-            //map.put("nodeType", ((Method) object).getNodeType());
-            //包含的文件内容先不显示
-
-        } else if (object instanceof File) {
-            //包含的文件内容先不显示
-            map.put("fileName", ((File) object).getFileName());
-            map.put("version", ((File) object).getVersion());
-            //map.put("nodeType", ((File) object).getNodeType());
-
-        } else {
-            //无操作
-        }
-        return map;
-    }
 
     public Map<String, Object> getNodeCollection(int start, int end) {
         /*

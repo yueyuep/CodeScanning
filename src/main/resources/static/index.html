@@ -4,125 +4,18 @@
     <link rel="stylesheet"
           href="http://neo4j-contrib.github.io/developer-resources/language-guides/assets/css/main.css">
     <title>Neo4j Movies</title>
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 
-<body>
-<div id="graph">
+<body style="height: 800px;width: auto">
+<div id="leftGraph">
+    <p>V1.0</p>
 </div>
-<style type="text/css">
-    .tooltip {
-        font-family: simsun;
-        font-size: 16px;
-        width: 120px;
-        height: auto;
-        position: absolute;
-        text-align: center;
-        border-style: hidden;
-        border-width: 1px;
-        background-color: white;
-        border-radius: 5px;
-    }
-
-</style>
-<style type="text/css">
-    .link {
-        stroke: #99161f;
-        stroke-opacity: .6;
-        stroke-width: 1px;
-    }
-</style>
-
+<div id="rightGraph">
+    <p>V1.1</p>
+</div>
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js" type="text/javascript"></script>
-
-
-<script type="text/javascript">
-    var width = 800, height = 800;
-    var force = d3.layout.force()
-        .charge(-200).linkDistance(30).size([width, height]);
-
-    var svg = d3.select("#graph").append("svg")
-        .attr("width", "100%").attr("height", "100%")
-        .attr("pointer-events", "all");
-    var tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .attr("opacity", 0.0);
-    d3.json("/graph", function (error, graph) {
-        if (error) return;
-        force.nodes(graph.nodes).links(graph.links).start();
-        var link = svg.selectAll(".link")
-            .data(graph.links).enter()
-            .append("line").attr("class", "link");
-
-        var node = svg.selectAll(".node")
-            .data(graph.nodes).enter()
-            .append("circle")
-            .attr("r",function (d) {
-             return Math.sqrt(d.size) / 10 || 4.5;
-        })
-            .style("fill", function (node) {
-                if (node.nodeType == "node")
-                    return "#239965";
-                else if (node.nodeType == "method")
-                    return "#997E22";
-                else return "#968D99";
-            })
-            .attr("r", 15)//设置结点的半径
-            .call(force.drag);
-        node.on("mouseover", function (d) {
-            // TODO 需要根据不同得结点类型添加信息
-            tooltip.html("fileName:" + d.fileName + "</br>" + "version:" + d.version)
-                .style("left", d3.event.pageX + "px")
-                .style("top", d3.event.pageY + "px")
-                .style("opacity", 1.0);
-
-        })
-            .on("mouseout", function () {
-                tooltip.style("opacity", 0.0);
-            });
-        // html title attribute
-        var texts = svg.selectAll("text")
-            .data(graph.nodes)
-            .enter()
-            .append("text")
-            .style("fill", "black")
-            .attr("text-anchor", "middle")
-            .attr("dx", 20)
-            .attr("dy", 8)
-            .text(function (d) {
-                // TODO 需要根据不同的结点设置不同的属性显示
-                return "file"
-            });
-        // tick定时刷新坐标的值
-        force.on("tick", function () {
-            link.attr("x1", function (d) {
-                return d.source.x;
-            })
-                .attr("y1", function (d) {
-                    return d.source.y;
-                })
-                .attr("x2", function (d) {
-                    return d.target.x;
-                })
-                .attr("y2", function (d) {
-                    return d.target.y;
-                });
-
-            node.attr("cx", function (d) {
-                return d.x;
-            })
-                .attr("cy", function (d) {
-                    return d.y;
-                });
-            texts.attr("x", function (d) {
-                return d.x;
-            })
-
-                .attr("y", function (d) {
-                    return d.y;
-                });
-        });
-    });
-</script>
+<script src="./js/index.js" type="text/javascript"></script>
 </body>
 </html>
