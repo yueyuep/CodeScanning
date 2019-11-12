@@ -15,13 +15,12 @@ public class File {
     private Long id;
     private String fileName;
     private String version;
-    private String nodeType;
-    private List<String> hasMethodName = new ArrayList<>();
+    private String nodeType = "file";
+
     @Relationship(type = "hasMethod", direction = Relationship.OUTGOING)
     private List<HasMethod> methods = new ArrayList<>();
 
     public File() {
-
     }
 
     public File(String fileName, String version) {
@@ -47,9 +46,5 @@ public class File {
 
     public String getNodeType() {
         return nodeType;
-    }
-
-    public List<String> getHasMethodName() {
-        return hasMethodName;
     }
 }

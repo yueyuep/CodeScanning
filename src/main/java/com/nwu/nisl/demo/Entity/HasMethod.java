@@ -1,6 +1,7 @@
 package com.nwu.nisl.demo.Entity;
 
 import org.neo4j.ogm.annotation.*;
+
 @RelationshipEntity(type = "hasMethod")
 public class HasMethod {
 
@@ -8,16 +9,19 @@ public class HasMethod {
     @GeneratedValue
     private Long id;
     @StartNode
-    private File startfile;
+    private File startFile;
     @EndNode
     private Method endMethod;
+
+    public HasMethod() {
+    }
 
     public Long getId() {
         return id;
     }
 
-    public File getStartfile() {
-        return startfile;
+    public File getStartFile() {
+        return startFile;
     }
 
     public Method getEndMethod() {

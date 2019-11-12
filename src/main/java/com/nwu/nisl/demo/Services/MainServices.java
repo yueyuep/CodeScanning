@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
+
 @Service
 public class MainServices {
     @Autowired
@@ -28,15 +29,17 @@ public class MainServices {
         this.nodeRepository = nodeRepository;
     }
 
-    public Map<String, Object> graph(Collection<Method> methods, Collection<Node> nodes, Collection<File> files) {
+    public Map<String, Object> graph(Collection<File> files, Collection<Method> methods, Collection<Node> nodes) {
         int count = 0;
-        List<Object> allnodes = new ArrayList<>();
-        methods.forEach(method -> allnodes.add(method));
-        nodes.forEach(node -> allnodes.add(node));
-        files.forEach(file -> allnodes.add(file));
+        List<Object> allNodes = new ArrayList<>();
+//        methods.forEach(method -> allNodes.add(method));
+//        nodes.forEach(node -> allNodes.add(node));
+        files.forEach(file -> allNodes.add(file));
+
         List<Map<String, Object>> json_nodes = new ArrayList<>();
         List<Map<String, Object>> json_edges = new ArrayList<>();
-        for (Object object : allnodes) {
+
+        for (Object object : allNodes) {
             //遍历结点
             int start;
             Map<String, Object> temp = getNodeAttribute(object);
@@ -51,30 +54,26 @@ public class MainServices {
                 }
 
                 for (SuccNode succNode : ((Node) object).getSuccNodes()) {
-                    Node target = succNode.getEndnode();
+                    Node target = succNode.getEndNode();
                     Map<String, Object> targetNode = getNodeAttribute(target);
                     if (json_nodes.indexOf(targetNode) == -1) {
                         json_nodes.add(targetNode);
                         count++;
-
                     }
                     int end = json_nodes.indexOf(targetNode);
                     json_edges.add(getNodeCollection(start, end));
                 }
+
                 //建立call关系
-                for (CallMethod callMethod : ((Node) object).getCallMethods()) {
-                    Method target = callMethod.getEndmethod();
+                for (NodeCallMethod callMethod : ((Node) object).getNodeCallMethods()) {
+                    Method target = callMethod.getEndMethod();
                     Map<String, Object> targetMethod = getNodeAttribute(target);
                     if (json_nodes.indexOf(targetMethod) == -1) {
                         json_nodes.add(targetMethod);
-
                         count++;
-
                     }
                     int end = json_nodes.indexOf(targetMethod);
                     json_edges.add(getNodeCollection(start, end));
-
-
                 }
 
             } else if (object instanceof Method) {
@@ -86,6 +85,7 @@ public class MainServices {
                     count++;
                     start = count - 1;
                 }
+
                 for (HasNode hasNode : ((Method) object).getHasNodes()) {
                     Node target = hasNode.getEndNode();
                     Map<String, Object> targetNode = getNodeAttribute(target);
@@ -95,6 +95,17 @@ public class MainServices {
 
                     }
                     int end = json_nodes.indexOf(targetNode);
+                    json_edges.add(getNodeCollection(start, end));
+                }
+
+                for (MethodCallMethod methodCallMethod: ((Method) object).getMethodCallMethods()){
+                    Method target = methodCallMethod.getEndMethod();
+                    Map<String, Object> targetMethod = getNodeAttribute(target);
+                    if (json_nodes.indexOf(targetMethod) == -1){
+                        json_nodes.add(targetMethod);
+                        count++;
+                    }
+                    int end = json_nodes.indexOf(targetMethod);
                     json_edges.add(getNodeCollection(start, end));
                 }
 
@@ -113,7 +124,6 @@ public class MainServices {
                     if (json_nodes.indexOf(targetNode) == -1) {
                         json_nodes.add(targetNode);
                         count++;
-
                     }
                     int end = json_nodes.indexOf(targetNode);
                     json_edges.add(getNodeCollection(start, end));
@@ -130,11 +140,11 @@ public class MainServices {
     }
 
     @Transactional(readOnly = true)
-    public Map<String, Object> getallNodes(int limit) {
-        Collection<Method> methods = methodRepository.findMethod(limit);
-        Collection<Node> nodes = nodeRepository.graph(limit);
-        Collection<File> files = fileRepository.findFiles(limit);
-        return graph(methods, nodes, files);
+    public Map<String, Object> getAllNodes(int limit) {
+        Collection<File> files = fileRepository.findFilesByVersion("0.9.22");
+        Collection<Method> methods = null;//methodRepository.findMethod(limit);
+        Collection<Node> nodes = null;//nodeRepository.graph(limit);
+        return graph(files, methods, nodes);
     }
 
     public Map<String, Object> getNodeAttribute(Object object) {
@@ -152,6 +162,7 @@ public class MainServices {
         } else if (object instanceof Method) {
             map.put("fileName", ((Method) object).getFileMethodName());
             map.put("version", ((Method) object).getVersion());
+            map.put("num", String.valueOf(((Method)object).getNum()));
             //map.put("nodeType", ((Method) object).getNodeType());
             //包含的文件内容先不显示
 

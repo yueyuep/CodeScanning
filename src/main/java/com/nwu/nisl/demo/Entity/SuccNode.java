@@ -7,27 +7,28 @@ public class SuccNode {
     @GeneratedValue
     private Long id;
     @StartNode
-    private Node startnode;
+    private Node startNode;
     @EndNode
-    private Node endnode;
+    private Node endNode;
 
     public SuccNode() {
     }
-    public SuccNode(Node startnode, Node endnode) {
-        this.startnode = startnode;
-        this.endnode = endnode;
+
+    public SuccNode(Node startNode, Node endNode) {
+        this.startNode = startNode;
+        this.endNode = endNode;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Node getEndnode() {
-        return endnode;
+    public Node getEndNode() {
+        return endNode;
     }
 
-    public Node getStartnode() {
-        return startnode;
+    public Node getStartNode() {
+        return startNode;
     }
 
 }

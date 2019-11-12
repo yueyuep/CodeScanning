@@ -37,7 +37,7 @@ public class NodeServices {
                 source=nodes.indexOf(nodeMap);
             }
             for (SuccNode succNode : pnode.getSuccNodes()) {//获取后继结点的关系
-                Map<String, Object> node = map("filename", succNode.getEndnode().getFileMethodName(), "label", "node");
+                Map<String, Object> node = map("filename", succNode.getEndNode().getFileMethodName(), "label", "node");
                 //查找当前结点的后继结点，构建后继关系
                 int target = nodes.indexOf(node);
                 if (target == -1) {
@@ -76,13 +76,11 @@ public class NodeServices {
         return null;
     }
 
-    @Transactional(readOnly = true)
-    public Map<String, Object> graph(int limit) {
-        Collection<Node> results = nodeRepository.graph(limit);
-        System.out.println("断点");
-        return toD3Format(results);
-
-
-    }
+//    @Transactional(readOnly = true)
+//    public Map<String, Object> graph(int limit) {
+//        Collection<Node> results = nodeRepository.graph(limit);
+//        System.out.println("断点");
+//        return toD3Format(results);
+//    }
 
 }
