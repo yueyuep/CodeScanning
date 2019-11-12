@@ -75,5 +75,13 @@ public class NodeServices {
         return toD3Format(node);
     }
 
+    @Transactional(readOnly = true)
+    public Map<String, Object> graph(int limit) {
+        Collection<Node> results = nodeRepository.graph(limit);
+        System.out.println("断点");
+        return toD3Format(results);
+
+
+    }
 
 }

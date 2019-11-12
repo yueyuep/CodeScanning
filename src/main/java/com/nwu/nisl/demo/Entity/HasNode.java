@@ -12,6 +12,10 @@ public class HasNode {
     @EndNode
     private Node endNode;
 
+    public HasNode(){
+
+    }
+
     public Long getId() {
         return id;
     }
