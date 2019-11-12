@@ -2,14 +2,25 @@ var width = 800, height = 800;
 var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .attr("opacity", 0.0);
-d3.json("/graph", function (error, graph) {
-    if (error) return;
-    var leftforce = d3.layout.force().charge(-100).linkDistance(60).size([width, height]);
-    var leftsvg = d3.select("#leftgraph").append("svg")
-        .attr("width", width).attr("height", height);
-    show(graph, leftforce, leftsvg);
 
-});
+
+//从后台请求处理数据,根据版本号进行查询
+function requestData(version) {
+    //每次进入需要刷新svg画布分数据。
+    d3.select("#leftsvg").remove();
+    //
+    d3.json("/graph", function (error, graph) {
+        if (error) return;
+        var leftforce = d3.layout.force().charge(-50).linkDistance(60).size([800 * 0.8, height]);
+        var leftsvg = d3.select("#leftgraph").append("svg")
+            .attr("width", "100%")
+            .attr("height", height)
+            .attr("id", "leftsvg");
+        show(graph, leftforce, leftsvg);
+
+    });
+}
+
 
 //下面为用到的函数
 function show(graph, leftforce, leftsvg) {
@@ -23,10 +34,10 @@ function show(graph, leftforce, leftsvg) {
         .append("circle")
         .attr("r", function (d) {
             if (d.nodeType == "file")
-                return 5;
+                return 15;
             else if (d.nodeType == "method")
-                return 1.5;
-            else return 0.5;
+                return 7;
+            else return 5;
         })
         .style("fill", function (node) {
             if (node.nodeType == "node")
@@ -36,7 +47,6 @@ function show(graph, leftforce, leftsvg) {
             else
                 return "#968D99";
         })
-        .attr("r", 15)//设置结点的半径
         .call(leftforce.drag);
 
     node.on("mouseover", function (d) {
@@ -134,10 +144,10 @@ function postdata(dic) {
                 if (data.result == "SUCCESS") {
                     alert("SUCCES");
                     d3.select("#rightsvg").remove();
-                    var rightforce = d3.layout.force().charge(-100).linkDistance(60).size([width, height]);
+                    var rightforce = d3.layout.force().charge(-20).linkDistance(20).size([800 * 0.2, height]);
                     var rightsvg = d3.select("#rightgraph").append("svg")
                         .attr("id", "rightsvg")
-                        .attr("width", width).attr("height", height);
+                        .attr("width", "100%").attr("height", height);
                     show(data, rightforce, rightsvg);
 
                 } else
