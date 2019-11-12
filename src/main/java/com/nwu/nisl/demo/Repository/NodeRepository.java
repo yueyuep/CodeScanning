@@ -16,12 +16,12 @@ public interface NodeRepository extends Neo4jRepository<Node, Long> {
 //    @Query("MATCH (p:node{version:{version}})-[r:succNode]->(q:node{version:{version}}) RETURN p")
 //    Collection<Node> findNodesWithNodeByVersion(@Param("version") String version);
 
+    Collection<Node> findNodesByFileMethodNameAndVersion(@Param("fileMethodName") String fileMethodName, @Param("version") String version);
+
     // TODO
     // 应该存在同 method 一样的问题，所以目前使用时需要手动过滤下为空的节点
     // 根据版本号，返回所有含有调用函数的node节点
     @Query("MATCH (n:node{version:{version}})<-[m:succNode]-(p:node{version: {version}})" +
             "-[r:nodeCallMethod]->(q:method{version:{version}}) RETURN *")
     Collection<Node> findNodesWithCallByVersion(@Param("version") String version);
-
-
 }
