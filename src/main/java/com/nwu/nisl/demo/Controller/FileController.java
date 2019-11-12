@@ -31,7 +31,7 @@ public class FileController {
     @GetMapping("/graph")
     public Map<String, Object> graph(@RequestParam(value = "limit", required = false) Integer limit) {
         System.out.println("start");
-        return mainServices.getallNodes(limit = 80);
+        return mainServices.getAllNodes(limit = 80);
     }
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)

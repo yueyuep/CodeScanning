@@ -1,4 +1,5 @@
 package com.nwu.nisl.demo.Component;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -8,16 +9,18 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
 @Component
 public class DiffNode {
     private List<String> diff=new ArrayList<>();
     @Value("${com.nwu.nisl.demo.url}")
     private String path;
+
     public DiffNode(){}
     public DiffNode(String path){
         this.path=path;
     }
-    public List<String>ToList() {
+    public List<String> ToList() {
         try {
             File file=new File(this.path);
             FileInputStream fileInputStream=new FileInputStream(file);

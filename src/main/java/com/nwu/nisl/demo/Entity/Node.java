@@ -14,11 +14,13 @@ public class Node {
     private String fileMethodName;
     private String version;
     private String attribute;
-    private String nodeType="node";
+    private String nodeType = "node";
+
     @Relationship(type = "succNode", direction = Relationship.OUTGOING)
-    private List<SuccNode> SuccNodes = new ArrayList<>();
-    @Relationship(type = "callMethod", direction = Relationship.OUTGOING)
-    private List<CallMethod> callMethods = new ArrayList<>();
+    private List<SuccNode> succNodes = new ArrayList<>();
+    @Relationship(type = "nodeCallMethod", direction = Relationship.OUTGOING)
+    private List<NodeCallMethod> nodeCallMethods = new ArrayList<>();
+
     public Node() {
     }
 
@@ -28,32 +30,32 @@ public class Node {
         this.attribute = attribute;
     }
 
-    public String getFileMethodName() {
-        return fileMethodName;
-    }
-
-    public List<SuccNode> getSuccNodes() {
-        return SuccNodes;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public String getFileMethodName() {
+        return fileMethodName;
     }
 
     public String getVersion() {
         return version;
     }
 
-    public List<CallMethod> getCallMethods() {
-        return callMethods;
+    public String getAttribute() {
+        return attribute;
     }
 
     public String getNodeType() {
         return nodeType;
     }
 
-    public String getAttribute() {
-        return attribute;
+    public List<SuccNode> getSuccNodes() {
+        return succNodes;
     }
 
+    public List<NodeCallMethod> getNodeCallMethods() {
+        return nodeCallMethods;
+    }
 }
+

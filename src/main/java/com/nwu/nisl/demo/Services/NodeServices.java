@@ -71,9 +71,15 @@ public class NodeServices {
     @Transactional(readOnly = true)
     //  通过文件函数名和版本号进行查找
     public Map<String,Object> findAllByFileMethodName(String fileMethodName, String version) {
-        Collection<Node> node=nodeRepository.findAllByFileMethodNameAndVersion(fileMethodName,version);
+        Collection<Node> node=nodeRepository.findNodesByFileMethodNameAndVersion(fileMethodName,version);
         return toD3Format(node);
     }
 
+//    @Transactional(readOnly = true)
+//    public Map<String, Object> graph(int limit) {
+//        Collection<Node> results = nodeRepository.graph(limit);
+//        System.out.println("断点");
+//        return toD3Format(results);
+//    }
 
 }

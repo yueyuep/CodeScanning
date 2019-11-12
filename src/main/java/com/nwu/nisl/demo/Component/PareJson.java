@@ -71,8 +71,8 @@ public class PareJson {
                         //数据库读取文件的信息，以及被调用函数的信息
                         // TODO 需要函数名和版本号,版本号取上面文件的版本号
 
-                        com.nwu.nisl.demo.Entity.File file = fileRepository.findByFileName(linekey);
-                        Map<String, Object> file_info = utils.getNodeAttribute(file);
+//                        com.nwu.nisl.demo.Entity.File file = fileRepository.findByFileName(linekey, "");
+//                        Map<String, Object> file_info = utils.getNodeAttribute(file);
 
 
                         // TODO 依次遍历文件所包含函数结点
@@ -86,8 +86,8 @@ public class PareJson {
                         String methodName = linekey;
                         //TODO 版本号
                         String version = null;
-                        Method method = methodRepository.findByfileMethodNameAndVersion(linekey, version);
-                        Map<String, Object> file_info = utils.getNodeAttribute(method);
+//                        Method method = methodRepository.findByfileMethodNameAndVersion(linekey, version);
+//                        Map<String, Object> file_info = utils.getNodeAttribute(method);
 
                         // TODO 依次遍历函数所调用函数结点
 
