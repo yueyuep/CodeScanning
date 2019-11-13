@@ -28,12 +28,12 @@ public class NormalNodeController {
         this.mainServices=mainServices;
     }
 
-    @GetMapping("/graph")
+    @GetMapping("/bdv")
     public Map<String, Object> graph(@RequestParam(value = "limit", required = false) Integer limit) {
         return mainServices.getAllNodes(limit = 80);
     }
 
-    @GetMapping("/callMethod")
+    @GetMapping("/graph")
     public Map<String, Object> callMethod(){
         return callGraphServices.getCallNodes();
     }

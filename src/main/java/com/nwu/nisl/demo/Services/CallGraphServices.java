@@ -26,11 +26,11 @@ public class CallGraphServices {
     private String version = "0.9.22";
 
 
-    public CallGraphServices(PareJson pareJson){
+    public CallGraphServices(PareJson pareJson) {
 
     }
 
-    public Map<String, Object> callNodes(Collection<File> files, Collection<Method> methods){
+    public Map<String, Object> callNodes(Collection<File> files, Collection<Method> methods) {
         int count = 0;
         List<Object> allNodes = new ArrayList<>();
         files.forEach(file -> allNodes.add(file));
@@ -39,22 +39,22 @@ public class CallGraphServices {
         List<Map<String, Object>> jsonNodes = new ArrayList<>();
         List<Map<String, Object>> jsonEdges = new ArrayList<>();
 
-        for (Object object: allNodes){
+        for (Object object : allNodes) {
             int start;
             Map<String, Object> temp = getNodeAttribute(object);
-            if (object instanceof File){
-                if (jsonNodes.indexOf(temp) != -1){
+            if (object instanceof File) {
+                if (jsonNodes.indexOf(temp) != -1) {
                     start = jsonNodes.indexOf(temp);
                 } else {
                     jsonNodes.add(temp);
                     count++;
                     start = count - 1;
                 }
-                for (HasMethod hasMethod: ((File) object).getMethods()){
+                for (HasMethod hasMethod : ((File) object).getMethods()) {
                     Method targetMethod = hasMethod.getEndMethod();
-                    if (methods.contains(targetMethod)){
+                    if (methods.contains(targetMethod)) {
                         Map<String, Object> targetNode = getNodeAttribute(targetMethod);
-                        if (jsonNodes.indexOf(targetNode) == -1){
+                        if (jsonNodes.indexOf(targetNode) == -1) {
                             jsonNodes.add(targetNode);
                             count++;
                         }
@@ -63,18 +63,18 @@ public class CallGraphServices {
                     }
                 }
 
-            } else if (object instanceof Method){
-                if (jsonNodes.indexOf(temp) != -1){
+            } else if (object instanceof Method) {
+                if (jsonNodes.indexOf(temp) != -1) {
                     start = jsonNodes.indexOf(temp);
                 } else {
                     jsonNodes.add(temp);
                     count++;
                     start = count - 1;
                 }
-                for (MethodCallMethod methodCallMethod: ((Method) object).getMethodCallMethods()){
+                for (MethodCallMethod methodCallMethod : ((Method) object).getMethodCallMethods()) {
                     Method target = methodCallMethod.getEndMethod();
                     Map<String, Object> targetMethod = getNodeAttribute(target);
-                    if (jsonNodes.indexOf(targetMethod) == -1){
+                    if (jsonNodes.indexOf(targetMethod) == -1) {
                         jsonNodes.add(targetMethod);
                         count++;
                     }
@@ -97,12 +97,12 @@ public class CallGraphServices {
         if (object instanceof Method) {
             map.put("fileName", ((Method) object).getFileMethodName());
             map.put("version", ((Method) object).getVersion());
-            map.put("num", String.valueOf(((Method)object).getNum()));
-            //map.put("nodeType", ((Method) object).getNodeType());
+            map.put("num", String.valueOf(((Method) object).getNum()));
+            map.put("nodeType", ((Method) object).getNodeType());
         } else if (object instanceof File) {
             map.put("fileName", ((File) object).getFileName());
             map.put("version", ((File) object).getVersion());
-            //map.put("nodeType", ((File) object).getNodeType());
+            map.put("nodeType", ((File) object).getNodeType());
 
         }
 
