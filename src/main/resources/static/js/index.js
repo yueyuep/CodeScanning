@@ -1,19 +1,15 @@
-var width = 800, height = 800;
-var tooltip = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .attr("opacity", 0.0);
-
-
 //从后台请求处理数据,根据版本号进行查询
 function requestData(version) {
+    var width = 1600, height = 1200;
     //每次进入需要刷新svg画布分数据。
     d3.select("#leftsvg").remove();
     //
     d3.json("/graph", function (error, graph) {
         if (error) return;
-        var leftforce = d3.layout.force().charge(-50).linkDistance(60).size([800 * 0.8, height]);
-        var leftsvg = d3.select("#leftgraph").append("svg")
-            .attr("width", "100%")
+        //设置主界面的显示：
+        var leftforce = d3.layout.force().charge(-30).linkDistance(60).size([width, height]);
+        var leftsvg = d3.select("#leftGraph").append("svg")
+            .attr("width", width)
             .attr("height", height)
             .attr("id", "leftsvg");
         show(graph, leftforce, leftsvg);
@@ -24,10 +20,17 @@ function requestData(version) {
 
 //下面为用到的函数
 function show(graph, leftforce, leftsvg) {
+
+    var tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .attr("opacity", 0.0);
     leftforce.nodes(graph.nodes).links(graph.links).start();
+
+    //TODO 需要根据不同的边关系，设置不同的颜色
     var link = leftsvg.selectAll(".link")
         .data(graph.links).enter()
-        .append("line").attr("class", "link");
+        .append("line").attr("class", "link")
+    ;
 
     var node = leftsvg.selectAll(".node")
         .data(graph.nodes).enter()
@@ -51,15 +54,18 @@ function show(graph, leftforce, leftsvg) {
 
     node.on("mouseover", function (d) {
         //  需要根据不同得结点类型添加信息
+        var fileName = "";
+        var version = "";
+        var nodeType = d.nodeType;
         if (d.nodeType == "file") {
             fileName = d.fileName;
             version = d.version;
         } else {
-            fileName = d.fileMethodName;
+            fileName = d.fileName;
             version = d.version;
 
         }
-        tooltip.html("fileName:" + fileName + "</br>" + "version:" + version)
+        tooltip.html("fileName:" + fileName + "</br>" + "version:" + version + "</br>" + "nodeType:" + d.nodeType)
             .style("left", d3.event.pageX + "px")
             .style("top", d3.event.pageY + "px")
             .style("opacity", 1.0);
