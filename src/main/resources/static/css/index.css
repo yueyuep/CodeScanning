@@ -1,0 +1,84 @@
+
+html, body {
+    height: 100%;
+    background-color:white;
+}
+#left{
+    width: 100%;
+    height: 5%;
+    background: #d97635;
+}
+#svg{
+   height: 95%;
+    width: 100%;
+    background: #3ddc32;
+}
+.tooltip {
+    font-family: simsun;
+    font-size: 16px;
+    width: 320px;
+    height: auto;
+    position: absolute;
+    text-align: center;
+    border-style: hidden;
+    border-width: 1px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.link {
+    stroke: #99161f;
+    stroke-opacity: .6;
+    stroke-width: 1px;
+}
+
+.node {
+    cursor: pointer;
+    stroke: #3182bd;
+    stroke-width: 1.5px;
+}
+
+#leftGraph {
+    width: 75%;
+    height: 100%;
+    float: left;
+    background-color: #ffefef;
+}
+
+#rightGraph {
+    width: 25%;
+    height: 100%;
+    float: left;
+    background-color: #9ecae1;
+}
+
+.which_group {
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 1px;
+    width: 100%;
+    font-size: 15px;
+    color: #594f12;
+}
+
+.which_group li {
+    height: 100%;
+    float: left;
+    list-style: none;
+    padding: 0px;
+    cursor: pointer;
+    margin: 0px;
+    /*box-Shadow: 1px 2px 3px #d97635;*/
+}
+
+.which_group li:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.which_group li:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+

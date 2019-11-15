@@ -1,0 +1,77 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
+
+* {
+    box-sizing: border-box;
+}
+
+#header ul {
+    font-size: 0;
+    position: relative;
+    padding: 0;
+    width: 100%;
+    margin: 2px auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#header li {
+    display: inline-block;
+    width: 20%;
+    height: 60px;
+    background: #39CCCC;
+    font-size: 16px;
+    text-align: center;
+    line-height: 60px;
+    color: #fff;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#header .slider {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: yellow;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+/*  Ripple */
+
+.ripple {
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    position: absolute;
+    opacity: 1;
+}
+
+.rippleEffect {
+    -webkit-animation: rippleDrop .6s linear;
+    animation: rippleDrop .6s linear;
+}
+
+@-webkit-keyframes rippleDrop {
+    100% {
+        -webkit-transform: scale(2);
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes rippleDrop {
+    100% {
+        -webkit-transform: scale(2);
+        transform: scale(2);
+        opacity: 0;
+    }
+}
