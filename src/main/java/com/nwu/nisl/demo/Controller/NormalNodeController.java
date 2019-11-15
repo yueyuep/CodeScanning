@@ -3,7 +3,6 @@ package com.nwu.nisl.demo.Controller;
 import com.nwu.nisl.demo.Services.CallGraphServices;
 import com.nwu.nisl.demo.Services.MainServices;
 import com.nwu.nisl.demo.Services.NodeServices;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.python.antlr.ast.Str;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,7 @@ public class NormalNodeController {
     }
 
     public NormalNodeController(MainServices mainServices) {
-        this.mainServices=mainServices;
+        this.mainServices = mainServices;
     }
 
 //    @GetMapping("/grapha")
@@ -36,7 +35,7 @@ public class NormalNodeController {
 //    }
 
     @GetMapping(value = "/callMethod")
-    public Map<String, Object> callMethod(@RequestParam(value = "version") String version){
+    public Map<String, Object> callMethod(@RequestParam(value = "version") String version) {
         return callGraphServices.getCallNodes(version);
     }
 

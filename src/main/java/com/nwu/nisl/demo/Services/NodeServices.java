@@ -5,7 +5,7 @@ import com.nwu.nisl.demo.Component.Utils;
 import com.nwu.nisl.demo.Entity.Node;
 import com.nwu.nisl.demo.Entity.SuccNode;
 import com.nwu.nisl.demo.Repository.NodeRepository;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import org.python.icu.impl.number.Parse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

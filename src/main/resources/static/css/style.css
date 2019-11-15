@@ -4,6 +4,53 @@
     box-sizing: border-box;
 }
 
+#project {
+    float: left;
+    margin: 15px auto;
+    width: 100%;
+}
+
+#info input {
+    margin: 10px;
+    width: 95%;
+
+}
+
+#project li {
+    font-size: 15px;
+    margin: 13px 0px 0px 0px;
+
+}
+
+#diffattr {
+    float: left;
+    width: 40%;
+}
+
+#diffattr li {
+    font-size: 15px;
+    margin: 20px 0px 80px 0px;
+
+}
+
+#diffinfo {
+    float: left;
+    width: 60%;
+}
+
+#att {
+    float: left;
+    width: 40%;
+}
+
+#info {
+    float: left;
+    width: 60%;
+}
+#diffinfo textarea{
+    margin: 10px;
+}
+
 #header ul {
     font-size: 0;
     position: relative;

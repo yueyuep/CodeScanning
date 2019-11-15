@@ -1,5 +1,5 @@
 //document.write("<script type='text/javascript' src='./index.js'></script>");
-$("ul li").click(function (e) {
+$("#header li").click(function (e) {
     alert($(this).text());
     // make sure we cannot click the slider
     if ($(this).hasClass('slider')) {

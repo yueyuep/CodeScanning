@@ -18,9 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DiffNodeTest {
     @Autowired
     DiffNode diffNodeTest;
+
     @Test
-    public void test(){
-        List<String> a = diffNodeTest.ToList();
+    public void test() {
+        // List<String> a = diffNodeTest.ToList();
         System.out.println("Done");
     }
 }
