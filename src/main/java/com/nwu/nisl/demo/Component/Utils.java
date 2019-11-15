@@ -3,19 +3,28 @@ package com.nwu.nisl.demo.Component;
 import com.nwu.nisl.demo.Entity.File;
 import com.nwu.nisl.demo.Entity.Method;
 import com.nwu.nisl.demo.Entity.Node;
+import org.python.antlr.ast.Str;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 @Component
 public class Utils {
+
     public Utils() {
     }
+
+    /**
+     * @Author Kangaroo
+     * @Description 根据 object 的类型，返回相应的属性
+     * @Date 2019/11/14 15:32
+     * @Param [object]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     public Map<String, Object> getNodeAttribute(Object object) {
-        /*/
-         获得所有类型结点的属性信息，分3类
-         */
         Map<String, Object> map = new HashMap<>();
         if (object instanceof Node) {
 
@@ -39,6 +48,20 @@ public class Utils {
         } else {
             //无操作
         }
+        return map;
+    }
+
+    /**
+     * @Author Kangaroo
+     * @Description 建立相关边的字段 （start -> end）
+     * @Date 2019/11/14 14:46
+     * @Param [start, end]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
+    public Map<String, Object> getEdgeRelationship(int start, int end){
+        Map<String, Object> map = new HashMap<>();
+        map.put("source", start);
+        map.put("target", end);
         return map;
     }
 }

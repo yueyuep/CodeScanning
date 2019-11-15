@@ -20,7 +20,7 @@ class NodeServicesTest {
         String end=fileMethodName.split("-")[fileMethodName.split("-").length-1];
         fileMethodName=fileMethodName.substring(0,fileMethodName.length()-end.length());
         String version="0.9.22";
-        Map<String,Object> results= nodeServices.findAllByFileMethodName(fileMethodName,version);
+//        Map<String,Object> results= nodeServices.findAllByFileMethodName(fileMethodName,version);
         System.out.println("Done!");
 
     }
