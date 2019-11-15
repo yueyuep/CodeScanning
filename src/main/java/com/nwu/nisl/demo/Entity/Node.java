@@ -15,7 +15,6 @@ public class Node {
     private String version;
     private String attribute;
     private String nodeType = "node";
-
     @Relationship(type = "succNode", direction = Relationship.OUTGOING)
     private List<SuccNode> succNodes = new ArrayList<>();
     @Relationship(type = "nodeCallMethod", direction = Relationship.OUTGOING)

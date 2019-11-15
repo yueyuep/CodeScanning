@@ -59,7 +59,8 @@ public class CallGraphServices {
                             count++;
                         }
                         int end = jsonNodes.indexOf(targetNode);
-                        jsonEdges.add(getNodeCollection(start, end));
+                        // 添加边的关系
+                        jsonEdges.add(getNodeCollection(start, end,"hasMethod"));
                     }
                 }
 
@@ -79,7 +80,7 @@ public class CallGraphServices {
                         count++;
                     }
                     int end = jsonNodes.indexOf(targetMethod);
-                    jsonEdges.add(getNodeCollection(start, end));
+                    jsonEdges.add(getNodeCollection(start, end,"methodCallMethod"));
                 }
             }
 
@@ -109,13 +110,15 @@ public class CallGraphServices {
         return map;
     }
 
-    public Map<String, Object> getNodeCollection(int start, int end) {
+    public Map<String, Object> getNodeCollection(int start, int end,String edgeType) {
         /*
         获取结点的边关系
          */
         Map<String, Object> map = new HashMap<>();
         map.put("source", start);
         map.put("target", end);
+        // 添加边关系 @author:yueyuep
+        map.put("edgeType",edgeType);
         return map;
 
     }
