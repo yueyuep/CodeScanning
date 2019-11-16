@@ -20,7 +20,7 @@ public class DiffNodeTest {
     DiffNode diffNodeTest;
     @Test
     public void test(){
-        List<String> a = diffNodeTest.ToList();
+//        List<String> a = diffNodeTest.ToList();
         System.out.println("Done");
     }
 }
