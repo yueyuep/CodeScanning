@@ -2,11 +2,12 @@
 function requestData(result) {
     //将版本号传到后台，进行查询
     var width = document.getElementById("leftGraph").offsetWidth;
-    var height = document.getElementById("leftGraph").offsetHeight;
+    //var height = document.getElementById("leftGraph").offsetHeight;
+    var height = 1200;
     //每次进入需要刷新svg画布分数据。
     d3.select("#leftsvg").remove();
     //设置主界面的显示：
-    var leftforce = d3.layout.force().charge(-30).linkDistance(60).size([width, height]);
+    var leftforce = d3.layout.force().charge(-25).linkDistance(50).size([width, height]);
     var leftsvg = d3.select("#leftGraph").append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -119,23 +120,24 @@ function show(graph, leftforce, leftsvg) {
     // tick定时刷新坐标的值
     leftforce.on("tick", function () {
         link.attr("x1", function (d) {
-            return d.source.x;
+            return validateXY(d.source.x, 'x');
         })
             .attr("y1", function (d) {
-                return d.source.y;
+                return validateXY(d.source.y, 'y');
             })
             .attr("x2", function (d) {
-                return d.target.x;
+                return validateXY(d.target.x, 'x');
             })
             .attr("y2", function (d) {
-                return d.target.y;
+                return validateXY(d.target.y, 'y');
             });
 
+        //更新节点坐标
         node.attr("cx", function (d) {
-            return d.x;
+            return validateXY(d.x, 'x');
         })
             .attr("cy", function (d) {
-                return d.y;
+                return validateXY(d.y, 'y');
             });
         texts.attr("x", function (d) {
             return d.x;
@@ -146,6 +148,17 @@ function show(graph, leftforce, leftsvg) {
             });
     });
 
+}
+
+function validateXY(val, type) {
+    var r = 10;
+    if (val < r) return r;
+    if (type == 'x') {
+        if (val > this.width - r) return this.width - r
+    } else {
+        if (val > this.height - r) return this.height - r
+    }
+    return val
 }
 
 function postdata(dic) {
