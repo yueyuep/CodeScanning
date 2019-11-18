@@ -12,11 +12,11 @@ public class DiffNodeTest {
     private DiffNode diffNode;
     @Test
     public void test1(){
-        diffNode.ToList();
-        if (diffNode ==null)
-            System.out.println("注入失败");
-        else
-            System.out.println("注入成功，文件行数："+ diffNode.getDiff());
+//        diffNode.ToList();
+//        if (diffNode ==null)
+//            System.out.println("注入失败");
+//        else
+//            System.out.println("注入成功，文件行数："+ diffNode.getDiff());
         }
 
 }

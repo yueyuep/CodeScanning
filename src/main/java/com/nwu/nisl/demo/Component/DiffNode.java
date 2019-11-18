@@ -1,6 +1,5 @@
 package com.nwu.nisl.demo.Component;
 
-import org.python.antlr.ast.Str;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,8 @@ import java.util.Map;
 public class DiffNode {
     private List<String> diff=new ArrayList<>();
 
-    private Map<String, List<String>> normalDiff = new HashMap<>();
+//    private Map<String, List<String>> normalDiff = new HashMap<>();
+    private Map<String, Map<String, List<String>>> normalDiff = new HashMap<>();
     private Map<String, Map<String, List<String>>> deletedDiff = new HashMap<>();
     private Map<String, Map<String, List<String>>> addDiff = new HashMap<>();
 
@@ -36,10 +36,17 @@ public class DiffNode {
         addDiff.clear();
     }
 
-    public List<Object> ToList() {
+    /**
+     * @Author Kangaroo
+     * @Description 解析 diff 文件，并将不同类型的变化信息（版本号，文件/文件函数名）保存到对应的全局变量中
+     * @Date 2019/11/16 9:59
+     * @Param []
+     * @return java.util.List<java.lang.Object>
+     **/
+    public List<Object> diffToList() {
         List<Object> list = new ArrayList<>();
-
         clear();
+
         try {
             File file=new File(this.path);
             FileInputStream fileInputStream=new FileInputStream(file);
@@ -49,20 +56,23 @@ public class DiffNode {
             String text;
             while ((text=bufferedReader.readLine())!=null){
                 String[] res = text.split("&");
+                // TODO
+                // 可进一步优化，用同样的格式保存所有变化类型的信息， 减小代码冗余
                 if (res[0].equals("normaldiff")) {
-                    if (!normalDiff.keySet().contains(res[2])){
-                        normalDiff.put(res[2], new ArrayList<>());
-                    }
-                    normalDiff.get(res[2]).add(res[1]);
-                } else if (res[1].equals("deletediff")) {
+                    handleDeleteAndAdd(normalDiff, res);
+//                    if (!normalDiff.keySet().contains(res[res.length - 1])){
+//                        normalDiff.put(res[res.length - 1], new ArrayList<>());
+//                    }
+//                    normalDiff.get(res[res.length - 1]).add(res[1].concat("-").concat(res[2]));
+                } else if (res[0].equals("deletediff")) {
                     handleDeleteAndAdd(deletedDiff, res);
-                } else if (res[1].equals("adddiff")) {
+                } else if (res[0].equals("adddiff")) {
                     handleDeleteAndAdd(addDiff, res);
                 }
             }
+            list.add(addDiff);
             list.add(normalDiff);
             list.add(deletedDiff);
-            list.add(addDiff);
             return list;
         }
         catch (Exception e){
@@ -71,6 +81,13 @@ public class DiffNode {
         return list;
     }
 
+    /**
+     * @Author Kangaroo
+     * @Description 解析diff文件中 adddiff、deleteddiff行，并将解析结果保存到对应的全局变量中
+     * @Date 2019/11/16 10:02
+     * @Param [diff, res]
+     * @return void
+     **/
     private void handleDeleteAndAdd(Map<String, Map<String, List<String>>> diff,
                                     String[] res){
         String version = res[res.length - 1];
@@ -98,7 +115,7 @@ public class DiffNode {
         this.path = path;
     }
 
-    public Map<String, List<String>> getNormalDiff() {
+    public Map<String, Map<String, List<String>>> getNormalDiff() {
         return this.normalDiff;
     }
 
