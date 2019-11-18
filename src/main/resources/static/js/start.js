@@ -51,18 +51,53 @@ $("#header li").click(function (e) {
         left: x + 'px'
     }).addClass("rippleEffect");
     if ($(this).text() == "Version 1.0") {
+
         //显示版本1.0的图
-        requestData(0);
+        parame = {"version": "0.9.22"};
+        url = "/callMethod";
+        pareurl(parame, url)
+
     } else if ($(this).text() == "Version 1.1") {
-        requestData(0);
+
         //显示版本1.1的图
+        parame = {"version": "0.9.23"};
+        url = "/callMethod";
+        pareurl(parame, url)
+
+
     } else if ($(this).text() == "Level one") {
         //显示版l1的图
+
+
+
     } else if ($(this).text() == "Level two") {
         //显示版l2的图
+
+
+
     } else {
         //显示版l3的图
     }
 
 
 });
+
+function pareurl(parame, url) {
+    //根据字典参数和请求的url获得数据
+    $.ajax({
+        async: true,
+        type: "GET",
+        url: url,
+        data: parame,
+        dataType: "json",
+        success: function (result) {
+            requestData(result);
+
+        },
+        error: function (result) {
+            alert("Data Error")
+        }
+
+    })
+
+}

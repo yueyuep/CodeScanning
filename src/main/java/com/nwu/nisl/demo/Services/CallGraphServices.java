@@ -2,6 +2,7 @@ package com.nwu.nisl.demo.Services;
 
 import com.nwu.nisl.demo.Component.PareJson;
 import com.nwu.nisl.demo.Component.ParseData;
+import com.nwu.nisl.demo.Component.Utils;
 import com.nwu.nisl.demo.Entity.*;
 import com.nwu.nisl.demo.Repository.FileRepository;
 import com.nwu.nisl.demo.Repository.MethodRepository;
@@ -13,22 +14,34 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//只显示callgraph，在数据库中读取的
+
+/**
+ * @Author:lp on 2019/11/15 21:35
+ * @Param: version
+ * @return: d3数据格式
+ * @Description:根据特定版本的数据
+ */
 @Service
 public class CallGraphServices {
-    //配置路径当中
-    @Autowired
-    private ParseData parseData;
-    @Autowired
-    private FileRepository fileRepository;
-    @Autowired
-    private MethodRepository methodRepository;
+    //构造器注入依赖
+    ParseData parseData;
+    FileRepository fileRepository;
+    MethodRepository methodRepository;
+    Utils utils;
 
-    public CallGraphServices(){
+    @Autowired
+    public CallGraphServices(ParseData parseData,
+                             FileRepository fileRepository,
+                             MethodRepository methodRepository,
+                             Utils utils) {
+        this.parseData = parseData;
+        this.fileRepository = fileRepository;
+        this.methodRepository = methodRepository;
+        this.utils = utils;
 
     }
 
-//    public Map<String, Object> callNodes(Collection<File> files, Collection<Method> methods){
+//    public Map<String, Object> callNodes(Collection<File> files, Collection<Method> methods) {
 //        int count = 0;
 //        List<Object> allNodes = new ArrayList<>();
 //        files.forEach(file -> allNodes.add(file));
@@ -37,22 +50,22 @@ public class CallGraphServices {
 //        List<Map<String, Object>> jsonNodes = new ArrayList<>();
 //        List<Map<String, Object>> jsonEdges = new ArrayList<>();
 //
-//        for (Object object: allNodes){
+//        for (Object object : allNodes) {
 //            int start;
 //            Map<String, Object> temp = getNodeAttribute(object);
-//            if (object instanceof File){
-//                if (jsonNodes.indexOf(temp) != -1){
+//            if (object instanceof File) {
+//                if (jsonNodes.indexOf(temp) != -1) {
 //                    start = jsonNodes.indexOf(temp);
 //                } else {
 //                    jsonNodes.add(temp);
 //                    count++;
 //                    start = count - 1;
 //                }
-//                for (HasMethod hasMethod: ((File) object).getMethods()){
+//                for (HasMethod hasMethod : ((File) object).getMethods()) {
 //                    Method targetMethod = hasMethod.getEndMethod();
-//                    if (methods.contains(targetMethod)){
+//                    if (methods.contains(targetMethod)) {
 //                        Map<String, Object> targetNode = getNodeAttribute(targetMethod);
-//                        if (jsonNodes.indexOf(targetNode) == -1){
+//                        if (jsonNodes.indexOf(targetNode) == -1) {
 //                            jsonNodes.add(targetNode);
 //                            count++;
 //                        }
@@ -61,18 +74,18 @@ public class CallGraphServices {
 //                    }
 //                }
 //
-//            } else if (object instanceof Method){
-//                if (jsonNodes.indexOf(temp) != -1){
+//            } else if (object instanceof Method) {
+//                if (jsonNodes.indexOf(temp) != -1) {
 //                    start = jsonNodes.indexOf(temp);
 //                } else {
 //                    jsonNodes.add(temp);
 //                    count++;
 //                    start = count - 1;
 //                }
-//                for (MethodCallMethod methodCallMethod: ((Method) object).getMethodCallMethods()){
+//                for (MethodCallMethod methodCallMethod : ((Method) object).getMethodCallMethods()) {
 //                    Method target = methodCallMethod.getEndMethod();
 //                    Map<String, Object> targetMethod = getNodeAttribute(target);
-//                    if (jsonNodes.indexOf(targetMethod) == -1){
+//                    if (jsonNodes.indexOf(targetMethod) == -1) {
 //                        jsonNodes.add(targetMethod);
 //                        count++;
 //                    }

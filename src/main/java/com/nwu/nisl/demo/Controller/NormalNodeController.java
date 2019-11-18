@@ -36,6 +36,7 @@ public class NormalNodeController {
 
     @GetMapping(value = "/callMethod")
     public Map<String, Object> callMethod(@RequestParam(value = "version") String version) {
+        Object temp = callGraphServices.getCallNodes(version);
         return callGraphServices.getCallNodes(version);
     }
 

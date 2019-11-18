@@ -1,21 +1,18 @@
 //从后台请求处理数据,根据版本号进行查询
-function requestData(version) {
-
+function requestData(result) {
+    //将版本号传到后台，进行查询
     var width = document.getElementById("leftGraph").offsetWidth;
     var height = document.getElementById("leftGraph").offsetHeight;
     //每次进入需要刷新svg画布分数据。
     d3.select("#leftsvg").remove();
-    //
-    d3.json("/graph", function (error, graph) {
-        if (error) return;
-        //设置主界面的显示：
-        var leftforce = d3.layout.force().charge(-30).linkDistance(60).size([width, height]);
-        var leftsvg = d3.select("#leftGraph").append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .attr("id", "leftsvg");
-        show(graph, leftforce, leftsvg);
-    });
+    //设置主界面的显示：
+    var leftforce = d3.layout.force().charge(-30).linkDistance(60).size([width, height]);
+    var leftsvg = d3.select("#leftGraph").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("id", "leftsvg");
+    show(result, leftforce, leftsvg);
+
 }
 
 //下面为用到的函数
