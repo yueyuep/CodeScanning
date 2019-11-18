@@ -65,14 +65,16 @@ $("#header li").click(function (e) {
         pareurl(parame, url)
 
 
-    } else if ($(this).text() == "Level one") {
+    } else if ($(this).text() == "Diff show") {
         //显示版l1的图
-
+        //测试版本
+        parame = {};
+        url = "/testDiff";
+        pareurl(parame, url);
 
 
     } else if ($(this).text() == "Level two") {
         //显示版l2的图
-
 
 
     } else {

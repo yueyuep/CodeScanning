@@ -26,7 +26,7 @@ function show(graph, leftforce, leftsvg) {
         .data(graph.links).enter()
         .append("line").attr("class", "link")
         .style("stroke", function (link) {
-            if (link.edgeType == "hasMethod")
+            if (link.type == "hasMethod")
                 return "#180EFF";
             else
                 return "#c886c6";
@@ -35,6 +35,7 @@ function show(graph, leftforce, leftsvg) {
         .data(graph.nodes).enter()
         .append("circle")
         .attr("r", function (d) {
+
             if (d.nodeType == "file")
                 return 15;
             else if (d.nodeType == "method")
@@ -42,12 +43,29 @@ function show(graph, leftforce, leftsvg) {
             else return 5;
         })
         .style("fill", function (node) {
-            if (node.nodeType == "node")
-                return "#239965";
-            else if (node.nodeType == "method")
-                return "#997E22";
-            else
-                return "#968D99";
+            if (node.changed == "") {
+                //每有发生修改
+                if (node.nodeType == "node")
+                    return "#239965";
+                else if (node.nodeType == "method")
+                    return "#997E22";
+                else
+                    return "#968D99";
+            } else {
+                //发生修改
+                if (node.type == "deleted")
+                    return "#585956";
+                else if (node.type == "add")
+                    return "#ff0c09";
+                else if (node.type == "modify")
+                    return "#ff7878";
+                else {
+                    //其他类型，还没有处理
+
+
+                }
+            }
+
         })
         .call(leftforce.drag);
 
