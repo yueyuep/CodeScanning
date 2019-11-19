@@ -4,8 +4,6 @@ import com.nwu.nisl.demo.Component.DiffNode;
 import com.nwu.nisl.demo.Component.ParseDiff;
 import com.nwu.nisl.demo.Entity.File;
 import com.nwu.nisl.demo.Entity.Method;
-import org.graalvm.compiler.nodes.calc.ObjectEqualsNode;
-import org.python.antlr.ast.Str;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;

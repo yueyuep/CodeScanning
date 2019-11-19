@@ -16,7 +16,6 @@ import java.util.Map;
 public class DiffNode {
     private List<String> diff=new ArrayList<>();
 
-//    private Map<String, List<String>> normalDiff = new HashMap<>();
     private Map<String, Map<String, List<String>>> normalDiff = new HashMap<>();
     private Map<String, Map<String, List<String>>> deletedDiff = new HashMap<>();
     private Map<String, Map<String, List<String>>> addDiff = new HashMap<>();
@@ -56,14 +55,8 @@ public class DiffNode {
             String text;
             while ((text=bufferedReader.readLine())!=null){
                 String[] res = text.split("&");
-                // TODO
-                // 可进一步优化，用同样的格式保存所有变化类型的信息， 减小代码冗余
                 if (res[0].equals("normaldiff")) {
                     handleDeleteAndAdd(normalDiff, res);
-//                    if (!normalDiff.keySet().contains(res[res.length - 1])){
-//                        normalDiff.put(res[res.length - 1], new ArrayList<>());
-//                    }
-//                    normalDiff.get(res[res.length - 1]).add(res[1].concat("-").concat(res[2]));
                 } else if (res[0].equals("deletediff")) {
                     handleDeleteAndAdd(deletedDiff, res);
                 } else if (res[0].equals("adddiff")) {
