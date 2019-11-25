@@ -73,18 +73,21 @@ $("#header li").click(function (e) {
         pareurl(parame, url);
 
 
-    } else if ($(this).text() == "Level two") {
-        //显示版l2的图
+    } else if ($(this).text() == "Level One") {
+        //显示版l1的图
+        parame = {"level": "One"};
+        url = "/level";
+        LevePareUrl(parame, url);
 
 
     } else {
-        //显示版l3的图
+        //显示版l2的图
     }
 
 
 });
 
-function pareurl(parame, url) {
+function LevePareUrl(parame, url) {
     //根据字典参数和请求的url获得数据
     $.ajax({
         async: true,
@@ -101,5 +104,35 @@ function pareurl(parame, url) {
         }
 
     })
+
+}
+
+function pareurl(parame, url) {
+    //根据字典参数和请求的url获得数据
+    $.ajax({
+        async: true,
+        type: "GET",
+        url: url,
+        data: parame,
+        dataType: "json",
+        success: function (result) {
+            diffData(result);
+
+        },
+        error: function (result) {
+            alert("Data Error")
+        }
+
+    })
+
+}
+/**
+ *@Author:lp on 2019/11/25 15:14
+ *@Param: <DiffType,List<DiffMethod>>
+ *@return: <nodes,link>  d3的数据格式
+ *@Description:后台的解析结果，然后对部分数据添加变化的部分
+*/
+function diffData(result) {
+
 
 }

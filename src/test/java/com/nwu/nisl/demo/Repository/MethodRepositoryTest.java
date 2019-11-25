@@ -10,11 +10,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class MethodRepositoryTest {
-@Autowired
-private MethodRepository methodRepository;
+    @Autowired
+    private MethodRepository methodRepository;
+
     @Test
     void findMethod() {
         // a.size() = 1488
@@ -27,12 +29,12 @@ private MethodRepository methodRepository;
         // 但实际上为 700 多，存在 methodCallMethods 为空的情况
         Collection<Method> c = methodRepository.findMethodsWithCallByVersion("0.9.22");
         int count = 0;
-        for (Method method: c){
-            if (!method.getMethodCallMethods().isEmpty()){
+        for (Method method : c) {
+            if (!method.getMethodCallMethods().isEmpty()) {
                 count++;
             }
         }
-        
+
 
 //        Collection<Method> e = methodRepository.test("0.9.22");
 
@@ -40,5 +42,13 @@ private MethodRepository methodRepository;
 //        Method d = methodRepository.findMethodByFileMethodNameAndVersion("android-demo/src/main/java/jsoniter_codegen/cfg1173796797/decoder/com/example/myapplication/User.java-decode_-User-com.jsoniter.JsonIterator",
 //                "0.9.22");
         System.out.println("Done");
+    }
+
+    @Test
+    void findConnect() {
+        String fileMethodName = "0.9.23-src/main/java/com/jsoniter/any/Any.java-iterator-Any-";
+        String version = "0.9.23";
+        Collection<Method> testresult = methodRepository.findConnect(version, fileMethodName);
+        System.out.println("测试关系查找");
     }
 }
