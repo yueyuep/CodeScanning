@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Kangaroo
+ */
 @Component
 public class ProjectInformation {
     @Autowired
@@ -18,7 +21,6 @@ public class ProjectInformation {
 
     private String oldVersion;
     private String newVersion;
-    private String diffPath;
 
     private int fileNumber;
     private int addFileNumber;
@@ -33,59 +35,68 @@ public class ProjectInformation {
 
     }
 
-    public void setAttribute(String oldVersion, String newVersion, String diffPath) {
+    public void setAttribute(String oldVersion, String newVersion) {
         this.oldVersion = oldVersion;
         this.newVersion = newVersion;
-        this.diffPath = diffPath;
     }
 
-    public void addAttribute(List<Object> res) {
-        res.add(new HashMap<String, String>(){{put("version", newVersion);}});
-        res.add(new HashMap<String, Integer>(){{put("fileNumber", fileNumber);}});
-        res.add(new HashMap<String, Integer>(){{put("addFileNumber", addFileNumber);}});
-        res.add(new HashMap<String, Integer>(){{put("deleteFileNumber", deleteFileNumber);}});
-        res.add(new HashMap<String, List<String>>(){{put("normalDiff", normalDiff);}});
-        res.add(new HashMap<String, List<String>>(){{put("addDiff", addDiff);}});
-        res.add(new HashMap<String, List<String>>(){{put("deleteDiff", deleteDiff);}});
-        res.add(new HashMap<String, List<String>>(){{put("connectDiff", connectDiff);}});
+    public void addAttribute(Map<String, Object> res) {
+        res.put("version", newVersion);
+        res.put("fileNumber", fileNumber);
+        res.put("addFileNumber", addFileNumber);
+        res.put("deleteFileNumber", deleteFileNumber);
+        res.put("normalDiff", normalDiff);
+        res.put("addDiff", addDiff);
+        res.put("deleteDiff", deleteDiff);
+        res.put("connectDiff", connectDiff);
     }
 
-    public List<Object> getProjectInformation() {
-        List<Object> res = new ArrayList<>();
+    public void clean() {
+        fileNumber = 0;
+        addFileNumber = 0;
+        deleteFileNumber = 0;
+        normalDiff.clear();
+        addDiff.clear();
+        deleteDiff.clear();
+        connectDiff.clear();
+    }
+
+    public Map<String, Object> getProjectInformation() {
+        clean();
+        Map<String, Object> res = new HashMap<>();
         fileNumber = fileRepository.getFileNumber(newVersion);
 
         if (!oldVersion.equals(newVersion)) {
-            diffNode.setPath(diffPath);
-            // list 包含的类型， 不同类型保存的顺序和后面代码逻辑关系十分密切
-            // Map<String, Map<String, List<String>>> addDiff
-            // Map<String, Map<String, List<String>>> normalDiff
-            // Map<String, Map<String, List<String>>> deletedDiff
-            List<Object> list = diffNode.diffToList();
+//            diffNode.setPath(diffPath);
+            // Map<type, Map<String, Map<String, List<String>>>>
+            // 节点类型，版本号，file/method，对应diff中文本内容
+            // type -> NodeType.ADD_NODE, NodeType.DELETE_NODE, NodeType.MODIFY_NODE
+            Map<String, Object> map = diffNode.parseDiff();
 
-            if (!list.isEmpty()) {
-                addFileNumber = ((Map<String, Map<String, List<String>>>) list.get(0)).get(newVersion).get("file").size();
-                deleteFileNumber = ((Map<String, Map<String, List<String>>>) list.get(2)).get(oldVersion).get("file").size();
+            if (!map.isEmpty()) {
+                addFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).get(NodeType.FILE).size();
+                deleteFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(oldVersion).get(NodeType.FILE).size();
 
-
-                for (int i=0;i<list.size();i++) {
+                for (Map.Entry<String, Object> entry: map.entrySet()) {
                     List<String> temp = new ArrayList<>();
-                    for (Map<String, List<String>> map: ((Map<String, Map<String, List<String>>>) list.get(i)).values()) {
-                        for (List<String> str: map.values()) {
+                    for (Map<String, List<String>> stringListMap: ((Map<String, Map<String, List<String>>>) entry.getValue()).values()) {
+                        for (List<String> str: stringListMap.values()) {
                             temp.addAll(str);
                         }
                     }
-                    if (i == 0) {
+                    if (entry.getKey().equals(NodeType.ADD_NODE)) {
                         addDiff.addAll(temp);
-                    } else if (i == 1) {
-                        normalDiff.addAll(temp);
-                    } else if (i == 2) {
+                    }
+                    if (entry.getKey().equals(NodeType.DELETE_NODE)) {
                         deleteDiff.addAll(temp);
                     }
+                    if (entry.getKey().equals(NodeType.MODIFY_NODE)) {
+                        normalDiff.addAll(temp);
+                    }
                 }
-
             }
-        }
 
+        }
         addAttribute(res);
         return res;
     }

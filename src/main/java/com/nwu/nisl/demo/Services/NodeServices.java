@@ -1,5 +1,6 @@
 package com.nwu.nisl.demo.Services;
 
+import com.nwu.nisl.demo.Component.NodeType;
 import com.nwu.nisl.demo.Component.ParseData;
 import com.nwu.nisl.demo.Entity.Node;
 import com.nwu.nisl.demo.Repository.NodeRepository;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /*
@@ -28,10 +30,12 @@ public class NodeServices {
     @Transactional(readOnly = true)
     //  通过文件函数名和版本号进行查找
     public Map<String,Object> findAllByFileMethodName(String fileMethodName, int num, String version) {
-        Collection<Node> nodes = new ArrayList<>();
+        Map<String, Collection<Node>> nodes = new HashMap<>();
+        nodes.put(NodeType.GENERAL_NODE, new ArrayList<>());
+
         for (int i = 0; i< num; i++){
-            nodes.addAll(nodeRepository.findNodesByFileMethodNameAndVersion(
-                    "-".join(version, fileMethodName.concat(String.valueOf(i))), version));
+            nodes.get(NodeType.GENERAL_NODE).addAll(nodeRepository.findNodesByFileMethodNameAndVersion(
+                    String.join("-", version, fileMethodName.concat(String.valueOf(i))), version));
         }
         return parseData.graph(version, null, null, nodes, Boolean.TRUE, Boolean.TRUE);
     }

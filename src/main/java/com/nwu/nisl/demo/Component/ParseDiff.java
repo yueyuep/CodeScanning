@@ -69,20 +69,20 @@ public class ParseDiff {
      * @Param [diff]
      * @return java.util.List<java.lang.Object>
      **/
-    public List<Object> getFileAndMethodInstance(Map<String, Map<String, List<String>>> diff) {
-        List<Object> res = new ArrayList<>();
+    public Map<String, Object> getFileAndMethodInstance(Map<String, Map<String, List<String>>> diff) {
+        Map<String, Object> res = new HashMap<>();
 
         Map<String, List<String>> fileDiff = new HashMap<>();
         Map<String, List<String>> methodDiff = new HashMap<>();
 
         for (String version: diff.keySet()){
             for (String flag: diff.get(version).keySet()) {
-                if (flag.equals("file")) {
+                if (flag.equals(NodeType.FILE)) {
                     if (!fileDiff.keySet().contains(version)) {
                         fileDiff.put(version, new ArrayList<>());
                     }
                     fileDiff.get(version).addAll(diff.get(version).get(flag));
-                } else if (flag.equals("method")) {
+                } else if (flag.equals(NodeType.METHOD)) {
                     if (!methodDiff.keySet().contains(version)) {
                         methodDiff.put(version, new ArrayList<>());
                     }
@@ -90,8 +90,8 @@ public class ParseDiff {
                 }
             }
         }
-        res.add(getFileInstance(fileDiff));
-        res.add(getMethodInstance(methodDiff));
+        res.put(NodeType.FILE, getFileInstance(fileDiff));
+        res.put(NodeType.METHOD, getMethodInstance(methodDiff));
 
         return res;
     }

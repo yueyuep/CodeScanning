@@ -10,64 +10,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/")
 public class NormalNodeController {
-    @Autowired
     private NodeServices nodeServices;
-    @Autowired
     private CallGraphServices callGraphServices;
-    @Autowired
     private UpdateServices updateServices;
-    @Autowired
     private ProjectInformation projectInformation;
 
-    public NormalNodeController() {
+    @Autowired
+    public NormalNodeController(NodeServices nodeServices, CallGraphServices callGraphServices,
+                                UpdateServices updateServices, ProjectInformation projectInformation) {
+        this.nodeServices = nodeServices;
+        this.callGraphServices = callGraphServices;
+        this.updateServices = updateServices;
+        this.projectInformation = projectInformation;
     }
 
 
     @GetMapping(value = "/callMethod")
-    //显示两个版本的函数调用关系。
-    public List<Object> callMethod(@RequestParam(value = "version") String version) {
-        List<Object> result = new ArrayList<>();
-        projectInformation.setAttribute(version, version, "");
+    public Map<String, Object> callMethod(@RequestParam(value = "version") String version){
+        Map<String, Object> result = new HashMap<>();
+        projectInformation.setAttribute(version, version);
         // 可视化数据
-        result.add(callGraphServices.getCallNodes(version));
+        result.putAll(callGraphServices.getCallNodes(version));
         // 项目基础数据（前端显示）
-        result.addAll(projectInformation.getProjectInformation());
+        result.putAll(projectInformation.getProjectInformation());
 
         return result;
     }
-
-//    @GetMapping(value = "/")
-//    public List<Object> callMethod(){
-//        List<Object> result = new ArrayList<>();
-//        projectInformation.setAttribute("0.9.22", "0.9.22", "");
-//        // 可视化数据
-//        result.add(callGraphServices.getCallNodes("0.9.22"));
-//        // 项目基础数据（前端显示）
-//        result.addAll(projectInformation.getProjectInformation());
-//
-//        return result;
-//    }
-
-    @GetMapping(value = "/testCallMethod2")
-    public List<Object> callMethod2() {
-        List<Object> result = new ArrayList<>();
-        projectInformation.setAttribute("0.9.22", "0.9.23",
-                "src/main/java/com/nwu/nisl/demo/Data/result.txt");
-        // 可视化数据
-        result.add(callGraphServices.getCallNodes("0.9.23"));
-        // 项目基础数据（前端显示）
-        result.addAll(projectInformation.getProjectInformation());
-
-        return result;
-    }
-
 
     @GetMapping(value = "/node")
     public Map<String, Object> node(@RequestParam(value = "fileMethodName") String fileMethodName,
@@ -80,30 +54,55 @@ public class NormalNodeController {
     // 目前：获取diff文件路径、当前项目的版本号
     // 后续考虑是否需要传入当前版本号，和之前的版本号，然后diff文件在函数里面生成
     @GetMapping(value = "/diff")
-    //显示版本变化的部分
-    public List<Object> diff(@RequestParam(value = "oldVersion") String oldVersion,
-                             @RequestParam(value = "newVersion") String newVersion,
-                             @RequestParam(value = "diffPath") String diffPath) {
-        List<Object> result = new ArrayList<>();
-        projectInformation.setAttribute(oldVersion, newVersion, diffPath);
+    public Map<String, Object> diff(@RequestParam(value = "oldVersion") String oldVersion,
+                                    @RequestParam(value = "newVersion") String newVersion){
+        Map<String, Object> result = new HashMap<>();
+        projectInformation.setAttribute(oldVersion, newVersion);
         // 可视化数据
-        result.add(updateServices.updateNodes(diffPath, newVersion));
+        result.putAll(updateServices.updateNodes(newVersion));
         // 项目基础数据（前端显示）
-        result.addAll(projectInformation.getProjectInformation());
+        result.putAll(projectInformation.getProjectInformation());
         return result;
     }
 
+
+    //-----------------------------------Test-------------------------------------------
+
+    @GetMapping(value = "/testCallMethod")
+    public Map<String, Object> callMethod(){
+        Map<String, Object> result = new HashMap<>();
+        projectInformation.setAttribute("0.9.22", "0.9.22");
+        // 可视化数据
+        result.putAll(callGraphServices.getCallNodes("0.9.22"));
+        // 项目基础数据（前端显示）
+        result.putAll(projectInformation.getProjectInformation());
+
+        return result;
+    }
+
+    @GetMapping(value = "/testCallMethod2")
+    public Map<String, Object> callMethod2(){
+        Map<String, Object> result = new HashMap<>();
+        projectInformation.setAttribute("0.9.22", "0.9.23");
+        // 可视化数据
+        result.putAll(callGraphServices.getCallNodes("0.9.23"));
+        // 项目基础数据（前端显示）
+        result.putAll(projectInformation.getProjectInformation());
+
+        return result;
+    }
+
+
     @GetMapping(value = "/testDiff")
-    public List<Object> testDiff() {
+    public Map<String, Object> testDiff(){
         String oldVersion = "0.9.22";
         String newVersion = "0.9.23";
-        String diffPath = "src/main/java/com/nwu/nisl/demo/Data/result.txt";
-        List<Object> result = new ArrayList<>();
-        projectInformation.setAttribute(oldVersion, newVersion, diffPath);
+        Map<String, Object> result = new HashMap<>();
+        projectInformation.setAttribute(oldVersion, newVersion);
         // 可视化数据
-        result.add(updateServices.updateNodes(diffPath, newVersion));
+        result.putAll(updateServices.updateNodes(newVersion));
         // 项目基础数据（前端显示）
-        result.addAll(projectInformation.getProjectInformation());
+        result.putAll(projectInformation.getProjectInformation());
         return result;
     }
 

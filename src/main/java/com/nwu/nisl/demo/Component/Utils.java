@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
 @Component
 public class Utils {
 
@@ -24,8 +23,9 @@ public class Utils {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      **/
     public Map<String, Object> getNodeAttribute(Object object, String changed, String type) {
-        // change: 字段目前可取的取值："" "yes"
-        // type: 字段目前可取的值："" "add" "modify" "delete"
+        // change: 字段目前可取的取值："no" "yes"
+        // type: 字段目前可取的值："" "add" "modify" "delete", "levelOne" ...
+        // 以上两个字段定义在 NodeType 接口中
         Map<String, Object> map = new HashMap<>();
         if (object instanceof Node) {
             map.put("fileMethodName", ((Node) object).getFileMethodName());
@@ -65,4 +65,6 @@ public class Utils {
         map.put("type", type);
         return map;
     }
+
+
 }

@@ -20,7 +20,7 @@ public class DiffNode {
     private Map<String, Map<String, List<String>>> deletedDiff = new HashMap<>();
     private Map<String, Map<String, List<String>>> addDiff = new HashMap<>();
 
-    @Value("${com.nwu.nisl.demo.url}")
+    @Value("${com.nwu.nisl.demo.diffResult}")
     private String path;
 
     public DiffNode(){}
@@ -42,8 +42,8 @@ public class DiffNode {
      * @Param []
      * @return java.util.List<java.lang.Object>
      **/
-    public List<Object> diffToList() {
-        List<Object> list = new ArrayList<>();
+    public Map<String, Object> parseDiff() {
+        Map<String, Object> map = new HashMap<>();
         clear();
 
         try {
@@ -63,15 +63,15 @@ public class DiffNode {
                     handleDeleteAndAdd(addDiff, res);
                 }
             }
-            list.add(addDiff);
-            list.add(normalDiff);
-            list.add(deletedDiff);
-            return list;
+            map.put(NodeType.ADD_NODE, addDiff);
+            map.put(NodeType.MODIFY_NODE, normalDiff);
+            map.put(NodeType.DELETE_NODE, deletedDiff);
+            return map;
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        return list;
+        return map;
     }
 
     /**
@@ -88,15 +88,15 @@ public class DiffNode {
             diff.put(version, new HashMap<>());
         }
         if (res.length == 3){
-            if (!diff.get(version).keySet().contains("file")){
-                diff.get(version).put("file", new ArrayList<>());
+            if (!diff.get(version).keySet().contains(NodeType.FILE)){
+                diff.get(version).put(NodeType.FILE, new ArrayList<>());
             }
-            diff.get(version).get("file").add(res[1]);
+            diff.get(version).get(NodeType.FILE).add(res[1]);
         } else if (res.length == 4){
-            if (!diff.get(version).keySet().contains("method")){
-                diff.get(version).put("method", new ArrayList<>());
+            if (!diff.get(version).keySet().contains(NodeType.METHOD)){
+                diff.get(version).put(NodeType.METHOD, new ArrayList<>());
             }
-            diff.get(version).get("method").add(res[1].concat("-").concat(res[2]));
+            diff.get(version).get(NodeType.METHOD).add(res[1].concat("-").concat(res[2]));
         }
     }
 
