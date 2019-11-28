@@ -13,39 +13,26 @@ public class ParseData {
 
     // 函数重载，只返回和函数调用有关的文件、函数节点
     public Map<String, Object> graph(String version,
-                                     Collection<File> files,
-                                     Collection<Method> methods,
-                                     Collection<Node> nodes
+                                     Map<String, Collection<File>> files,
+                                     Map<String, Collection<Method>> methods,
+                                     Map<String, Collection<Node>> nodes
                                      ){
-        List<Collection<File>> fileList = new ArrayList<>();
-        fileList.add(files);
-        List<Collection<Method>> methodList = new ArrayList<>();
-        methodList.add(methods);
-        List<Collection<Node>> nodeList = new ArrayList<>();
-        nodeList.add(nodes);
 
-        return graph(version, fileList, methodList, nodeList,
-                Boolean.TRUE, Boolean.TRUE,
-                Boolean.FALSE, Boolean.FALSE, Boolean.FALSE);
+        return graph(version, files, methods, nodes,
+                true, true,
+                false, false, false);
     }
 
     // 函数重载，只返回相关的内容节点，及其可能存在的函数调用节点
     public Map<String, Object> graph(String version,
-                                     Collection<File> files,
-                                     Collection<Method> methods,
-                                     Collection<Node> nodes,
+                                     Map<String, Collection<File>> files,
+                                     Map<String, Collection<Method>> methods,
+                                     Map<String, Collection<Node>> nodes,
                                      Boolean nodeSucc,
                                      Boolean nodeCallMethod
     ){
-        List<Collection<File>> fileList = new ArrayList<>();
-        fileList.add(files);
-        List<Collection<Method>> methodList = new ArrayList<>();
-        methodList.add(methods);
-        List<Collection<Node>> nodeList = new ArrayList<>();
-        nodeList.add(nodes);
-
-        return graph(version, fileList, methodList, nodeList,
-                Boolean.FALSE, Boolean.FALSE, Boolean.FALSE,
+        return graph(version, files, methods, nodes,
+                false, false, false,
                 nodeSucc, nodeCallMethod);
     }
 
@@ -57,9 +44,9 @@ public class ParseData {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      **/
         public Map<String, Object> graph(String version,
-                                         List<Collection<File>> files,
-                                         List<Collection<Method>> methods,
-                                         List<Collection<Node>> nodes,
+                                         Map<String, Collection<File>> files,
+                                         Map<String, Collection<Method>> methods,
+                                         Map<String, Collection<Node>> nodes,
                                          Boolean fileHasMethod,
                                          Boolean methodCallMethod,
                                          Boolean methodHasNode,
@@ -70,9 +57,10 @@ public class ParseData {
 
         // 添加顺序与下面代码逻辑有关联
         // addAll 不能添加null, add 可以添加null
-        for (Collection<Node> node: nodes) if (node != null) allNodes.addAll(node);
-        for (Collection<Method> method: methods) if (method != null) allNodes.addAll(method);
-        for (Collection<File> file: files) if (file != null) allNodes.addAll(file);
+
+        for (Collection<Node> node: nodes.values()) if (node != null) allNodes.addAll(node);
+        for (Collection<Method> method: methods.values()) if (method != null) allNodes.addAll(method);
+        for (Collection<File> file: files.values()) if (file != null) allNodes.addAll(file);
 
         // 去重且顺序不发生变化
         LinkedHashSet<Object> set = new LinkedHashSet<>(allNodes);
@@ -140,10 +128,11 @@ public class ParseData {
      **/
     private List<Integer> getIndex(List<Map<String, Object>> jsonNodes, Object object, int count, String type){
         Map<String, Object> temp;
-        if ("".equals(type)) {
-            temp = utils.getNodeAttribute(object, "", type);
+        // 判断是否为普通节点，或按层索引到的节点
+        if (NodeType.GENERAL_NODE.equals(type) || type.startsWith(NodeType.LEVEL_PREFIX)) {
+            temp = utils.getNodeAttribute(object, NodeType.NOT_CHANGE, type);
         } else {
-            temp = utils.getNodeAttribute(object, "yes", type);
+            temp = utils.getNodeAttribute(object, NodeType.HAS_CHANGED, type);
         }
         int index = jsonNodes.indexOf(temp);
         if (index == -1){
@@ -213,4 +202,45 @@ public class ParseData {
         }
         return "";
     }
+
+    private String judgeChanged(Object object,
+                                String version,
+                                Map<String, Collection<File>> files,
+                                Map<String, Collection<Method>> methods,
+                                Map<String, Collection<Node>> nodes) {
+        String nodeType = NodeType.GENERAL_NODE;
+
+        // TODO
+        // 是否存在，一个节点同时属于 NodeTyoe 中的多种类型，
+        if (object instanceof File) {
+            File temp = (File) object;
+            for (Map.Entry<String, Collection<File>> entry: files.entrySet()) {
+                // 跳过 NodeType.GENERAL_NODE 字段，因为其中包含callGraph中所有的节点，基本每个节点都属于这一类
+                // 若其属于变化类型的节点，我们想进一步知道他是哪种变化类型，不跳过此字段，返回的类型可能不是我们想要的
+                if (!entry.getKey().equals(NodeType.GENERAL_NODE) && entry.getValue().contains(temp)) {
+                    nodeType = entry.getKey();
+                }
+            }
+            if (!temp.getVersion().equals(version)) {
+                nodeType = NodeType.DELETE_NODE;
+            }
+        } else if (object instanceof Method) {
+            Method temp = (Method) object;
+            for (Map.Entry<String, Collection<Method>> entry: methods.entrySet()) {
+                if (!entry.getKey().equals(NodeType.GENERAL_NODE) && entry.getValue().contains(temp)) {
+                    nodeType = entry.getKey();
+                }
+            }
+            if (!temp.getVersion().equals(version)) {
+                nodeType = NodeType.DELETE_NODE;
+            }
+        } else  if (object instanceof Node) {
+            // TODO
+            // 目前不涉及到 内容节点 的操作
+        }
+
+
+        return nodeType;
+    }
+
 }
