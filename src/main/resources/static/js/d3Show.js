@@ -160,35 +160,3 @@ function validateXY(val, type) {
     }
     return val
 }
-
-function postdata(dic) {
-    // 详情显示信息
-    // $.ajax({
-    //         async: true,
-    //         type: "GET",
-    //         url: "/info",
-    //         data: dic,
-    //         dataType: "json",
-    //         success: function (data) {
-    //             if (data.result == "SUCCESS") {
-    //                 alert("SUCCES");
-    //                 d3.select("#rightsvg").remove();
-    //                 var rightforce = d3.layout.force().charge(-20).linkDistance(20).size([800 * 0.2, height]);
-    //                 var rightsvg = d3.select("#rightgraph").append("svg")
-    //                     .attr("id", "rightsvg")
-    //                     .attr("width", "100%").attr("height", height);
-    //                 show(data, rightforce, rightsvg);
-    //
-    //             } else
-    //                 alert("FALSE");
-    //         },
-    //         error: function (data) {
-    //             alert("return result" + data);
-    //
-    //         }
-    //
-    //
-    //     }
-    // );
-
-}

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * Create by lp on 2019/11/20
  */
-@Controller
+@RestController
 @RequestMapping(value = "/analyse")
 public class AnalyseLevel {
     private LevelAnalyse levelAnalyse;
@@ -24,11 +25,10 @@ public class AnalyseLevel {
     }
 
     @GetMapping(value = "/analyse/test")
-    public Map<String, List<Object>> level(@RequestParam(value = "level") String level) {
-        int pLevel = 0;
-        if (level.equals("One"))
-            pLevel = 1;
+    public Map<String, List<Object>> level() {
+
         //返回<diifType，List<diffMethod>
+        Object test = levelAnalyse.initInstance(1);
         return levelAnalyse.initInstance(1);
 
     }

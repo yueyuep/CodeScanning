@@ -31,33 +31,32 @@ public class NormalNodeController {
 
 
     @GetMapping(value = "/callMethod")
-    public List<Object> callMethod(@RequestParam(value = "oldVersion") String oldVersion,
-                                   @RequestParam(value = "newVersion") String newVersion,
-                                   @RequestParam(value = "diffPath") String diffPath){
+    //显示两个版本的函数调用关系。
+    public List<Object> callMethod(@RequestParam(value = "version") String version) {
         List<Object> result = new ArrayList<>();
-        projectInformation.setAttribute(oldVersion, newVersion, diffPath);
+        projectInformation.setAttribute(version, version, "");
         // 可视化数据
-        result.add(callGraphServices.getCallNodes(newVersion));
+        result.add(callGraphServices.getCallNodes(version));
         // 项目基础数据（前端显示）
         result.addAll(projectInformation.getProjectInformation());
 
         return result;
     }
 
-    @GetMapping(value = "/testCallMethod")
-    public List<Object> callMethod(){
-        List<Object> result = new ArrayList<>();
-        projectInformation.setAttribute("0.9.22", "0.9.22", "");
-        // 可视化数据
-        result.add(callGraphServices.getCallNodes("0.9.22"));
-        // 项目基础数据（前端显示）
-        result.addAll(projectInformation.getProjectInformation());
-
-        return result;
-    }
+//    @GetMapping(value = "/")
+//    public List<Object> callMethod(){
+//        List<Object> result = new ArrayList<>();
+//        projectInformation.setAttribute("0.9.22", "0.9.22", "");
+//        // 可视化数据
+//        result.add(callGraphServices.getCallNodes("0.9.22"));
+//        // 项目基础数据（前端显示）
+//        result.addAll(projectInformation.getProjectInformation());
+//
+//        return result;
+//    }
 
     @GetMapping(value = "/testCallMethod2")
-    public List<Object> callMethod2(){
+    public List<Object> callMethod2() {
         List<Object> result = new ArrayList<>();
         projectInformation.setAttribute("0.9.22", "0.9.23",
                 "src/main/java/com/nwu/nisl/demo/Data/result.txt");
@@ -68,7 +67,6 @@ public class NormalNodeController {
 
         return result;
     }
-
 
 
     @GetMapping(value = "/node")
@@ -82,9 +80,10 @@ public class NormalNodeController {
     // 目前：获取diff文件路径、当前项目的版本号
     // 后续考虑是否需要传入当前版本号，和之前的版本号，然后diff文件在函数里面生成
     @GetMapping(value = "/diff")
+    //显示版本变化的部分
     public List<Object> diff(@RequestParam(value = "oldVersion") String oldVersion,
                              @RequestParam(value = "newVersion") String newVersion,
-                             @RequestParam(value = "diffPath") String diffPath){
+                             @RequestParam(value = "diffPath") String diffPath) {
         List<Object> result = new ArrayList<>();
         projectInformation.setAttribute(oldVersion, newVersion, diffPath);
         // 可视化数据
@@ -95,7 +94,7 @@ public class NormalNodeController {
     }
 
     @GetMapping(value = "/testDiff")
-    public List<Object> testDiff(){
+    public List<Object> testDiff() {
         String oldVersion = "0.9.22";
         String newVersion = "0.9.23";
         String diffPath = "src/main/java/com/nwu/nisl/demo/Data/result.txt";

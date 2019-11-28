@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./css/index.css">
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" type="text/javascript"></script>
-    <script src="./js/index.js" type="text/javascript"></script>
+    <script src="js/d3Show.js" type="text/javascript"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -89,10 +89,10 @@
                 </ul>
             </div>
             <div id="info">
-                <input type="text" disabled="disabled">
-                <input type="text" disabled="disabled">
-                <input type="text" disabled="disabled">
-                <input type="text" disabled="disabled">
+                <input class="version" type="text" disabled="disabled">
+                <input class="fileNumber" type="text" disabled="disabled">
+                <input class="addFileNumber" type="text" disabled="disabled">
+                <input class="deleteFileNumber" type="text" disabled="disabled">
 
             </div>
         </div>
@@ -107,23 +107,10 @@
                 </ul>
             </div>
             <div id="diffinfo">
-
-                <textarea disabled="disabled" cols="35" rows="4">adddiff&\src\test\java\com\jsoniter\TestMap.java&test_enum_key-TestMap-&0.9.23
-adddiff&\src\test\java\com\jsoniter\output\TestFloat.java&test_infinity-TestFloat-&0.9.23
-adddiff&\src\test\java\com\jsoniter\TestOmitValue.java
-adddiff&\src\test\java\com\jsoniter\TestFloat.java&testInfinity-TestFloat-&0.9.23
-adddiff&\src\main\java\com\jsoniter\MapKeyDecoders.java&decode-MapKeyDecoders.EnumKeyDecoder-JsonIterator&0.9.23
-adddiff&\src\test\java\com\jsoniter\any\TestList.java&test_for_each-TestList-&0.9.23
-adddiff&\src\test\java\com\jsoniter\any\TestLong.java
-adddiff&\src\test\java\com\jsoniter\TestSlice.java&test_equalsInputNotNullOutputFalse-TestSlice-&0.9.23
-adddiff&\src\test\java\com\jsoniter\TestSlice.java&test_equalsInputNotNullOutputFalse2-TestSlice-&0.9.23
-adddiff&\src\test\java\com\jsoniter\output\TestMap.java&test_multiple_keys-TestMap-&0.9.23
-adddiff&\src\test\java\com\jsoniter\output\TestMap.java&test_enum_key-TestMap-&0.9.23
-deletediff&\src\main\java\com\jsoniter\Codegen.java
-</textarea>
-                <textarea disabled="disabled" cols="35" rows="4"></textarea>
-                <textarea disabled="disabled" cols="35" rows="4"></textarea>
-                <textarea disabled="disabled" cols="35" rows="4"></textarea>
+                <textarea class="normalDiff" disabled="disabled" style="width: 95%" rows="4"></textarea>
+                <textarea class="addDiff" disabled="disabled" style="width: 95%" rows="4"></textarea>
+                <textarea class="deleteDiff" disabled="disabled" style="width: 95%" rows="4"></textarea>
+                <textarea class="connectDiff" disabled="disabled" style="width: 95%" rows="4"></textarea>
 
 
             </div>
