@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Component
 public class DiffNode {
-    private List<String> diff=new ArrayList<>();
+    private List<String> diff = new ArrayList<>();
 
     private Map<String, Map<String, List<String>>> normalDiff = new HashMap<>();
     private Map<String, Map<String, List<String>>> deletedDiff = new HashMap<>();
@@ -23,37 +23,38 @@ public class DiffNode {
     @Value("${com.nwu.nisl.demo.diffResult}")
     private String path;
 
-    public DiffNode(){}
-
-    public DiffNode(String path){
-        this.path=path;
+    public DiffNode() {
     }
 
-    private void clear(){
+    public DiffNode(String path) {
+        this.path = path;
+    }
+
+    private void clear() {
         normalDiff.clear();
         deletedDiff.clear();
         addDiff.clear();
     }
 
     /**
+     * @return java.util.List<java.lang.Object>
      * @Author Kangaroo
      * @Description 解析 diff 文件，并将不同类型的变化信息（版本号，文件/文件函数名）保存到对应的全局变量中
      * @Date 2019/11/16 9:59
      * @Param []
-     * @return java.util.List<java.lang.Object>
      **/
     public Map<String, Object> parseDiff() {
         Map<String, Object> map = new HashMap<>();
         clear();
 
         try {
-            File file=new File(this.path);
-            FileInputStream fileInputStream=new FileInputStream(file);
-            InputStreamReader inputStreamReader=new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader=new BufferedReader(inputStreamReader);
+            File file = new File(this.path);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             String text;
-            while ((text=bufferedReader.readLine())!=null){
+            while ((text = bufferedReader.readLine()) != null) {
                 String[] res = text.split("&");
                 if (res[0].equals("normaldiff")) {
                     handleDeleteAndAdd(normalDiff, res);
@@ -67,33 +68,32 @@ public class DiffNode {
             map.put(NodeType.MODIFY_NODE, normalDiff);
             map.put(NodeType.DELETE_NODE, deletedDiff);
             return map;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return map;
     }
 
     /**
+     * @return void
      * @Author Kangaroo
      * @Description 解析diff文件中 adddiff、deleteddiff行，并将解析结果保存到对应的全局变量中
      * @Date 2019/11/16 10:02
      * @Param [diff, res]
-     * @return void
      **/
     private void handleDeleteAndAdd(Map<String, Map<String, List<String>>> diff,
-                                    String[] res){
+                                    String[] res) {
         String version = res[res.length - 1];
-        if (!diff.keySet().contains(version)){
+        if (!diff.keySet().contains(version)) {
             diff.put(version, new HashMap<>());
         }
-        if (res.length == 3){
-            if (!diff.get(version).keySet().contains(NodeType.FILE)){
+        if (res.length == 3) {
+            if (!diff.get(version).keySet().contains(NodeType.FILE)) {
                 diff.get(version).put(NodeType.FILE, new ArrayList<>());
             }
             diff.get(version).get(NodeType.FILE).add(res[1]);
-        } else if (res.length == 4){
-            if (!diff.get(version).keySet().contains(NodeType.METHOD)){
+        } else if (res.length == 4) {
+            if (!diff.get(version).keySet().contains(NodeType.METHOD)) {
                 diff.get(version).put(NodeType.METHOD, new ArrayList<>());
             }
             diff.get(version).get(NodeType.METHOD).add(res[1].concat("-").concat(res[2]));

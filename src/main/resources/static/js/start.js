@@ -131,7 +131,7 @@ function pareurl(parame, url, flag) {
                 projectInfo(result);
                 diffInfo(result);
             }
-            requestData(result[0]);
+            requestData(result);
             //显示项目的信息
 
 
@@ -158,20 +158,20 @@ function diffData(result) {
 
 function projectInfo(result) {
     //显示我们项目的具体信息
-    $(".version").val(result[1]["version"]);
-    $(".fileNumber").val(result[2]["fileNumber"]);
+    $(".version").val(result["version"]);
+    $(".fileNumber").val(result["fileNumber"]);
 
 
 }
 
 function diffInfo(result) {
-    $(".addFileNumber").val(result[3]["addFileNumber"]);
-    $(".deleteFileNumber").val(result[4]["deleteFileNumber"]);
+    $(".addFileNumber").val(result["addFileNumber"]);
+    $(".deleteFileNumber").val(result["deleteFileNumber"]);
 
     //变换文件的具体显示
     $(".normalDiff").val(function () {
         var text = "";
-        result[5]["normalDiff"].forEach(function (line) {
+        result["normalDiff"].forEach(function (line) {
             text = text + line
 
         });
@@ -180,7 +180,7 @@ function diffInfo(result) {
     });
     $(".addDiff").val(function () {
         var text = "";
-        result[6]["addDiff"].forEach(function (line) {
+        result["addDiff"].forEach(function (line) {
             text = text + line;
 
         });
@@ -189,7 +189,7 @@ function diffInfo(result) {
     });
     $(".deleteDiff").val(function () {
         var text = "";
-        result[7]["deleteDiff"].forEach(function (line) {
+        result["deleteDiff"].forEach(function (line) {
             text = text + line;
 
         });

@@ -44,7 +44,7 @@ function show(graph, leftforce, leftsvg) {
             else return 5;
         })
         .style("fill", function (node) {
-            if (node.changed == "") {
+            if (node.changed == "no") {
                 //每有发生修改
                 if (node.nodeType == "node")
                     return "#239965";
