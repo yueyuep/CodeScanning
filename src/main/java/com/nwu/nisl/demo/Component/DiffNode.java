@@ -96,7 +96,7 @@ public class DiffNode {
             if (!diff.get(version).keySet().contains(NodeType.METHOD)) {
                 diff.get(version).put(NodeType.METHOD, new ArrayList<>());
             }
-            diff.get(version).get(NodeType.METHOD).add(res[1].concat("-").concat(res[2]));
+            diff.get(version).get(NodeType.METHOD).add(res[1].concat("?").concat(res[2]));
         }
     }
 

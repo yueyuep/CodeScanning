@@ -1,5 +1,6 @@
 package com.nwu.nisl.demo.Component;
 
+import com.nwu.nisl.demo.Entity.Node;
 import com.nwu.nisl.demo.Repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -74,8 +75,19 @@ public class ProjectInformation {
             Map<String, Object> map = diffNode.parseDiff();
 
             if (!map.isEmpty()) {
-                addFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).get(NodeType.FILE).size();
-                deleteFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(oldVersion).get(NodeType.FILE).size();
+                // TODO
+                // 待优化，太丑陋了！
+                if (((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).containsKey(newVersion)){
+                    if (((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).containsKey(NodeType.FILE)) {
+                        addFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).get(NodeType.FILE).size();
+                    }
+                }
+                if (((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).containsKey(oldVersion)) {
+                    if (((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(oldVersion).containsKey(NodeType.FILE)) {
+                        deleteFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(oldVersion).get(NodeType.FILE).size();
+                    }
+                }
+
 
                 for (Map.Entry<String, Object> entry: map.entrySet()) {
                     List<String> temp = new ArrayList<>();

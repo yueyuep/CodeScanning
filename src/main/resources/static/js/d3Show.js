@@ -1,5 +1,5 @@
 //从后台请求处理数据,根据版本号进行查询
-function requestData(result) {
+function requestData(result, flag) {
     //将版本号传到后台，进行查询
     var width = document.getElementById("leftGraph").offsetWidth;
     //var height = document.getElementById("leftGraph").offsetHeight;
@@ -7,7 +7,13 @@ function requestData(result) {
     //每次进入需要刷新svg画布分数据。
     d3.select("#leftsvg").remove();
     //设置主界面的显示：
-    var leftforce = d3.layout.force().charge(-25).linkDistance(50).size([width, height]);
+    var leftforce
+    if (flag == "diff") {
+        leftforce = d3.layout.force().charge(-25).linkDistance(50).size([width, height]);
+    } else
+        leftforce = d3.layout.force().charge(-100).linkDistance(150).size([width, height]);
+
+
     var leftsvg = d3.select("#leftGraph").append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -36,12 +42,22 @@ function show(graph, leftforce, leftsvg) {
         .data(graph.nodes).enter()
         .append("circle")
         .attr("r", function (d) {
+            if (d.type == "addConnectDiff" || d.type == "deleteConnectDiff" || d.type == "modifyConnectDiff") {
+                if (d.nodeType == "file")
+                    return 28;
+                else if (d.nodeType == "method")
+                    return 15;
+                else return 7;
 
-            if (d.nodeType == "file")
-                return 15;
-            else if (d.nodeType == "method")
-                return 7;
-            else return 5;
+            } else {
+                if (d.nodeType == "file")
+                    return 15;
+                else if (d.nodeType == "method")
+                    return 7;
+                else return 5;
+
+            }
+
         })
         .style("fill", function (node) {
             if (node.changed == "no") {
@@ -54,11 +70,11 @@ function show(graph, leftforce, leftsvg) {
                     return "#968D99";
             } else {
                 //发生修改
-                if (node.type == "deleted")
+                if (node.type == "deleteConnectDiff")
                     return "#585956";
-                else if (node.type == "add")
+                else if (node.type == "addConnectDiff")
                     return "#ff0c09";
-                else if (node.type == "modify")
+                else if (node.type == "modifyConnectDiff")
                     return "#ff7878";
                 else {
                     //其他类型，还没有处理
@@ -78,12 +94,13 @@ function show(graph, leftforce, leftsvg) {
         if (d.nodeType == "file") {
             fileName = d.fileName;
             version = d.version;
+            tooltip.html("nodeType:" + d.nodeType + "</br>" + "fileName:" + fileName + "</br>" + "version:" + version)
         } else {
-            fileName = d.fileName;
+            fileName = d.fileMethodName;
             version = d.version;
+            tooltip.html("nodeType:" + d.nodeType + "</br>" + "methodName:" + fileName + "</br>" + "version:" + version)
         }
-        tooltip.html("fileName:" + fileName + "</br>" + "version:" + version + "</br>" + "nodeType:" + d.nodeType)
-            .style("left", d3.event.pageX + "px")
+        tooltip.style("left", d3.event.pageX + "px")
             .style("top", d3.event.pageY + "px")
             .style("opacity", 1.0);
     })

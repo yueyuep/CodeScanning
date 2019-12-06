@@ -5,7 +5,9 @@
  *@Description:给本地的数据添加connectDiif类型
  */
 function adddiff(callGraphJson, diffJson) {
-    var nodes = callGraphJson.nodes;
+    //我们只对nodes节点数据进行修改
+    var links = callGraphJson["links"];
+    var nodes = callGraphJson["nodes"];
     nodes.forEach(function (data) {
         diffJson.forEach(function (diffType) {
             if (diffType == "addDiff") {
@@ -34,7 +36,7 @@ function adddiff(callGraphJson, diffJson) {
 
 function containNode(node, diffNodeList) {
     diffNodeList.forEach(function (targetNode) {
-        if (node.fileMethodName == targetNode.fileMethodName && node.version == targetNode.version) {
+        if (node.fileMethodName == targetNode.fileMethodName && node.version == targetNode.version && node.nodeType == targetNode.nodeType) {
             return true;
         } else {
             return false;

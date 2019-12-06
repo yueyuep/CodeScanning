@@ -1,6 +1,6 @@
 //document.write("<script type='text/javascript' src='./d3Show.js'></script>");
 $("#header li").click(function (e) {
-    alert($(this).text());
+    //alert($(this).text());
     // make sure we cannot click the slider
     if ($(this).hasClass('slider')) {
         return;
@@ -50,99 +50,75 @@ $("#header li").click(function (e) {
         left: x + 'px'
     }).addClass("rippleEffect");
     if ($(this).text() == "Version 1.0") {
-
+        var input = prompt("Please enter the older version of Project!");
         //显示版本1.0的图
-        parame = {"version": "0.9.22"};
+        parame = {"version": input};
         url = "/callMethod";
-        flag = 1;
-        pareurl(parame, url, flag)
+        result = pareurl(parame, url);
+        projectInfoClear();
+        projectInfo(result);
+        requestData(result, "diff");
 
     } else if ($(this).text() == "Version 1.1") {
 
         //显示版本1.1的图
-        parame = {"version": "0.9.23"};
-        flag = 1;
+        var input = prompt("Please enter the older version of Project!");
+        parame = {"version": input};
         url = "/callMethod";
-        pareurl(parame, url, flag)
+        result = pareurl(parame, url);
+        projectInfoClear();
+        projectInfo(result);
+        requestData(result, "diff");
 
 
     } else if ($(this).text() == "Diff show") {
-        //显示版l1的图
-        //测试版本
-        flag = 2;
-        parame = {};
-        url = "/testDiff";
-        pareurl(parame, url, flag);
+        var input = prompt("Please enter the two versions of Project(0.9.22&0.9.23)!");
+        var version = input.split("&");
+        if (version.length < 2) {
+            alert("format Error!");
+
+        }
+        result = diffshow(version[0], version[1]);
+        projectInfoClear();
+        projectInfo(result);
+        diffInfo(result);
+        requestData(result, "diff")
 
 
     } else if ($(this).text() == "Level One") {
-        //显示版l1层次的图
-        parame = {"level": "One"};
-        url = "/analyse/test";
-        LevePareUrl(parame, url);
+        var version = prompt("Please enter the new versions of Project!");
+        if (version.length < 1) {
+            alert("format Error!");
+
+        }
+        //显示版l1层次的图,需要借助diff返回的结果集
+        var level = 1;
+        parame = {"version": version, "level": level};
+        url = "/analyse/connectLevelDiff";
+        analyseResult = pareurl(parame, url);
+        requestData(analyseResult, "level");
+
+
+        //adddiff(diffResult, analyseResult);
 
 
     } else {
         //显示版l2层次的图
-        parame = {"level": "Two"};
-        url = "/analyse/test";
-        LevePareUrl(parame, url);
+        var version = prompt("Please enter the new versions of Project!");
+        if (version.length < 1) {
+            alert("format Error!");
+
+        }
+        var level = 3;
+        parame = {"version": version, "level": level};
+        url = "/analyse/connectLevelDiff";
+        analyseResult = pareurl(parame, url);
+        //diffResult = diffshow();
+        requestData(analyseResult, "level");
     }
 
 
 });
-
-function LevePareUrl(parame, url, flag) {
-    //请求analyse得数据
-    $.ajax({
-        async: true,
-        type: "GET",
-        url: url,
-        data: parame,
-        dataType: "json",
-        success: function (result) {
-            diffData(result);
-
-        },
-        error: function (result) {
-            alert("Data Error")
-        }
-
-    })
-
-}
-
-function pareurl(parame, url, flag) {
-    //根据字典参数和请求的url获得数据
-    $.ajax({
-        async: true,
-        type: "GET",
-        url: url,
-        data: parame,
-        dataType: "json",
-        success: function (result) {
-            //0号位置代表我们的nodes、links数据
-            if (flag == 1) {
-                //初始化我们的textarea数据
-                projectInfoClear();
-                projectInfo(result);
-            }
-            if (flag == 2) {
-                projectInfo(result);
-                diffInfo(result);
-            }
-            requestData(result);
-            //显示项目的信息
-
-
-        },
-        error: function (result) {
-            alert("Data Error")
-        }
-
-    })
-
-}
 
 /**
  *@Author:lp on 2019/11/25 15:14
@@ -153,62 +129,46 @@ function pareurl(parame, url, flag) {
 function diffData(result) {
     //获得变化的这部分数据，需要将其运用到我们的最新callgraph图上
     // TODO 如果本地含有callgraph图，我们直接从缓存中读取，不会再次请求，一方面我们的callgraph(0.9.23已经请求过了)
-    //重新亲求一次数据
+    //重新请求一次数据
+    //diff数据集
+    var oldVersion = "0.9.22";
+    var newVersion = "0.9.23";
+    parame = {"oldVersion": oldVersion, "newVerion": newVersion};
+    url = "/diff";
+    LevePareUrl(parame, url);
+
+
 }
 
-function projectInfo(result) {
-    //显示我们项目的具体信息
-    $(".version").val(result["version"]);
-    $(".fileNumber").val(result["fileNumber"]);
-
+function diffshow(oldVersion, newVersion) {
+    //显示版l1的图
+    //测试版本
+    parame = {"oldVersion": oldVersion, "newVersion": newVersion};
+    url = "/diff";
+    result = pareurl(parame, url);
+    return result;
 
 }
 
-function diffInfo(result) {
-    $(".addFileNumber").val(result["addFileNumber"]);
-    $(".deleteFileNumber").val(result["deleteFileNumber"]);
-
-    //变换文件的具体显示
-    $(".normalDiff").val(function () {
-        var text = "";
-        result["normalDiff"].forEach(function (line) {
-            text = text + line
-
-        });
-        return text;
+function pareurl(parame, url) {
+    //根据字典参数和请求的url获得数据
+    var data;
+    $.ajax({
+        async: false,
+        type: "GET",
+        url: url,
+        data: parame,
+        dataType: "json",
+        success: function (result) {
+            //0号位置代表我们的nodes、links数据
+            data = result;
+        },
+        error: function (result) {
+            alert("Data Error")
+        }
 
     });
-    $(".addDiff").val(function () {
-        var text = "";
-        result["addDiff"].forEach(function (line) {
-            text = text + line;
-
-        });
-        return text;
-
-    });
-    $(".deleteDiff").val(function () {
-        var text = "";
-        result["deleteDiff"].forEach(function (line) {
-            text = text + line;
-
-        });
-        return text;
-
-    });
-
+    return data;
 
 }
 
-function projectInfoClear() {
-    //清空我们的textarea内中的内容
-    $(".addDiff").val("");
-    $(".addFileNumber").val("");
-    $(".fileNumber").val("");
-    $(".version").val("");
-    $(".deleteDiff").val("");
-    $(".deleteFileNumber").val("");
-    $(".connectDiff").val("");
-    $(".normalDiff").val("");
-
-}
