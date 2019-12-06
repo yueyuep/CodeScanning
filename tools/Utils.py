@@ -383,11 +383,11 @@ def toText(dic, url, name, oldversion, newversion):
     with open(path, mode="w") as file:
         for type in dic.keys():
             for line in dic[type]:
-                line.replace("\\", "//")
+                line=line.replace("\\", "/")
                 if type == "deleteDiff":
-                    file.write(type + "&" + oldversion + "-" + line + "\n")
+                    file.write(type + "&" + oldversion + "?" + line + "\n")
                 else:
-                    file.write(type + "&" + newversion + "-" + line + "\n")
+                    file.write(type + "&" + newversion + "?" + line + "\n")
 
 
 def getVersion(url):
