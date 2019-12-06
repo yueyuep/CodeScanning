@@ -80,10 +80,16 @@ public class ProjectInformation {
                  *return: java.util.Map<java.lang.String,java.lang.Object>
                  *Description:修改空指针异常
                  */
-                if (!((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).isEmpty())
-                    addFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).get(NodeType.FILE).size();
-                if (!((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).isEmpty())
-                    deleteFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(oldVersion).get(NodeType.FILE).size();
+                if (((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).containsKey(newVersion)){
+                    if (((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).containsKey(NodeType.FILE)) {
+                        addFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).get(NodeType.FILE).size();
+                    }
+                }
+                if (((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).containsKey(oldVersion)) {
+                    if (((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(oldVersion).containsKey(NodeType.FILE)) {
+                        deleteFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(oldVersion).get(NodeType.FILE).size();
+                    }
+                }
 
                 for (Map.Entry<String, Object> entry : map.entrySet()) {
                     List<String> temp = new ArrayList<>();
