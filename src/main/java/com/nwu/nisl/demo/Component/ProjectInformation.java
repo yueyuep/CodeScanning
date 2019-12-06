@@ -78,12 +78,31 @@ public class ProjectInformation {
                  *Author:lp on 2019/12/2 21:15
                  *Param: []
                  *return: java.util.Map<java.lang.String,java.lang.Object>
-                 *Description:修改空指针异常
+                 *Description:修改空指针异常,把对文件的变化和函数的变化分别区分出来
                  */
+                //TODO 增加文件数目、删除文件数目、修改文件数目
                 if (!((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).isEmpty())
-                    addFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).get(NodeType.FILE).size();
+                    for (String fileOrMethod : ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).keySet()) {
+                        if (fileOrMethod == NodeType.FILE) {
+                            //file
+                            addFileNumber = addFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).get(NodeType.FILE).size();
+                        } else {
+                            //method
+
+                        }
+
+                    }
                 if (!((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).isEmpty())
-                    deleteFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(oldVersion).get(NodeType.FILE).size();
+                    for (String fileOrMethod : ((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(newVersion).keySet()) {
+                        if (fileOrMethod == NodeType.FILE) {
+                            //file
+                            deleteFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(newVersion).get(NodeType.FILE).size();
+                        } else {
+                            //method
+
+                        }
+
+                    }
 
                 for (Map.Entry<String, Object> entry : map.entrySet()) {
                     List<String> temp = new ArrayList<>();

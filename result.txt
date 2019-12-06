@@ -1,6 +1,0 @@
-adddiff&12420.1-\src\main\java\org\fluentd\logger\FluentLoggerFactory.java&purgeLogger-FluentLoggerFactory-FluentLogger&12420.1
-normaldiff&12420.1-\src\main\java\org\fluentd\logger\FluentLoggerFactory.java&closeAll-FluentLoggerFactory-&12420.1
-normaldiff&12420.1-\src\main\java\org\fluentd\logger\sender\RawSocketSender.java&reconnect-RawSocketSender-&12420.1
-normaldiff&12420.1-\src\main\java\org\fluentd\logger\sender\RawSocketSender.java&close-RawSocketSender-&12420.1
-normaldiff&12420.1-\src\main\java\org\fluentd\logger\FluentLogger.java&close-FluentLogger-&12420.1
-normaldiff&12420.1-\src\main\java\org\fluentd\logger\FluentLogger.java&finalize-FluentLogger-&12420.1

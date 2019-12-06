@@ -44,9 +44,9 @@ function show(graph, leftforce, leftsvg) {
         .attr("r", function (d) {
             if (d.type == "addConnectDiff" || d.type == "deleteConnectDiff" || d.type == "modifyConnectDiff") {
                 if (d.nodeType == "file")
-                    return 28;
+                    return 35;
                 else if (d.nodeType == "method")
-                    return 15;
+                    return 20;
                 else return 7;
 
             } else {
@@ -70,11 +70,11 @@ function show(graph, leftforce, leftsvg) {
                     return "#968D99";
             } else {
                 //发生修改
-                if (node.type == "deleteConnectDiff")
+                if (node.type == "deleteConnectDiff" || node.type == "delete")
                     return "#585956";
-                else if (node.type == "addConnectDiff")
+                else if (node.type == "addConnectDiff" || node.type == "add")
                     return "#ff0c09";
-                else if (node.type == "modifyConnectDiff")
+                else if (node.type == "modifyConnectDiff" || node.type == "modify")
                     return "#ff7878";
                 else {
                     //其他类型，还没有处理

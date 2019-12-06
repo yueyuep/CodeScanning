@@ -378,12 +378,13 @@ def toText(dic, url, name, oldversion, newversion):
     # 在给定的路径下写入文件
     mode = ""
     path = os.path.join(url, name)
-    #path = os.path.join("H:\\tools\\jsondata", name)
+    # path = os.path.join("H:\\tools\\jsondata", name)
     print("Path:" + path)
     with open(path, mode="w") as file:
         for type in dic.keys():
             for line in dic[type]:
-                line=line.replace("\\", "/")
+                line = line.replace("\\", "/")
+                line = line.replace("/", "", 1)
                 if type == "deleteDiff":
                     file.write(type + "&" + oldversion + "?" + line + "\n")
                 else:
