@@ -13,10 +13,12 @@ import java.util.Map;
 @Service
 public class LevelAnalyse {
     /**
-     * @Author:lp on 2019/11/15 21:24
-     * @Param: level diff
-     * @return:
-     * @Description:根据变化的部分分析周围的关联变化的地方
+     * Author:lp on 2019/11/15 21:24
+     * Param: level diff
+     * return:
+     * Description:根据变化的部分分析周围的关联变化的地方,
+     * getLevelNodes() 返回全部的节点信息
+     * getLevelPartNodes返回部分节点信息
      */
     @Autowired
     private CallGraph callGraph;
@@ -28,5 +30,10 @@ public class LevelAnalyse {
     @Transactional(readOnly = true)
     public Map<String, Object> getLevelNodes(String version, int level) {
         return callGraph.callGraphWithDiffAndLevel(version, level);
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> getPartNodes(String version, int level) {
+        return callGraph.getLevelPartNodes(version, level);
     }
 }

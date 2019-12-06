@@ -4,8 +4,10 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+
 import java.util.ArrayList;
 import java.util.List;
+
 @NodeEntity(label = "node")
 public class Node {
     @Id
@@ -15,6 +17,7 @@ public class Node {
     private String version;
     private String attribute;
     private String nodeType = "node";
+    private int level = 0;
     @Relationship(type = "succNode", direction = Relationship.OUTGOING)
     private List<SuccNode> succNodes = new ArrayList<>();
     @Relationship(type = "nodeCallMethod", direction = Relationship.OUTGOING)
@@ -55,6 +58,14 @@ public class Node {
 
     public List<NodeCallMethod> getNodeCallMethods() {
         return nodeCallMethods;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
 

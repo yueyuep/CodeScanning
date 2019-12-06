@@ -33,18 +33,21 @@ public class Utils {
             map.put("nodeType", ((Node) object).getNodeType());
             map.put("changed", changed);
             map.put("type", type);
+            map.put("level", ((Node) object).getLevel());
         } else if (object instanceof Method) {
             map.put("fileMethodName", ((Method) object).getFileMethodName());
             map.put("version", ((Method) object).getVersion());
             map.put("nodeType", ((Method) object).getNodeType());
             map.put("changed", changed);
             map.put("type", type);
+            map.put("level", ((Method) object).getLevel());
         } else if (object instanceof File) {
             map.put("fileName", ((File) object).getFileName());
             map.put("version", ((File) object).getVersion());
             map.put("nodeType", ((File) object).getNodeType());
             map.put("changed", changed);
             map.put("type", type);
+            map.put("level", ((File) object).getLevel());
         }
         return map;
     }

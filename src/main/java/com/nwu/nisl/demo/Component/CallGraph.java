@@ -34,9 +34,10 @@ public class CallGraph {
     private MethodRepository methodRepository;
     @Autowired
     private ScanGraph scanGraph;
+    @Autowired
+    private ConnectDiff connectDiff;
 
     public CallGraph() {
-
     }
 
     public Map<String, Object> callGraph(String version) {
@@ -64,10 +65,12 @@ public class CallGraph {
         methods.put(NodeType.GENERAL_NODE, allMethods);
 
         if (showDiff) {
+            //显示变化
 //            diffNode.setPath(path);
             Map<String, Object> map = diffNode.parseDiff();
             Map<String, Collection<File>> diffFiles = new HashMap<>();
             Map<String, Collection<Method>> diffMethods = new HashMap<>();
+            //TODO 这块解析变化节点有问题
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 Map<String, Object> result = parseDiff.getFileAndMethodInstance((Map<String, Map<String, List<String>>>) entry.getValue());
                 diffFiles.put(entry.getKey(), (Collection<File>) result.get(NodeType.FILE));
@@ -79,7 +82,8 @@ public class CallGraph {
         }
 
         if (showLevel && levelNumber > 0) {
-            Map<String, Collection<Object>> level = scanGraph.levelNode(1);
+            //层次分析相关代码
+            Map<String, Collection<Object>> level = scanGraph.levelNode(levelNumber);
             files.put(NodeType.LEVEL_ONE_NODE, level.get(NodeType.FILE).stream().map(x -> (File) x).collect(Collectors.toList()));
             methods.put(NodeType.LEVEL_ONE_NODE, level.get(NodeType.METHOD).stream().map(x -> (Method) x).collect(Collectors.toList()));
         }
@@ -88,4 +92,17 @@ public class CallGraph {
         return parseData.graph(version, files, methods, nodes);
 
     }
+
+    /*
+     *Author:lp on 2019/11/29 22:14
+     *Description:显示部分变化节点的callgraph图
+     */
+    public Map<String, Object> getLevelPartNodes(String version, int level) {
+        //版本信息其实不需要
+        Map<String, Map<String, List<Object>>> typediff = scanGraph.initInstance(level);
+        return connectDiff.initstance(typediff);
+
+
+    }
+
 }

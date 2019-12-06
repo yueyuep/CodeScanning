@@ -69,6 +69,7 @@ public class NormalNodeController {
     //-----------------------------------Test-------------------------------------------
 
     @GetMapping(value = "/testCallMethod")
+
     public Map<String, Object> callMethod(){
         Map<String, Object> result = new HashMap<>();
         projectInformation.setAttribute("0.9.22", "0.9.22");

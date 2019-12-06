@@ -16,6 +16,7 @@ public class File {
     private String fileName;
     private String version;
     private String nodeType = "file";
+    private int level = 0;
 
     @Relationship(type = "hasMethod", direction = Relationship.OUTGOING)
     private List<HasMethod> methods = new ArrayList<>();
@@ -46,5 +47,13 @@ public class File {
 
     public String getNodeType() {
         return nodeType;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

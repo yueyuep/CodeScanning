@@ -74,13 +74,21 @@ public class ProjectInformation {
             Map<String, Object> map = diffNode.parseDiff();
 
             if (!map.isEmpty()) {
-                addFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).get(NodeType.FILE).size();
-                deleteFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(oldVersion).get(NodeType.FILE).size();
+                /**
+                 *Author:lp on 2019/12/2 21:15
+                 *Param: []
+                 *return: java.util.Map<java.lang.String,java.lang.Object>
+                 *Description:修改空指针异常
+                 */
+                if (!((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).isEmpty())
+                    addFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).get(NodeType.FILE).size();
+                if (!((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).isEmpty())
+                    deleteFileNumber = ((Map<String, Map<String, List<String>>>) map.get(NodeType.DELETE_NODE)).get(oldVersion).get(NodeType.FILE).size();
 
-                for (Map.Entry<String, Object> entry: map.entrySet()) {
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
                     List<String> temp = new ArrayList<>();
-                    for (Map<String, List<String>> stringListMap: ((Map<String, Map<String, List<String>>>) entry.getValue()).values()) {
-                        for (List<String> str: stringListMap.values()) {
+                    for (Map<String, List<String>> stringListMap : ((Map<String, Map<String, List<String>>>) entry.getValue()).values()) {
+                        for (List<String> str : stringListMap.values()) {
                             temp.addAll(str);
                         }
                     }

@@ -17,6 +17,7 @@ public class Method {
     private String version;
     private String num;
     private String nodeType = "method";
+    private int level = 0;
 
     @Relationship(type = "hasNode", direction = Relationship.OUTGOING)
     private List<HasNode> hasNodes = new ArrayList<>();
@@ -58,5 +59,13 @@ public class Method {
 
     public List<MethodCallMethod> getMethodCallMethods() {
         return methodCallMethods;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
