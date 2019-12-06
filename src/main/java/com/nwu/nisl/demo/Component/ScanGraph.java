@@ -2,7 +2,6 @@ package com.nwu.nisl.demo.Component;
 
 import com.nwu.nisl.demo.Entity.File;
 import com.nwu.nisl.demo.Entity.Method;
-import com.nwu.nisl.demo.Repository.FileRepository;
 import com.nwu.nisl.demo.Repository.MethodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
