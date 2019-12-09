@@ -11,7 +11,7 @@ import org.springframework.util.FileSystemUtils;
  * 删除非java文件，test文件夹
  * @author Kangaroo
  */
-class ExtractJavaFile {
+public class ExtractJavaFile {
     private static Logger logger = Logger.getLogger(ExtractJavaFile.class);
 
     private File dir = null;
