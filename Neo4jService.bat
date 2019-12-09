@@ -30,14 +30,14 @@ cd %pwd%\bin
 
 ::存储数据库
  call neo4j-admin import --mode csv --database yueyue2.db ^
- --nodes:file "%csvroot%/Neo4jcsv/file_header.csv,%csvroot%/Neo4jcsv//file.csv"^ 
- --nodes:method "%csvroot%/Neo4jcsv/method_header.csv,%csvroot%/Neo4jcsv/method.csv"^
- --nodes:node "%csvroot%/Neo4jcsv/node_header.csv,%csvroot%/Neo4jcsv/node.csv"^
- --relationships:hasMethod "%csvroot%/Neo4jcsv/file_method_header.csv,%csvroot%/Neo4jcsv/file_method.csv"^
- --relationships:hasNode "%csvroot%/Neo4jcsv/method_node_header.csv,%csvroot%/Neo4jcsv/method_node.csv"^
- --relationships:succNode "%csvroot%/Neo4jcsv/node_node_header.csv,%csvroot%/Neo4jcsv/node_node.csv"^
- --relationships:nodeCallMethod "%csvroot%/Neo4jcsv/node_method_header.csv,%csvroot%/Neo4jcsv/node_method.csv"^
- --relationships:methodCallMethod "%csvroot%/Neo4jcsv/method_method_header.csv,%csvroot%/Neo4jcsv/method_method.csv"^
+ --nodes:file "%csvroot%/file_header.csv,%csvroot%/file.csv"^
+ --nodes:method "%csvroot%/method_header.csv,%csvroot%/method.csv"^
+ --nodes:node "%csvroot%/node_header.csv,%csvroot%/node.csv"^
+ --relationships:hasMethod "%csvroot%/file_method_header.csv,%csvroot%/file_method.csv"^
+ --relationships:hasNode "%csvroot%/method_node_header.csv,%csvroot%/method_node.csv"^
+ --relationships:succNode "%csvroot%/node_node_header.csv,%csvroot%/node_node.csv"^
+ --relationships:nodeCallMethod "%csvroot%/node_method_header.csv,%csvroot%/node_method.csv"^
+ --relationships:methodCallMethod "%csvroot%/method_method_header.csv,%csvroot%/method_method.csv"^
  --ignore-duplicate-nodes true
 
 

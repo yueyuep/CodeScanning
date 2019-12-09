@@ -1,8 +1,10 @@
 package com.nwu.nisl.demo.Controller;
 
+import com.nwu.nisl.demo.Component.Process;
 import com.nwu.nisl.demo.Component.ProjectInformation;
 import com.nwu.nisl.demo.Services.CallGraphServices;
 import com.nwu.nisl.demo.Services.NodeServices;
+import com.nwu.nisl.demo.Services.StartProcessServices;
 import com.nwu.nisl.demo.Services.UpdateServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,19 +22,21 @@ public class NormalNodeController {
     private CallGraphServices callGraphServices;
     private UpdateServices updateServices;
     private ProjectInformation projectInformation;
+    private StartProcessServices startProcessServices;
 
     @Autowired
     public NormalNodeController(NodeServices nodeServices, CallGraphServices callGraphServices,
-                                UpdateServices updateServices, ProjectInformation projectInformation) {
+                                UpdateServices updateServices, ProjectInformation projectInformation, StartProcessServices startProcessServices) {
         this.nodeServices = nodeServices;
         this.callGraphServices = callGraphServices;
         this.updateServices = updateServices;
         this.projectInformation = projectInformation;
+        this.startProcessServices=startProcessServices;
     }
 
 
     @GetMapping(value = "/callMethod")
-    public Map<String, Object> callMethod(@RequestParam(value = "version") String version){
+    public Map<String, Object> callMethod(@RequestParam(value = "version") String version) {
         Map<String, Object> result = new HashMap<>();
         projectInformation.setAttribute(version, version);
         // 可视化数据
@@ -55,7 +59,7 @@ public class NormalNodeController {
     // 后续考虑是否需要传入当前版本号，和之前的版本号，然后diff文件在函数里面生成
     @GetMapping(value = "/diff")
     public Map<String, Object> diff(@RequestParam(value = "oldVersion") String oldVersion,
-                                    @RequestParam(value = "newVersion") String newVersion){
+                                    @RequestParam(value = "newVersion") String newVersion) {
         Map<String, Object> result = new HashMap<>();
         projectInformation.setAttribute(oldVersion, newVersion);
         // 可视化数据
@@ -70,7 +74,7 @@ public class NormalNodeController {
 
     @GetMapping(value = "/testCallMethod")
 
-    public Map<String, Object> callMethod(){
+    public Map<String, Object> callMethod() {
         Map<String, Object> result = new HashMap<>();
         projectInformation.setAttribute("0.9.22", "0.9.22");
         // 可视化数据
@@ -82,7 +86,7 @@ public class NormalNodeController {
     }
 
     @GetMapping(value = "/testCallMethod2")
-    public Map<String, Object> callMethod2(){
+    public Map<String, Object> callMethod2() {
         Map<String, Object> result = new HashMap<>();
         projectInformation.setAttribute("0.9.22", "0.9.23");
         // 可视化数据
@@ -95,7 +99,7 @@ public class NormalNodeController {
 
 
     @GetMapping(value = "/testDiff")
-    public Map<String, Object> testDiff(){
+    public Map<String, Object> testDiff() {
         String oldVersion = "0.9.22";
         String newVersion = "0.9.23";
         Map<String, Object> result = new HashMap<>();
@@ -105,6 +109,18 @@ public class NormalNodeController {
         // 项目基础数据（前端显示）
         result.putAll(projectInformation.getProjectInformation());
         return result;
+    }
+
+    //测试我们的process程序
+    @GetMapping(value = "/testprocess")
+    public void test() {
+        try {
+            startProcessServices.startProcess();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 }

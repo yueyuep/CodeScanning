@@ -497,6 +497,7 @@
 0.9.22?src/main/java/com/jsoniter/MapKeyDecoders.java?decode-MapKeyDecoders.NumberKeyDecoder-JsonIterator,0.9.22?src/main/java/com/jsoniter/IterImpl.java?nextToken-IterImpl-JsonIterator,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/MapKeyDecoders.java?decode-MapKeyDecoders.NumberKeyDecoder-JsonIterator,0.9.22?src/main/java/com/jsoniter/IterImpl.java?nextToken-IterImpl-JsonIterator,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/MapKeyDecoders.java?decode-MapKeyDecoders.NumberKeyDecoder-JsonIterator,0.9.22?src/main/java/com/jsoniter/spi/Decoder.java?decode-Decoder-JsonIterator,methodCallMethod
+0.9.22?src/main/java/com/jsoniter/output/Codegen.java?getReflectionEncoder-Codegen-String-Type,0.9.22?src/main/java/com/jsoniter/output/ReflectionEncoderFactory.java?create-ReflectionEncoderFactory-ClassInfo,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/output/Codegen.java?getEncoder-Codegen-String-Type,0.9.22?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/output/Codegen.java?getEncoder-Codegen-String-Type,0.9.22?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/output/Codegen.java?getEncoder-Codegen-String-Type,0.9.22?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
@@ -530,8 +531,8 @@
 0.9.22?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-short-JsonStream,0.9.22?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-int-JsonStream,0.9.22?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-char-JsonStream,0.9.22?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
-0.9.22?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-long-JsonStream,0.9.22?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
-0.9.22?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-float-JsonStream,0.9.22?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
+0.9.22?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-long-JsonStream,0.9.22?src/main/java/com/jsoniter/spi/Encoder.java?encodeLong-Encoder.LongEncoder-long-JsonStream,methodCallMethod
+0.9.22?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-float-JsonStream,0.9.22?src/main/java/com/jsoniter/spi/Encoder.java?encodeFloat-Encoder.FloatEncoder-float-JsonStream,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-double-JsonStream,0.9.22?src/main/java/com/jsoniter/spi/Encoder.java?encodeDouble-Encoder.DoubleEncoder-double-JsonStream,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/output/CodegenAccess.java?writeMapKey-CodegenAccess-String-Object-JsonStream,0.9.22?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getMapKeyEncoder-JsoniterSpi-String,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/output/CodegenAccess.java?writeMapKey-CodegenAccess-String-Object-JsonStream,0.9.22?src/main/java/com/jsoniter/spi/Encoder.java?encode-Encoder-Object-JsonStream,methodCallMethod
@@ -843,8 +844,7 @@
 0.9.22?src/main/java/com/jsoniter/spi/Config.java?updateBindings-Config-ClassDescriptor,0.9.22?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getCurrentConfig-JsoniterSpi-,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/spi/Config.java?updateBindings-Config-ClassDescriptor,0.9.22?src/main/java/com/jsoniter/spi/Binding.java?equals-Binding-Object,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/spi/Config.java?updateBindings-Config-ClassDescriptor,0.9.22?src/main/java/com/jsoniter/spi/Binding.java?equals-Binding-Object,methodCallMethod
-0.9.22?src/main/java/com/jsoniter/spi/Config.java?updateBindingWithJsonProperty-Config-Binding-JsonProperty,0.9.22?src/main/java/com/jsoniter/spi/GenericsHelper.java?useImpl-GenericsHelper-Type-Class,methodCallMethod
-0.9.22?src/main/java/com/jsoniter/spi/Config.java?updateBindingWithJsonProperty-Config-Binding-JsonProperty,0.9.22?src/main/java/com/jsoniter/spi/TypeLiteral.java?create-TypeLiteral-Type,methodCallMethod
+0.9.22?src/main/java/com/jsoniter/spi/Config.java?updateBindingWithJsonProperty-Config-Binding-JsonProperty,0.9.22?src/main/java/com/jsoniter/spi/OmitValue.java?parse-OmitValue.Parsed-Type-String,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/spi/Encoder.java?wrap-Encoder.ShortEncoder-Object,0.9.22?src/main/java/com/jsoniter/any/Any.java?wrap-Any-int,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/spi/Encoder.java?wrap-Encoder.IntEncoder-Object,0.9.22?src/main/java/com/jsoniter/any/Any.java?wrap-Any-int,methodCallMethod
 0.9.22?src/main/java/com/jsoniter/spi/Encoder.java?wrap-Encoder.LongEncoder-Object,0.9.22?src/main/java/com/jsoniter/any/Any.java?wrap-Any-int,methodCallMethod
@@ -1383,6 +1383,7 @@
 0.9.23?src/main/java/com/jsoniter/MapKeyDecoders.java?decode-MapKeyDecoders.NumberKeyDecoder-JsonIterator,0.9.23?src/main/java/com/jsoniter/IterImpl.java?nextToken-IterImpl-JsonIterator,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/MapKeyDecoders.java?decode-MapKeyDecoders.NumberKeyDecoder-JsonIterator,0.9.23?src/main/java/com/jsoniter/IterImpl.java?nextToken-IterImpl-JsonIterator,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/MapKeyDecoders.java?decode-MapKeyDecoders.NumberKeyDecoder-JsonIterator,0.9.23?src/main/java/com/jsoniter/spi/Decoder.java?decode-Decoder-JsonIterator,methodCallMethod
+0.9.23?src/main/java/com/jsoniter/output/Codegen.java?getReflectionEncoder-Codegen-String-Type,0.9.23?src/main/java/com/jsoniter/output/ReflectionEncoderFactory.java?create-ReflectionEncoderFactory-ClassInfo,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/output/Codegen.java?getEncoder-Codegen-String-Type,0.9.23?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/output/Codegen.java?getEncoder-Codegen-String-Type,0.9.23?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/output/Codegen.java?getEncoder-Codegen-String-Type,0.9.23?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
@@ -1416,8 +1417,8 @@
 0.9.23?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-short-JsonStream,0.9.23?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-int-JsonStream,0.9.23?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-char-JsonStream,0.9.23?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
-0.9.23?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-long-JsonStream,0.9.23?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
-0.9.23?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-float-JsonStream,0.9.23?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getEncoder-JsoniterSpi-String,methodCallMethod
+0.9.23?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-long-JsonStream,0.9.23?src/main/java/com/jsoniter/spi/Encoder.java?encodeLong-Encoder.LongEncoder-long-JsonStream,methodCallMethod
+0.9.23?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-float-JsonStream,0.9.23?src/main/java/com/jsoniter/spi/Encoder.java?encodeFloat-Encoder.FloatEncoder-float-JsonStream,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/output/CodegenAccess.java?writeVal-CodegenAccess-String-double-JsonStream,0.9.23?src/main/java/com/jsoniter/spi/Encoder.java?encodeDouble-Encoder.DoubleEncoder-double-JsonStream,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/output/CodegenAccess.java?writeMapKey-CodegenAccess-String-Object-JsonStream,0.9.23?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getMapKeyEncoder-JsoniterSpi-String,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/output/CodegenAccess.java?writeMapKey-CodegenAccess-String-Object-JsonStream,0.9.23?src/main/java/com/jsoniter/spi/Encoder.java?encode-Encoder-Object-JsonStream,methodCallMethod
@@ -1725,8 +1726,7 @@
 0.9.23?src/main/java/com/jsoniter/spi/Config.java?updateBindings-Config-ClassDescriptor,0.9.23?src/main/java/com/jsoniter/spi/JsoniterSpi.java?getCurrentConfig-JsoniterSpi-,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/spi/Config.java?updateBindings-Config-ClassDescriptor,0.9.23?src/main/java/com/jsoniter/spi/Binding.java?equals-Binding-Object,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/spi/Config.java?updateBindings-Config-ClassDescriptor,0.9.23?src/main/java/com/jsoniter/spi/Binding.java?equals-Binding-Object,methodCallMethod
-0.9.23?src/main/java/com/jsoniter/spi/Config.java?updateBindingWithJsonProperty-Config-Binding-JsonProperty,0.9.23?src/main/java/com/jsoniter/spi/GenericsHelper.java?useImpl-GenericsHelper-Type-Class,methodCallMethod
-0.9.23?src/main/java/com/jsoniter/spi/Config.java?updateBindingWithJsonProperty-Config-Binding-JsonProperty,0.9.23?src/main/java/com/jsoniter/spi/TypeLiteral.java?create-TypeLiteral-Type,methodCallMethod
+0.9.23?src/main/java/com/jsoniter/spi/Config.java?updateBindingWithJsonProperty-Config-Binding-JsonProperty,0.9.23?src/main/java/com/jsoniter/spi/OmitValue.java?parse-OmitValue.Parsed-Type-String,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/spi/Encoder.java?wrap-Encoder.ShortEncoder-Object,0.9.23?src/main/java/com/jsoniter/any/Any.java?wrap-Any-int,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/spi/Encoder.java?wrap-Encoder.IntEncoder-Object,0.9.23?src/main/java/com/jsoniter/any/Any.java?wrap-Any-int,methodCallMethod
 0.9.23?src/main/java/com/jsoniter/spi/Encoder.java?wrap-Encoder.LongEncoder-Object,0.9.23?src/main/java/com/jsoniter/any/Any.java?wrap-Any-int,methodCallMethod

@@ -3,6 +3,7 @@ package com.nwu.nisl.demo.Component;
 import com.nwu.nisl.neo4j.Json2Csv;
 import com.nwu.nisl.parse.neo4j.ExtractJavaFile;
 import com.nwu.nisl.parse.neo4j.GraphParse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ import java.util.Scanner;
 @Component
 public class Process {
     /* 静态变量赋值，需使用set()方法（加 @Value 注解），且类上加入 @Component 注解
-    * 直接给静态变量添加 @Value 注解是无效的， 都为null */
+     * 直接给静态变量添加 @Value 注解是无效的， 都为null */
 
     private static String data;
     private static String json;
@@ -49,10 +50,14 @@ public class Process {
         diff = diff1;
     }
 
+    @Autowired
+    private  BatchSaveNeo4j batchSaveNeo4j;
+
     public Process() {
+
     }
 
-    public static void main(String[] args) throws IOException {
+    public void start() throws IOException {
         System.out.println("Parsing java file (Including two versions of project)......");
         first();
         System.out.println("The first stage is completed!\n");
@@ -61,12 +66,12 @@ public class Process {
         second();
         System.out.println("The second stage is completed!\n");
 
-        System.out.println("Analyzing the json file to generate the corresponding diff file......");
+        System.out.println("Saving the csv to Neo4j database");
         third();
         System.out.println("The third stage is completed!");
     }
 
-    public static void first(){
+    public void first() {
         int i = 2;
         while (i-- > 0) {
             System.out.println("Please enter the version number: ");
@@ -85,7 +90,7 @@ public class Process {
         }
     }
 
-    public static void second() throws IOException {
+    public  void second() throws IOException {
         System.out.println("Please enter the version number: ");
         Scanner scanner = new Scanner(System.in);
         String version = scanner.next();
@@ -103,8 +108,10 @@ public class Process {
         json2Csv.generateCsv();
     }
 
-    public static void third() {
+    public  void third() {
+        batchSaveNeo4j.start();
 
     }
+
 
 }

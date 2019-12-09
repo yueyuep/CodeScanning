@@ -1,7 +1,7 @@
 package com.nwu.nisl.demo.Controller;
 
 import com.nwu.nisl.demo.Component.ScanGraph;
-import com.nwu.nisl.demo.Services.LevelAnalyse;
+import com.nwu.nisl.demo.Services.LevelAnalyseServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +17,12 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/analyse")
 public class AnalyseLevel {
-    private LevelAnalyse levelAnalyse;
+    private LevelAnalyseServices levelAnalyseServices;
     private ScanGraph scanGraph;
 
     @Autowired
-    public AnalyseLevel(LevelAnalyse levelAnalyse, ScanGraph scanGraph) {
-        this.levelAnalyse = levelAnalyse;
+    public AnalyseLevel(LevelAnalyseServices levelAnalyseServices, ScanGraph scanGraph) {
+        this.levelAnalyseServices = levelAnalyseServices;
         this.scanGraph = scanGraph;
     }
 
@@ -30,7 +30,7 @@ public class AnalyseLevel {
     public Map<String, Object> level(@RequestParam(value = "version") String version,
                                      @RequestParam(value = "level") int level) {
         //返回<diifType，List<diffMethod>
-        return levelAnalyse.getPartNodes(version, level);
+        return levelAnalyseServices.getPartNodes(version, level);
     }
 
     @GetMapping(value = "/connectDiff")
@@ -46,7 +46,7 @@ public class AnalyseLevel {
     @GetMapping(value = "/test1")
     public Map<String, Object> level() {
 
-        return levelAnalyse.getPartNodes("0.9.23", 1);
+        return levelAnalyseServices.getPartNodes("0.9.23", 1);
     }
 
 

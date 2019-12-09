@@ -18,7 +18,7 @@ public class BatchSaveNeo4j {
     private String batPath;
     @Value("${neo4j.install.location}")
     private String neo4jlocation;
-    @Value("${neo4j.csv.location}")
+    @Value("${com.nwu.nisl.data.csv}")
     private String csvdata;
 
     public void start() {
@@ -31,11 +31,10 @@ public class BatchSaveNeo4j {
             callCmd(args);
         }
     }
-
     private static void callCmd(String[] locationCmd) {
         StringBuilder sb = new StringBuilder();
         try {
-            Process child = Runtime.getRuntime().exec(locationCmd);
+            java.lang.Process child = Runtime.getRuntime().exec(locationCmd);
             InputStream in = child.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
             String line;
@@ -56,10 +55,7 @@ public class BatchSaveNeo4j {
         }
     }
 
-    public static void main(String[] args) {
-        BatchSaveNeo4j batchSaveNeo4j = new BatchSaveNeo4j();
-        batchSaveNeo4j.start();
-    }
+
 
 
 }
