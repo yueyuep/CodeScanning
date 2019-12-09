@@ -7,9 +7,16 @@ function requestData(result, flag) {
     //每次进入需要刷新svg画布分数据。
     d3.select("#leftsvg").remove();
     //设置主界面的显示：
-    var leftforce
+    var leftforce;
     if (flag == "diff") {
-        leftforce = d3.layout.force().charge(-25).linkDistance(50).size([width, height]);
+        if (result.nodes.length < 400) {
+            leftforce = d3.layout.force().charge(-100).linkDistance(150).size([width, height]);
+
+        } else {
+            leftforce = d3.layout.force().charge(-25).linkDistance(50).size([width, height]);
+
+        }
+
     } else
         leftforce = d3.layout.force().charge(-100).linkDistance(150).size([width, height]);
 
@@ -27,6 +34,7 @@ function show(graph, leftforce, leftsvg) {
     var tooltip = d3.select("body").append("div")
         .attr("class", "tooltip")
         .attr("opacity", 0.0);
+    var len = graph.nodes.length;
     leftforce.nodes(graph.nodes).links(graph.links).start();
     //TODO 需要根据不同的边关系，设置不同的颜色
     var link = leftsvg.selectAll(".link")
@@ -42,19 +50,30 @@ function show(graph, leftforce, leftsvg) {
         .data(graph.nodes).enter()
         .append("circle")
         .attr("r", function (d) {
+            //跨层显示节点数目比较少
             if (d.type == "addConnectDiff" || d.type == "deleteConnectDiff" || d.type == "modifyConnectDiff") {
                 if (d.nodeType == "file")
-                    return 35;
+                    return 23;
                 else if (d.nodeType == "method")
-                    return 20;
+                    return 15;
                 else return 7;
 
             } else {
-                if (d.nodeType == "file")
-                    return 15;
-                else if (d.nodeType == "method")
-                    return 7;
-                else return 5;
+                //需要根据节点的个数来设置节点的大小,400以内、1000以内、2000以内，调整节点的大小
+                if (len < 400)
+                    if (d.nodeType == "file")
+                        return 23;
+                    else if (d.nodeType == "method")
+                        return 15;
+                    else return 7;
+                else {
+                    if (d.nodeType == "file")
+                        return 15;
+                    else if (d.nodeType == "method")
+                        return 7;
+                    else return 5;
+                }
+
 
             }
 
