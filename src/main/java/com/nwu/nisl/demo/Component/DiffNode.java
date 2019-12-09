@@ -20,7 +20,7 @@ public class DiffNode {
     private Map<String, Map<String, List<String>>> deletedDiff = new HashMap<>();
     private Map<String, Map<String, List<String>>> addDiff = new HashMap<>();
 
-    @Value("${com.nwu.nisl.demo.diffResult}")
+    @Value("${com.nwu.nisl.data.diff}")
     private String path;
 
     public DiffNode() {

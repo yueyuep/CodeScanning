@@ -37,10 +37,6 @@ public class Json2Csv {
     private String node_method;
     private String node_node;
 
-    public Json2Csv (String sourcePath) {
-        this.sourcePath = sourcePath;
-    }
-
     public void setSourcePath(String sourcePath) {
         this.sourcePath = sourcePath;
     }
@@ -73,7 +69,6 @@ public class Json2Csv {
             }
         }
     }
-
 
 
     public void generateCsv() throws IOException {
@@ -228,15 +223,13 @@ public class Json2Csv {
         String targetPath = "src\\main\\java\\com\\nwu\\nisl\\neo4j\\data";
         Json2Csv json2Csv = new Json2Csv(sourcePath, targetPath);
         json2Csv.clear();
-        json2Csv.generateCsv();
+//        json2Csv.generateCsv();
 
         System.out.println("Please enter the version number: ");
         Scanner scanner1 = new Scanner(System.in);
         String version1 = scanner1.next();
         json2Csv.setSourcePath("Project\\target" + File.separator + version1);
-        json2Csv.generateCsv();
-
-
+//        json2Csv.generateCsv();
     }
 
 }

@@ -10,8 +10,10 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.Type;
 import com.nwu.nisl.parse.graph.AST2Graph;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class GraphParse {
@@ -34,8 +36,8 @@ public class GraphParse {
 
         System.out.println("Parsing:");
         /* 运行之前，手动删除测试项目中所有测试代码 (test文件夹) */
-        String sourcePath = "dataset\\source\\" + version + "\\";
-        String targetPath = "dataset\\target\\" + version + "\\";
+        String sourcePath = "dataset\\source\\" + version;
+        String targetPath = "dataset\\target\\" + version;
         File dir = new File(sourcePath);
         ExtractJavaFile javaFile = new ExtractJavaFile(dir);
         javaFile.getFileList(dir);
@@ -45,7 +47,7 @@ public class GraphParse {
         System.out.println("End Parsing");
     }
 
-    public static void ProcessMultiFile(File[] fileList, String SaveCat) {
+    public static void ProcessMultiFile(File[] fileList, String targetPath) {
         //写入当前文件的头文件信息
         /**
          0、methodDeclation包含当前文件中所有的函数包括如下：解决函数重名问题
@@ -61,6 +63,8 @@ public class GraphParse {
         List<HashMap<File, HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>>>> fileMethodDeclarationMap =
                 Utils.getFileMethodDeclarationMap(fileList);
 
+        // 删除之前生成保存 json 文件的文件夹
+        FileSystemUtils.deleteRecursively(new File(targetPath));
 
         //循环遍历文件处理
         for (File file : fileList) {
@@ -69,7 +73,7 @@ public class GraphParse {
             List<MethodDeclaration> methodDeclarations = ast2Graph.getmethodDeclarations();
 
             // 写入当前文件的头文件信息
-            new GraphParse().headOfJson(file, methodDeclarations, SaveCat + Utils.getFileNameWithPath(file) + ".txt");
+            new GraphParse().headOfJson(file, methodDeclarations, targetPath + File.separator +  Utils.getFileNameWithPath(file) + ".txt");
             //获得当前文件的外部类、内部类函数
             HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>> outclassMethods =fileMethodDeclarationMap.get(1).get(file);
             HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>> innerclassMethods = fileMethodDeclarationMap.get(0).get(file);
@@ -81,7 +85,7 @@ public class GraphParse {
                     //目前只处理外部类和内部类中的函数
                     callMethod = Utils.getcallMethods(methodDeclaration, fileMethodDeclarationMap);
                     try {
-                        new GraphParse().methodOfJson(file, methodDeclaration, callMethod,SaveCat + Utils.getFileNameWithPath(file) + ".txt");
+                        new GraphParse().methodOfJson(file, methodDeclaration, callMethod,targetPath + File.separator + Utils.getFileNameWithPath(file) + ".txt");
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                         System.out.println(methodDeclaration.getNameAsString() + "\t:内外部类函数构造异常");
@@ -103,8 +107,8 @@ public class GraphParse {
 //                        //  在OuterClassMethod2Json中完成了函数名的划分
 //                        callMethod = Utils.getcallMethods(pfile, methodDeclaration, fileMethodDeclarationMap);//<文件名，<函数申明，类名_>>
 //                        try {
-//                            new GraphParse().methodOfJson(pfile, methodDeclaration, SaveCat + pfile.getName() + ".txt");
-////                            PreocessingMethod(ast2Graph, methodDeclaration, classNameOfMethod.concat("_") + methodDeclaration.getNameAsString(), pfile, callMethod, SaveCat);
+//                            new GraphParse().methodOfJson(pfile, methodDeclaration, targetPath + pfile.getName() + ".txt");
+////                            PreocessingMethod(ast2Graph, methodDeclaration, classNameOfMethod.concat("_") + methodDeclaration.getNameAsString(), pfile, callMethod, targetPath);
 //                        } catch (NumberFormatException e) {
 //                            System.out.println(methodDeclaration.getNameAsString() + "\t:实例化函数构造异常");
 //                            continue;

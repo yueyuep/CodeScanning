@@ -52,14 +52,14 @@ public class Util {
 
     public static void saveToJsonFile(Object object, String fileName) {
         Gson gson = getGsonInstance();
-//        String jsonString = gson.toJson(object).replace("\\","");//去掉转移字符
-        String jsonString = gson.toJson(object).replace("\\","");//去掉转移字符
+        //去掉转移字符
+        String jsonString = gson.toJson(object).replace("\\","");
         //saveToFile(jsonString, fileName);
 
         saveToFile1(jsonString,fileName);
     }
       public static void saveToJsonFile1(Object object, String fileName){
-          Gson gson = getGsonInstance();
+        Gson gson = getGsonInstance();
         String jsonString = gson.toJson(object).replace("\\","");//去掉转移字符
         //saveToFile(jsonString, fileName);
 
@@ -86,7 +86,6 @@ public class Util {
         try {
             out=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName,true)));
             out.write(text+"\r\n");
-
         }
         catch (Exception e){
             e.printStackTrace();
