@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Neo4jMainPage</title>
+
+    <link rel="stylesheet" href="/css/reset.min.css">
+
+    <link rel="stylesheet" href="/css/style1.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div style="text-align:center;clear:both">
+    <script src="/gg_bd_ad_720x90.js" type="text/javascript"></script>
+    <script src="/follow.js" type="text/javascript"></script>
+</div>
+
+<div class="left" style="width: 40%;float: left">
+    <div class='menu closed'>
+        <div class='messages button'></div>
+        <div class='music button'></div>
+        <div class='home button'></div>
+        <div class='places button'></div>
+        <div class='bookmark button'></div>
+        <div class='main button'>Menu</div>
+    </div>
+
+</div>
+<div class="right" style="width: 58%; height:1000px;float: left">
+    <button onclick="openSocket()">start log</button>
+    <button onclick="closeSocket()">stop log</button>
+    <div id="filelog-container"
+         style="height: 100%; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
+        <div></div>
+    </div>
+
+</div>
+
+<!--<h1>jvm进程内的日志</h1>-->
+<!--<button onclick="openSocket()">开启日志</button>-->
+<!--<button onclick="closeSocket()">关闭日志</button>-->
+<!--<div id="log-container" style="height: 300px; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">-->
+<!--    <div></div>-->
+<!--</div>-->
+
+<script src="/js/tools.js"></script>
+<script src='/js/jquery-2.2.4.min.js'></script>
+<script src="/js/start.js"></script>
+<script src="/js/index1.js"></script>
+<!--  script脚本-->
+<script>
+    var stompClient = null;
+    $(document).ready(function () {
+        openSocket();
+    });
+
+    function openSocket() {
+        if (stompClient == null) {
+            var socket = new SockJS('http://localhost:8080/websocket?token=kl');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({token: "kl"}, function (frame) {
+                stompClient.subscribe('/log/pullFileLogger', function (event) {
+                    var content = event.body;
+                    if (content.indexOf("====") >= 0) {
+                        $("#filelog-container div").append("<p class='hightlight' style='color: #e7ff0e;font-size: large'>" + content + "</p>").append("<br/>");
+                    } else {
+                        $("#filelog-container div").append("<p class='lowlight' style='color: #78bd85'>" + content + "</p>").append("<br/>");
+
+                    }
+                    $("#filelog-container").scrollTop($("#filelog-container div").height() - $("#filelog-container").height());
+
+                }, {
+                    token: "kltoen"
+                });
+            });
+        }
+    }
+
+
+    function closeSocket() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+            stompClient = null;
+        }
+    }
+</script>
+</body>
+</html>

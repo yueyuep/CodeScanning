@@ -1,6 +1,8 @@
 package com.nwu.nisl.neo4j;
 
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,8 +42,9 @@ public class Json2Csv {
     public void setSourcePath(String sourcePath) {
         this.sourcePath = sourcePath;
     }
+    private static Logger logger = LoggerFactory.getLogger(Json2Csv.class);
+    public Json2Csv(String sourcePath, String destinationPath) {
 
-    public Json2Csv (String sourcePath, String destinationPath) {
         this.sourcePath = sourcePath;
         this.destinationPath = destinationPath;
 
@@ -55,13 +58,15 @@ public class Json2Csv {
         this.node_node = new StringBuffer(destinationPath).append(File.separator).append(FileName.NODE_NODE_NAME).toString();
     }
 
-    /**  清空文件内容 **/
+    /**
+     * 清空文件内容
+     **/
     public void clear() {
         String[] fileList = new String[]{this.file, this.method, this.node,
                 this.file_method, this.method_method, this.method_node,
                 this.node_method, this.node_node};
 
-        for (String file: fileList) {
+        for (String file : fileList) {
             try {
                 new FileWriter(file, false).close();
             } catch (IOException e) {
@@ -79,11 +84,12 @@ public class Json2Csv {
                 .map(Path::toFile)
                 .collect(Collectors.toList());
 
-        for (File file: allFiles) {
+        for (File file : allFiles) {
+            logger.info("Json to csv :" + file.getName());
             List<String> lines = Files.lines(Paths.get(file.getAbsolutePath())).map(String::trim).collect(Collectors.toList());
 
             // 处理主体 （非第一行）
-            for (String json: lines.subList(1, lines.size())) {
+            for (String json : lines.subList(1, lines.size())) {
                 Map line = new Gson().fromJson(json, Map.class);
 
                 String version = (String) line.get("version");
@@ -103,7 +109,7 @@ public class Json2Csv {
                 if (!((Map<String, String>) line.get("callMethodNameReferTo")).isEmpty()) {
                     // 遍历，保存边的关系到 self.node_method
                     BufferedWriter writer = new BufferedWriter(new FileWriter(this.node_method, true));
-                    for (Map.Entry<String, String> map: ((Map<String, String>) line.get("callMethodNameReferTo")).entrySet()) {
+                    for (Map.Entry<String, String> map : ((Map<String, String>) line.get("callMethodNameReferTo")).entrySet()) {
                         writer.append(String.join(",",
                                 String.join(separator, fileMethodName, map.getKey()),
                                 String.join(separator, version, map.getValue()).replace(",", "."),
@@ -112,7 +118,7 @@ public class Json2Csv {
                     writer.close();
 
                     BufferedWriter writer1 = new BufferedWriter(new FileWriter(this.method_method, true));
-                    for (String call: ((Map<String, String>) line.get("callMethodNameReferTo")).values()) {
+                    for (String call : ((Map<String, String>) line.get("callMethodNameReferTo")).values()) {
                         writer1.append(String.join(",",
                                 fileMethodName,
                                 String.join(separator, version, call).replace(",", "."),
@@ -152,7 +158,7 @@ public class Json2Csv {
                     // 遍历attribute属性，保存到self.node
                     int index = 0;
                     BufferedWriter writer = new BufferedWriter(new FileWriter(this.node, true));
-                    for (String attr: (List<String>) line.get("attribute")) {
+                    for (String attr : (List<String>) line.get("attribute")) {
                         writer.append(String.join(",",
                                 String.join(separator, fileMethodName, String.valueOf(index)),
                                 version,
@@ -164,8 +170,8 @@ public class Json2Csv {
                     // 遍历succs属性，保存边的关系到self.node_node
                     int idx = 0;
                     BufferedWriter writer1 = new BufferedWriter(new FileWriter(this.node_node, true));
-                    for (List<Object> succ: (List<List<Object>>) line.get("succs")) {
-                        for (Object next: succ) {
+                    for (List<Object> succ : (List<List<Object>>) line.get("succs")) {
+                        for (Object next : succ) {
                             writer1.append(String.join(",",
                                     String.join(separator, fileMethodName, String.valueOf(idx)),
                                     String.join(separator, fileMethodName, String.valueOf(((Double) next).intValue())),
@@ -187,8 +193,8 @@ public class Json2Csv {
             // 读取 fileName 和 version 字段，并写入到 file.csv
             Files.write(Paths.get(this.file),
                     Arrays.asList(String.join(",",
-                    String.join(separator, version, fileName),
-                    version)),
+                            String.join(separator, version, fileName),
+                            version)),
                     StandardOpenOption.APPEND);
 
 //            for (String methodName: (List<String>) line.get("hasMethodName")) {
@@ -202,7 +208,7 @@ public class Json2Csv {
             if (!((List<String>) line.get("hasMethodName")).isEmpty()) {
                 // 读取此字段，保存边的关系到 self.file_method
                 BufferedWriter writer = new BufferedWriter(new FileWriter(this.file_method, true));
-                for (String methodName: (List<String>) line.get("hasMethodName")) {
+                for (String methodName : (List<String>) line.get("hasMethodName")) {
                     writer.append(String.join(",",
                             String.join(separator, version, fileName),
                             String.join(separator, version, fileName, methodName).replace(",", "."),
@@ -219,7 +225,7 @@ public class Json2Csv {
         Scanner scanner = new Scanner(System.in);
         String version = scanner.next();
 
-        String sourcePath= "Project\\target" + File.separator + version;
+        String sourcePath = "Project\\target" + File.separator + version;
         String targetPath = "src\\main\\java\\com\\nwu\\nisl\\neo4j\\data";
         Json2Csv json2Csv = new Json2Csv(sourcePath, targetPath);
         json2Csv.clear();

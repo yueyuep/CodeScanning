@@ -1,4 +1,3 @@
-
 function projectInfo(result) {
     //显示我们项目的具体信息
     $(".version").val(result["version"]);
@@ -55,3 +54,6 @@ function projectInfoClear() {
     $(".normalDiff").val("");
 
 }
+
+
+

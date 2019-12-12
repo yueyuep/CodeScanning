@@ -65,7 +65,7 @@ $("#header li").click(function (e) {
         var input = prompt("Please enter the older version of Project!");
         parame = {"version": input};
         url = "/callMethod";
-        result = pareurl(parame, url);
+        var result = pareurl(parame, url);
         projectInfoClear();
         projectInfo(result);
         requestData(result, "diff");

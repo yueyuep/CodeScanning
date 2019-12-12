@@ -129,9 +129,12 @@ if __name__ == '__main__':
     # current path
     # 传入保存的地址
     saveurl = sys.argv[1]
+
     ospwd = os.path.split(os.path.realpath(__file__))[0]
-    print("pwd:"+ospwd)
-    oldversion, newversion = getVersion(os.path.join(ospwd, "jsondata"))
+    print("pwd:" + ospwd)
+
+    oldversion = sys.argv[2]
+    newversion = sys.argv[3]
 
     low_version = os.path.join(ospwd, os.path.join("jsondata", oldversion))
     high_version = os.path.join(ospwd, os.path.join("jsondata", newversion))

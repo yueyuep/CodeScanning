@@ -58,15 +58,15 @@ class ProcessTest {
         Process process = new Process();
 
         System.out.println("Parsing java file......");
-        process.first();
+        //process.first();
         System.out.println("The first stage is completed!");
 
         System.out.println("Running json to csv......");
-        process.second();
+        //process.second();
         System.out.println("The second stage is completed!");
 
         System.out.println("Saving the csv to neo4j database!");
-        process.third();
+        //process.third();
         System.out.println("The third stage is completed!");
     }
 

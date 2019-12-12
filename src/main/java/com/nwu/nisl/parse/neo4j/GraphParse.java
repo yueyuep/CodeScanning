@@ -10,6 +10,8 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.Type;
 import com.nwu.nisl.parse.graph.AST2Graph;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
@@ -23,6 +25,8 @@ public class GraphParse {
     /** 函数名-类名.类名-参数类型1-参数类型2 **/
     private List<String> callMethodName = new ArrayList<>();
     private String methodName;
+
+    private static Logger logger= LoggerFactory.getLogger(GraphParse.class);
 
     public GraphParse() {
         /* 无参构造函数； */
@@ -68,6 +72,9 @@ public class GraphParse {
 
         //循环遍历文件处理
         for (File file : fileList) {
+            //log
+            logger.info("Parsing File:"+file.getName());
+
             AST2Graph ast2Graph = AST2Graph.newInstance(file.getPath());
             // 不包含 new 类{ 函数 }的情况
             List<MethodDeclaration> methodDeclarations = ast2Graph.getmethodDeclarations();

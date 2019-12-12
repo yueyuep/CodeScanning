@@ -19,6 +19,8 @@ class CallPythonTest {
 
     @Test
     void main() {
-      callPython.execute();
+        String oldversion = "0.9.22";
+        String newversion = "0.9.23";
+        callPython.execute(oldversion, newversion);
     }
 }

@@ -3,6 +3,9 @@ package com.nwu.nisl.demo.Component;
 import com.nwu.nisl.neo4j.Json2Csv;
 import com.nwu.nisl.parse.neo4j.ExtractJavaFile;
 import com.nwu.nisl.parse.neo4j.GraphParse;
+import org.python.antlr.ast.Str;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -51,7 +54,8 @@ public class Process {
     }
 
     @Autowired
-    private  BatchSaveNeo4j batchSaveNeo4j;
+    private BatchSaveNeo4j batchSaveNeo4j;
+    private Logger logger = LoggerFactory.getLogger(Process.class);
 
     public Process() {
 
@@ -59,15 +63,15 @@ public class Process {
 
     public void start() throws IOException {
         System.out.println("Parsing java file (Including two versions of project)......");
-        first();
+        //first();
         System.out.println("The first stage is completed!\n");
 
         System.out.println("Running json to csv......");
-        second();
+        //second();
         System.out.println("The second stage is completed!\n");
 
         System.out.println("Saving the csv to Neo4j database");
-        third();
+        //third();
         System.out.println("The third stage is completed!");
     }
 
@@ -90,7 +94,7 @@ public class Process {
         }
     }
 
-    public  void second() throws IOException {
+    public void second() throws IOException {
         System.out.println("Please enter the version number: ");
         Scanner scanner = new Scanner(System.in);
         String version = scanner.next();
@@ -108,8 +112,48 @@ public class Process {
         json2Csv.generateCsv();
     }
 
-    public  void third() {
+
+    public void third() throws Exception {
+        //启动服务器
         batchSaveNeo4j.start();
+
+    }
+
+
+    /**
+     * Author:lp on 2019/12/10 18:53
+     * Param:
+     * return:
+     * Description:带参重载上述函数
+     */
+    public void first(String oldversion, String newversion) throws Exception {
+        String[] parame = new String[]{oldversion, newversion};
+        for (String version : parame) {
+            logger.info("===============Start Parsing:" + version + "===============");
+            String sourcePath = data + File.separator + version;
+            String targetPath = json + File.separator + version;
+            File dir = new File(sourcePath);
+            ExtractJavaFile javaFile = new ExtractJavaFile(dir);
+            javaFile.getFileList(dir);
+            File[] fileList = javaFile.getFile();
+            GraphParse.ProcessMultiFile(fileList, targetPath);
+            logger.info("===============End Parsing:" + version + "===============");
+        }
+
+    }
+
+
+    public void second(String oldversion, String newversion) throws IOException {
+        String[] parame = new String[]{oldversion, newversion};
+        for (String version : parame) {
+            logger.info("===============Running" + version + " json to csv......===============");
+            String sourcePath = json + File.separator + version;
+            String targetPath = csv;
+            Json2Csv json2Csv = new Json2Csv(sourcePath, targetPath);
+            json2Csv.generateCsv();
+            logger.info("===============End " + version + " save2csv！......===============");
+        }
+
 
     }
 

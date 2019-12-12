@@ -1,7 +1,10 @@
 package com.nwu.nisl.demo.Component;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 
 import java.io.*;
 
@@ -13,6 +16,7 @@ import java.io.*;
  */
 @Component
 public class BatchSaveNeo4j {
+    private static Logger logger = LoggerFactory.getLogger(BatchSaveNeo4j.class);
 
     @Value("${neo4j.servicebat.location}")
     private String batPath;
@@ -31,16 +35,17 @@ public class BatchSaveNeo4j {
             callCmd(args);
         }
     }
+
     private static void callCmd(String[] locationCmd) {
         StringBuilder sb = new StringBuilder();
         try {
             java.lang.Process child = Runtime.getRuntime().exec(locationCmd);
             InputStream in = child.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in, "GBK"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 sb.append(line + "\n");
-                System.out.println(line + "\n");
+                logger.info(line + "\n");
             }
             in.close();
             try {
@@ -48,14 +53,11 @@ public class BatchSaveNeo4j {
             } catch (InterruptedException e) {
                 System.out.println(e);
             }
-            System.out.println("sb:" + sb.toString());
-            System.out.println("callCmd execute finished");
+            //logger.info("sb:" + sb.toString());
         } catch (IOException e) {
             System.out.println(e);
         }
     }
-
-
 
 
 }

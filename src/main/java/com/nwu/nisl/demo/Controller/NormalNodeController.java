@@ -4,7 +4,6 @@ import com.nwu.nisl.demo.Component.Process;
 import com.nwu.nisl.demo.Component.ProjectInformation;
 import com.nwu.nisl.demo.Services.CallGraphServices;
 import com.nwu.nisl.demo.Services.NodeServices;
-import com.nwu.nisl.demo.Services.StartProcessServices;
 import com.nwu.nisl.demo.Services.UpdateServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,16 +21,16 @@ public class NormalNodeController {
     private CallGraphServices callGraphServices;
     private UpdateServices updateServices;
     private ProjectInformation projectInformation;
-    private StartProcessServices startProcessServices;
+    private Process process;
 
     @Autowired
     public NormalNodeController(NodeServices nodeServices, CallGraphServices callGraphServices,
-                                UpdateServices updateServices, ProjectInformation projectInformation, StartProcessServices startProcessServices) {
+                                UpdateServices updateServices, ProjectInformation projectInformation, Process process) {
         this.nodeServices = nodeServices;
         this.callGraphServices = callGraphServices;
         this.updateServices = updateServices;
         this.projectInformation = projectInformation;
-        this.startProcessServices=startProcessServices;
+        this.process = process;
     }
 
 
@@ -114,11 +113,6 @@ public class NormalNodeController {
     //测试我们的process程序
     @GetMapping(value = "/testprocess")
     public void test() {
-        try {
-            startProcessServices.startProcess();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
 
     }

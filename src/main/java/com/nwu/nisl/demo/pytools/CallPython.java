@@ -1,5 +1,7 @@
 package com.nwu.nisl.demo.pytools;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +19,9 @@ public class CallPython {
     private String mainstarturl;
     @Value("${tools.python.result}")
     private String resulturl;
+    private Logger logger = LoggerFactory.getLogger(CallPython.class);
 
-    public void execute() {
+    public void execute(String oldversion, String newversion) {
 
         // TODO Auto-generated method stub
 
@@ -26,8 +29,8 @@ public class CallPython {
 
         try {
 
-
-            String[] args = new String[]{pythonurl, mainstarturl, resulturl};
+            logger.info("=======caculating similarity cross version!=======");
+            String[] args = new String[]{pythonurl, mainstarturl, resulturl, oldversion, newversion};
 
             proc = Runtime.getRuntime().exec(args);// 执行py文件
 
@@ -39,7 +42,7 @@ public class CallPython {
 
             while ((line = in.readLine()) != null) {
 
-                System.out.println(line);
+                logger.info(line);
 
             }
 
