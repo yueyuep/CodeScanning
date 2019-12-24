@@ -18,13 +18,15 @@ class SimResult:
     connectdiff = []
     # 没有匹配的函数，文件中的内容全部被重写
     nomatch = []
+    version = ""
 
     # 传入sim值进行分析
-    def __init__(self, sim):
+    def __init__(self, sim, version):
         # 文件名存的是base的文件名
         self.sim = sim
+        self.version = version
 
-    def PareFileResult(self, version):
+    def PareFileResult(self):
         # 遍历文件对
         for file in self.sim:
             if self.sim[file] != "":
@@ -33,7 +35,8 @@ class SimResult:
                     # 人为标记"sim"字段
                     if methodDictkey == 'sim':
                         # TODO 这部分数据可能有问题
-                        start = len(os.path.join(os.path.split(os.path.realpath(__file__))[0], "jsondata" + version))
+                        start = len(
+                            os.path.join(os.path.split(os.path.realpath(__file__))[0], "jsondata//" + self.version))
                         pfile = file.replace(".txt", "")
                         filename = pfile[start:len(pfile)]
                         if dic["sim"] == '0.0':
@@ -69,7 +72,7 @@ class SimResult:
         candiate_filename2 = methodDictkey[1]
         methodTupeValue = dic[methodDictkey]
         # 开始的下表
-        start = len(os.path.join(os.path.split(os.path.realpath(__file__))[0], "jsondata\s0.9.222")) - 1;
+        start = len(os.path.join(os.path.split(os.path.realpath(__file__))[0], "jsondata//" + self.version))
         pfile = file.replace(".txt", "")
         filename = pfile[start:len(pfile)]
         # 只要元组键值缺少元素，则认为是函数发生了增删操作
@@ -145,9 +148,9 @@ if __name__ == '__main__':
     getfilePath(high_version, target_file_list)
     PairMethodGraph = getpairMethodGraph(base_file_list, target_file_list)
     SIm = getMethodSim(PairMethodGraph)
-    sim = SimResult(SIm)
+    sim = SimResult(SIm, oldversion)
     # version 用来统计版本号的长度
-    normaldiff, connectdiff, deletediff, adddiff, nomatch = sim.PareFileResult(version=oldversion)
+    normaldiff, connectdiff, deletediff, adddiff, nomatch = sim.PareFileResult()
 
     dic = {};
     dic["normaldiff"] = normaldiff

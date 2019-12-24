@@ -53,7 +53,27 @@ public class File {
         return level;
     }
 
+
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setMethods(List<HasMethod> methods) {
+        this.methods = methods;
+    }
+    public void setNodeType(String nodeType) {
+        this.nodeType = nodeType;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

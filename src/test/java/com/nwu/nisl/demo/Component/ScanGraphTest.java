@@ -12,37 +12,18 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Create by lp on 2019/11/29
+ * Create by lp on 2019/12/13
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ScanGraphTest {
+    @Autowired
     private ScanGraph scanGraph;
 
-    @Autowired
-    public ScanGraphTest(ScanGraph scanGraph) {
-        this.scanGraph = scanGraph;
-    }
-
-
     @Test
-    void initInstance() {
-        //测试分析的层次
+    public void initInstance() {
         int level = 2;
         Map<String, Map<String, List<Object>>> result = scanGraph.initInstance(level);
         System.out.println("跨层分析的测试结果");
-    }
-
-    @Test
-    void levelNode() {
-
-    }
-
-    @Test
-    void handle() {
-    }
-
-    @Test
-    void getAdjacent() {
     }
 }

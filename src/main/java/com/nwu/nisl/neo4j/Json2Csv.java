@@ -42,7 +42,9 @@ public class Json2Csv {
     public void setSourcePath(String sourcePath) {
         this.sourcePath = sourcePath;
     }
+
     private static Logger logger = LoggerFactory.getLogger(Json2Csv.class);
+
     public Json2Csv(String sourcePath, String destinationPath) {
 
         this.sourcePath = sourcePath;
@@ -219,6 +221,14 @@ public class Json2Csv {
         }
 
     }
+
+    /**
+     * Author:lp on 2019/12/13 16:31
+     * Param:
+     * return:
+     * Description:创建csv文件，确保存在可以写入的文件
+     *
+     */
 
     public static void main(String[] args) throws IOException {
         System.out.println("Please enter the version number: ");

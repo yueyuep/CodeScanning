@@ -88,9 +88,7 @@ public class CallGraph {
             methods.put(NodeType.LEVEL_ONE_NODE, level.get(NodeType.METHOD).stream().map(x -> (Method) x).collect(Collectors.toList()));
         }
 
-
         return parseData.graph(version, files, methods, nodes);
-
     }
 
     /*

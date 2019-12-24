@@ -3,6 +3,7 @@
 //     $(".right").style.height = height;
 //
 // });
+var flag = true;
 $(".menu").mousedown(function () {
     $(this).toggleClass("closed");
     $(".messages.button").text("stage3");
@@ -14,11 +15,11 @@ $(".menu").mousedown(function () {
 
     if ($(this).hasClass("closed")) {
         $(".main.button").text("Menu");
-        $(".messages.button").text("");
-        $(".music.button").text("");
-        $(".home.button").text("");
-        $(".places.button").text("");
-        $(".bookmark.button").text("");
+        // $(".messages.button").text("");
+        // $(".music.button").text("");
+        // $(".home.button").text("");
+        // $(".places.button").text("");
+        // $(".bookmark.button").text("");
     } else {
         $(".main.button").text("Close");
 
@@ -33,14 +34,15 @@ $(".home.button").mousedown(function () {
         //点击过，已经完成
 
     } else {
-        $(this).toggleClass("closed");
-
         var input1 = prompt("STAGE1:Please enter the version of Project(0.9.22&0.9.23)!");
+        if (input1 == null) return;
         $(".home.button").text("stage1");
         var twoversion = input1.split("&");
         parame = {"oldversion": twoversion[0], "newversion": twoversion[1]};
         url = "/start/stage1";
         AsyncPareurl(parame, url);
+        $(".home.button").text("stage1");
+        $(this).toggleClass("closed");
 
         if ($(this).hasClass("closed")) {
             $(".main.button").text("Menu");
@@ -61,13 +63,13 @@ $(".music.button").mousedown(function () {
     if ($(this).hasClass("closed")) {
 
     } else {
-        $(this).toggleClass("closed");
         var input1 = prompt("STAGE2:Please enter the version of (0.9.22&0.9.23)!");
-
+        if (input1 == null) return;
         var twoversion = input1.split("&");
         parame = {"oldversion": twoversion[0], "newversion": twoversion[1]};
         url = "/start/stage2";
         AsyncPareurl(parame, url);
+        $(this).toggleClass("closed");
 
 
         if ($(this).hasClass("closed")) {
@@ -84,11 +86,11 @@ $(".messages.button").mousedown(function () {
     if ($(this).hasClass("closed")) {
 
     } else {
-        $(this).toggleClass("closed");
         parame = {"oldversion": "", "newversion": ""};
         url = "/start/stage3";
         if (confirm("启动Neo4j服务")) {
             AsyncPareurl(parame, url);
+            $(this).toggleClass("closed");
         } else {
             alert("你选择了取消")
 
@@ -108,12 +110,13 @@ $(".places.button").mousedown(function () {
     if ($(this).hasClass("closed")) {
 
     } else {
-        $(this).toggleClass("closed");
         var input1 = prompt("STAGE4: Please enter the version of version to analyse the similarity");
+        if (input1 == null) return;
         var twoversion = input1.split("&");
         parame = {"oldversion": twoversion[0], "newversion": twoversion[1]};
         url = "/start/stage4";
         AsyncPareurl(parame, url);
+        $(this).toggleClass("closed");
 
         if ($(this).hasClass("closed")) {
             $(".main.button").text("Menu");
@@ -175,10 +178,13 @@ function AsyncPareurl(parame, url) {
         dataType: "json",
         success: function (result) {
             //0号位置代表我们的nodes、links数据
-            alert("Finished");
+            if (result == "versionError")
+                alert("version error!");
+            if (result == "succs")
+                alert("finisheds")
         },
         error: function (result) {
-            alert("Error");
+            alert("error！");
         }
 
     });

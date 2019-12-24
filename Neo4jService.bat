@@ -31,18 +31,9 @@ cd %pwd%\bin
 
 
 ::存储数据库
+echo %csvroot%
 echo "===============saving csv to Neo4j......==============="
- call neo4j-admin import --mode csv --database graph.db ^
- --nodes:file "%csvroot%/file_header.csv,%csvroot%/file.csv"^
- --nodes:method "%csvroot%/method_header.csv,%csvroot%/method.csv"^
- --nodes:node "%csvroot%/node_header.csv,%csvroot%/node.csv"^
- --relationships:hasMethod "%csvroot%/file_method_header.csv,%csvroot%/file_method.csv"^
- --relationships:hasNode "%csvroot%/method_node_header.csv,%csvroot%/method_node.csv"^
- --relationships:succNode "%csvroot%/node_node_header.csv,%csvroot%/node_node.csv"^
- --relationships:nodeCallMethod "%csvroot%/node_method_header.csv,%csvroot%/node_method.csv"^
- --relationships:methodCallMethod "%csvroot%/method_method_header.csv,%csvroot%/method_method.csv"^
- --ignore-duplicate-nodes true
-
+call neo4j-admin import --mode csv --database graph.db --nodes:file "%csvroot%/file_header.csv,%csvroot%/file.csv" --nodes:method "%csvroot%/method_header.csv,%csvroot%/method.csv" --nodes:node "%csvroot%/node_header.csv,%csvroot%/node.csv" --relationships:hasMethod "%csvroot%/file_method_header.csv,%csvroot%/file_method.csv" --relationships:hasNode "%csvroot%/method_node_header.csv,%csvroot%/method_node.csv" --relationships:succNode "%csvroot%/node_node_header.csv,%csvroot%/node_node.csv" --relationships:nodeCallMethod "%csvroot%/node_method_header.csv,%csvroot%/node_method.csv" --relationships:methodCallMethod "%csvroot%/method_method_header.csv,%csvroot%/method_method.csv" --ignore-duplicate-nodes true
 
 ::启动数据库服务
 echo "===============start neo4j service......==============="

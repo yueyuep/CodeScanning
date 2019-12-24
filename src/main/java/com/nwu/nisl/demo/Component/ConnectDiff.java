@@ -1,10 +1,12 @@
 package com.nwu.nisl.demo.Component;
+
 import com.nwu.nisl.demo.Entity.File;
 import com.nwu.nisl.demo.Entity.HasMethod;
 import com.nwu.nisl.demo.Entity.Method;
 import com.nwu.nisl.demo.Entity.MethodCallMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.*;
 
 /**
@@ -29,13 +31,14 @@ public class ConnectDiff {
         //把我们的文件和函数节点全部放在一起。
         List<Map<String, Object>> nodes = new ArrayList<>();
         List<Map<String, Object>> edges = new ArrayList<>();
-
         allNodes.addAll(addAllNodes(typeDiff, "add"));
         allNodes.addAll(addAllNodes(typeDiff, "delete"));
         allNodes.addAll(addAllNodes(typeDiff, "modify"));
         Map<String, Object> startNode = new HashMap<>();
         Map<String, Object> endNode = new HashMap<>();
-
+        //需要去掉重复元素
+        removeSameNode(allNodes);
+        // TODO 存在同一个节点，但是被不同的变化所引用，导致同一节点被加注不同的变化，处理完成后，我们需要进行过滤
         int i = 0;
         for (Object object : allNodes) {
             if (typeDiff.get("add").get("file").contains(object) || typeDiff.get("add").get("method").contains(object)) {
@@ -44,24 +47,27 @@ public class ConnectDiff {
                     startNode.put("hasMethod", ((File) object).getMethods());
                 } else if (object instanceof Method)
                     startNode.put("methodCallMethods", ((Method) object).getMethodCallMethods());
-
-            }
-
-
-            if (typeDiff.get("delete").get("file").contains(object) || typeDiff.get("delete").get("method").contains(object)) {
+            } else if (typeDiff.get("delete").get("file").contains(object) || typeDiff.get("delete").get("method").contains(object)) {
                 startNode = utils.getNodeAttribute(object, "yes", "deleteConnectDiff");
                 if (object instanceof File) {
                     startNode.put("hasMethod", ((File) object).getMethods());
                 } else if (object instanceof Method)
                     startNode.put("methodCallMethods", ((Method) object).getMethodCallMethods());
-            }
 
-            if (typeDiff.get("modify").get("file").contains(object) || typeDiff.get("modify").get("method").contains(object)) {
+            } else if (typeDiff.get("modify").get("file").contains(object) || typeDiff.get("modify").get("method").contains(object)) {
                 startNode = utils.getNodeAttribute(object, "yes", "modifyConnectDiff");
                 if (object instanceof File) {
                     startNode.put("hasMethod", ((File) object).getMethods());
                 } else if (object instanceof Method)
                     startNode.put("methodCallMethods", ((Method) object).getMethodCallMethods());
+
+            } else {
+                //其他情况
+            }
+
+            //判断我们的startNode是否已经被计算过。如果计算过，则直接跳过
+            if (isSameNode(nodes, startNode)) {
+                continue;
             }
 
             if (!nodes.contains(startNode)) {
@@ -73,12 +79,12 @@ public class ConnectDiff {
             if (startNode.get("nodeType").equals("file")) {
                 for (HasMethod hasMethod : (ArrayList<HasMethod>) startNode.get("hasMethod")) {
                     endNode = utils.getNodeAttribute(hasMethod.getEndMethod(), "yes", startNode.get("type").toString());
-                    endNode.put("hasMethod", hasMethod.getEndMethod().getMethodCallMethods());
+                    endNode.put("methodCallMethods", hasMethod.getEndMethod().getMethodCallMethods());
                     if (!nodes.contains(endNode)) {
                         nodes.add(endNode);
                     }
                     int target = nodes.indexOf(endNode);
-                    edges.add(utils.getEdgeRelationship(i, target, "hasMethod"));
+                    edges.add(utils.getEdgeRelationship(start, target, "hasMethod"));
 
                 }
 
@@ -100,6 +106,7 @@ public class ConnectDiff {
         }
         //移除无用的键值对
         nodes = removeKey(nodes);
+        //去除重复引用的问题
         Map<String, Object> map = new HashMap<>();
         map.put("nodes", nodes);
         map.put("links", edges);
@@ -122,6 +129,37 @@ public class ConnectDiff {
             node.remove("hasMethod");
         }
         return nodes;
+    }
+
+    public void removeSameNode(Collection<Object> objects) {
+        HashMap<Integer, Object> tmp = new HashMap<>();
+        for (Object object : objects) {
+            if (object instanceof File) {
+                tmp.put((int) ((File) object).getId(), object);
+            }
+            if (object instanceof Method) {
+                tmp.put((int) ((Method) object).getId(), object);
+            }
+        }
+        objects.clear();
+        objects.addAll(tmp.values());
+    }
+
+    public boolean isSameNode(List<Map<String, Object>> maps, Map<String, Object> pnode) {
+        //判断pnode文件名是否在pnode中出现，只是名字是否重复
+        String pname = "";
+        if (pnode.get("nodeType") == "method") {
+            pname = pnode.get("fileMethodName").toString();
+        } else {
+            pname = pnode.get("fileName").toString();
+        }
+        for (Map<String, Object> target : maps) {
+            if (target.get("nodeType") == "method" && target.get("fileMethodName").equals(pname)) return true;
+            if (target.get("nodeType") == "file" && target.get("fileName").equals(pname)) return true;
+
+        }
+        return false;
+
     }
 
 

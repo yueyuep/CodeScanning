@@ -3,13 +3,24 @@ package com.nwu.nisl.demo.Component;
 import com.nwu.nisl.demo.Entity.File;
 import com.nwu.nisl.demo.Entity.Method;
 import com.nwu.nisl.demo.Entity.Node;
+import com.nwu.nisl.neo4j.FileName;
+import org.python.antlr.ast.Str;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
 public class Utils {
+    @Value("${com.nwu.nisl.data.csv}")
+    String csvurl;
+    @Value("${com.nwu.nisl.data.source}")
+    String sourceurl;
+    @Value("${com.nwu.nisl.data.json}")
+    String jsonurl;
 
     public Utils() {
     }
@@ -66,6 +77,56 @@ public class Utils {
         map.put("target", end);
         map.put("type", type);
         return map;
+    }
+
+    /**
+     * Author:lp on 2019/12/13 16:36
+     * Param:
+     * return:
+     * Description:确保H:\CodeScanning\tools\csvdata路径下存在被写入的文件
+     */
+    public void makeFile() throws Exception {
+        List<String> fileurl = Arrays.asList(
+                csvurl + "//" + FileName.FILE_NAME,
+                csvurl + "//" + FileName.METHOD_NAME,
+                csvurl + "//" + FileName.FILE_METHOD_NAME,
+                csvurl + "//" + FileName.METHOD_METHOD_NAME,
+                csvurl + "//" + FileName.METHOD_NODE_NAME,
+                csvurl + "//" + FileName.NODE_METHOD_NAME,
+                csvurl + "//" + FileName.NODE_NODE_NAME
+        );
+        for (String path : fileurl) {
+            java.io.File file = new java.io.File(path);
+            if (!file.exists()) {
+                file.mkdir();
+            }
+        }
+
+
+    }
+
+    /**
+     * Author:lp on 2019/12/13 17:17
+     * Param:
+     * return:
+     * Description:判断source、jsondata路径下对应的版本数据是否存在
+     */
+
+    public boolean exisversion(String version, boolean isSource) {
+        String path;
+        if (isSource) {
+            //原数据文件
+            path = sourceurl + "\\" + version;
+        } else {
+            //json数据文件
+            path = jsonurl + "\\" + version;
+        }
+        java.io.File file = new java.io.File(path);
+        if (file.exists()) {
+            return true;
+        } else return false;
+
+
     }
 
 

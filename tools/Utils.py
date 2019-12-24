@@ -62,7 +62,7 @@ def getpairFile1(basefileList, targetfileList):
         # 这里的使用函数名匹配存在问题，一般而言，项目的位置不会发生变化，因此我们可以把项目的路径加上，去版本后的路径进行比较
         # 'H:\\GraphSimWeb\\jsondata\\0.9.23\\android-demo\\src\\androidTest\\java\\com\\example\\myapplication\\ExampleInstrumentedTest.java.txt'
         # TODO 取 s0.9.23后面的内容进行比较,start是开始的位置
-        start = len((os.path.join(os.path.split(os.path.realpath(__file__))[0], "jsondata\s0.9.222")).split("\\"))
+        start = len((os.path.join(os.path.split(os.path.realpath(__file__))[0], "jsondata\\placeholder")).split("\\"))
         base_name = base_split[start:len(base_split)]
         for target in targetfileList:
             target_split = target.split("\\")
@@ -384,7 +384,7 @@ def toText(dic, url, name, oldversion, newversion):
         for type in dic.keys():
             for line in dic[type]:
                 line = line.replace("\\", "/")
-                line = line.replace("/", "", 1)
+                #line = line.replace("/", "", 1)
                 if type == "deleteDiff":
                     file.write(type + "&" + oldversion + "?" + line + "\n")
                 else:

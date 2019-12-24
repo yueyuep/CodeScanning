@@ -17,8 +17,6 @@
 <body>
 
 <div style="text-align:center;clear:both">
-    <script src="/gg_bd_ad_720x90.js" type="text/javascript"></script>
-    <script src="/follow.js" type="text/javascript"></script>
 </div>
 
 <div class="left" style="width: 40%;float: left">
@@ -68,7 +66,7 @@
                 stompClient.subscribe('/log/pullFileLogger', function (event) {
                     var content = event.body;
                     if (content.indexOf("====") >= 0) {
-                        $("#filelog-container div").append("<p class='hightlight' style='color: #e7ff0e;font-size: large'>" + content + "</p>").append("<br/>");
+                        $("#filelog-container div").append("<p class='hightlight' style='color: #e7ff0e;font-size: medium'>" + content + "</p>").append("<br/>");
                     } else {
                         $("#filelog-container div").append("<p class='lowlight' style='color: #78bd85'>" + content + "</p>").append("<br/>");
 

@@ -57,6 +57,9 @@ public class Process {
     private BatchSaveNeo4j batchSaveNeo4j;
     private Logger logger = LoggerFactory.getLogger(Process.class);
 
+    @Autowired
+    private Utils utils;
+
     public Process() {
 
     }
@@ -142,17 +145,29 @@ public class Process {
 
     }
 
-
+    /**
+     * Author:lp on 2019/12/13 17:03
+     * Param:
+     * return:
+     * Description:确保csv文件存在
+     */
     public void second(String oldversion, String newversion) throws IOException {
-        String[] parame = new String[]{oldversion, newversion};
-        for (String version : parame) {
-            logger.info("===============Running" + version + " json to csv......===============");
-            String sourcePath = json + File.separator + version;
-            String targetPath = csv;
-            Json2Csv json2Csv = new Json2Csv(sourcePath, targetPath);
-            json2Csv.generateCsv();
-            logger.info("===============End " + version + " save2csv！......===============");
-        }
+
+        logger.info("===============Running" + oldversion + " json to csv......===============");
+        String sourcePath = json + File.separator + oldversion;
+        String targetPath = csv;
+        Json2Csv json2Csv = new Json2Csv(sourcePath, targetPath);
+        json2Csv.clear();
+        json2Csv.generateCsv();
+        logger.info("===============End " + oldversion + " save2csv！......===============");
+
+
+        logger.info("===============Running" + newversion + " json to csv......===============");
+        sourcePath = json + File.separator + newversion;
+        targetPath = csv;
+        json2Csv = new Json2Csv(sourcePath, targetPath);
+        json2Csv.generateCsv();
+        logger.info("===============End " + newversion + " save2csv！......===============");
 
 
     }

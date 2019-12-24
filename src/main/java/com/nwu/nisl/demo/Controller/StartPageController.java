@@ -1,8 +1,10 @@
 package com.nwu.nisl.demo.Controller;
 
 import com.nwu.nisl.demo.Component.Process;
+import com.nwu.nisl.demo.Component.Utils;
 import com.nwu.nisl.demo.Services.StartProcessServices;
 import com.nwu.nisl.demo.pytools.CallPython;
+import com.nwu.nisl.parse.graph.Util;
 import org.python.antlr.ast.Str;
 import org.python.modules._hashlib;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,13 @@ import java.util.Map;
 public class StartPageController {
     private Process process;
     private CallPython callPython;
+    private Utils utils;
 
     @Autowired
-    public StartPageController(Process process, CallPython callPython) {
+    public StartPageController(Process process, CallPython callPython, Utils utils) {
         this.process = process;
         this.callPython = callPython;
+        this.utils = utils;
 
     }
 
@@ -42,6 +46,11 @@ public class StartPageController {
     public Map<String, Object> stage1(@RequestParam("oldversion") String oldversion, @RequestParam("newversion") String newversion) {
         //调用stage1,解析我们的java数据
         Map<String, Object> response = new HashMap<>();
+        if (!(utils.exisversion(oldversion, true) && utils.exisversion(newversion, true))) {
+            response.put("reponse", "versionError");
+            return response;
+        }
+
         try {
             process.first(oldversion, newversion);
         } catch (Exception e) {
@@ -59,6 +68,10 @@ public class StartPageController {
     public Map<String, Object> stage2(@RequestParam("oldversion") String oldversion, @RequestParam("newversion") String newversion) {
         //调用stage2 将我们的图数据存储成csv格式
         Map<String, Object> response = new HashMap<>();
+        if (!(utils.exisversion(oldversion, true) && utils.exisversion(newversion, true))) {
+            response.put("reponse", "versionError");
+            return response;
+        }
         try {
 
             process.second(oldversion, newversion);

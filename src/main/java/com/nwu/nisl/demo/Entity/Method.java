@@ -68,4 +68,32 @@ public class Method {
     public void setLevel(int level) {
         this.level = level;
     }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setNodeType(String nodeType) {
+        this.nodeType = nodeType;
+    }
+
+    public void setFileMethodName(String fileMethodName) {
+        this.fileMethodName = fileMethodName;
+    }
+
+    public void setHasNodes(List<HasNode> hasNodes) {
+        this.hasNodes = hasNodes;
+    }
+
+    public void setMethodCallMethods(List<MethodCallMethod> methodCallMethods) {
+        this.methodCallMethods = methodCallMethods;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
