@@ -53,9 +53,7 @@ public class NormalNodeController {
         return nodeServices.findAllByFileMethodName(fileMethodName, num, version);
     }
 
-    // TODO
-    // 目前：获取diff文件路径、当前项目的版本号
-    // 后续考虑是否需要传入当前版本号，和之前的版本号，然后diff文件在函数里面生成
+    // 获取diff文件路径、当前项目的版本号
     @GetMapping(value = "/diff")
     public Map<String, Object> diff(@RequestParam(value = "oldVersion") String oldVersion,
                                     @RequestParam(value = "newVersion") String newVersion) {
@@ -66,55 +64,6 @@ public class NormalNodeController {
         // 项目基础数据（前端显示）
         result.putAll(projectInformation.getProjectInformation());
         return result;
-    }
-
-
-    //-----------------------------------Test-------------------------------------------
-
-    @GetMapping(value = "/testCallMethod")
-
-    public Map<String, Object> callMethod() {
-        Map<String, Object> result = new HashMap<>();
-        projectInformation.setAttribute("0.9.22", "0.9.22");
-        // 可视化数据
-        result.putAll(callGraphServices.getCallNodes("0.9.22"));
-        // 项目基础数据（前端显示）
-        result.putAll(projectInformation.getProjectInformation());
-
-        return result;
-    }
-
-    @GetMapping(value = "/testCallMethod2")
-    public Map<String, Object> callMethod2() {
-        Map<String, Object> result = new HashMap<>();
-        projectInformation.setAttribute("0.9.22", "0.9.23");
-        // 可视化数据
-        result.putAll(callGraphServices.getCallNodes("0.9.23"));
-        // 项目基础数据（前端显示）
-        result.putAll(projectInformation.getProjectInformation());
-
-        return result;
-    }
-
-
-    @GetMapping(value = "/testDiff")
-    public Map<String, Object> testDiff() {
-        String oldVersion = "0.9.22";
-        String newVersion = "0.9.23";
-        Map<String, Object> result = new HashMap<>();
-        projectInformation.setAttribute(oldVersion, newVersion);
-        // 可视化数据
-        result.putAll(updateServices.updateNodes(newVersion));
-        // 项目基础数据（前端显示）
-        result.putAll(projectInformation.getProjectInformation());
-        return result;
-    }
-
-    //测试我们的process程序
-    @GetMapping(value = "/testprocess")
-    public void test() {
-
-
     }
 
 }

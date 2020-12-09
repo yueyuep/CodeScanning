@@ -66,11 +66,9 @@ public class CallGraph {
 
         if (showDiff) {
             //显示变化
-//            diffNode.setPath(path);
             Map<String, Object> map = diffNode.parseDiff();
             Map<String, Collection<File>> diffFiles = new HashMap<>();
             Map<String, Collection<Method>> diffMethods = new HashMap<>();
-            //TODO 这块解析变化节点有问题
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 Map<String, Object> result = parseDiff.getFileAndMethodInstance((Map<String, Map<String, List<String>>>) entry.getValue());
                 diffFiles.put(entry.getKey(), (Collection<File>) result.get(NodeType.FILE));
@@ -96,7 +94,6 @@ public class CallGraph {
      *Description:显示部分变化节点的callgraph图
      */
     public Map<String, Object> getLevelPartNodes(String version, int level) {
-        //版本信息其实不需要
         Map<String, Map<String, List<Object>>> typediff = scanGraph.initInstance(level);
         return connectDiff.initstance(typediff);
 

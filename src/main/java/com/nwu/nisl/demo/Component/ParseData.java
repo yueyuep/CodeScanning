@@ -71,7 +71,7 @@ public class ParseData {
         List<Map<String, Object>> jsonEdges = new ArrayList<>();
 
         for (Object object: allNodes){
-            // TODO
+            //
             // 生成调用图的时候，可能会添加函数节点不存在调用关系的文件节点
             List<Integer> res = getIndex(jsonNodes, object, count, judgeChanged(object, version, files, methods, nodes));
             int start = res.get(0);
@@ -210,7 +210,6 @@ public class ParseData {
                                 Map<String, Collection<Node>> nodes) {
         String nodeType = NodeType.GENERAL_NODE;
 
-        // TODO
         // 是否存在，一个节点同时属于 NodeTyoe 中的多种类型，
         if (object instanceof File) {
             File temp = (File) object;
@@ -235,8 +234,7 @@ public class ParseData {
                 nodeType = NodeType.DELETE_NODE;
             }
         } else  if (object instanceof Node) {
-            // TODO
-            // 目前不涉及到 内容节点 的操作
+            // continue
         }
 
 

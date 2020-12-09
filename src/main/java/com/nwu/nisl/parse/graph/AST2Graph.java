@@ -14,7 +14,7 @@ import com.google.common.graph.*;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
-//这个是在解析语法树之后进行处理，ParseUtil中包含了很多解析java语言的各种接口函数
+
 
 public class AST2Graph extends ParseUtil implements Graph {//实现了图的接口，图模型上的修改
 
@@ -73,12 +73,10 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
         try {
             return new AST2Graph(srcFilePath);
         } catch (FileNotFoundException e) {
-            System.out.println("断点1");
             e.printStackTrace();
             logInfo("Not Found File " + srcFilePath);
             return null;
         } catch (Exception e) {
-            System.out.println("断点2");
             e.printStackTrace();
             logInfo(e + "\n" + srcFilePath);
             return null;
@@ -87,9 +85,7 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
 
     public static void main(String[] args) {
         String srcFilePath = "data/BenchmarkTest00159.java";
-       // ExtractSubGraphs.ExtractSQLI(srcFilePath, srcFilePath.replace(".java", "__.txt"));
-//        String srcFilePath = "data/tsExpStmt.java";
-        //调用上面的方法创建实例对象
+
         AST2Graph ast2Graph = AST2Graph.newInstance(srcFilePath);
         if (ast2Graph == null) {
             return;

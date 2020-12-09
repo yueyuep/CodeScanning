@@ -32,7 +32,7 @@ public class ScanGraph {
     }
 
     public Map<String, Map<String, List<Object>>> initInstance(int level) {
-        // TODO
+
         // 1. 传入diff文件所在位置
         // 2. diff文件一直保存在固定的位置
         //diffNode.setPath(path);
@@ -40,9 +40,6 @@ public class ScanGraph {
         Map<String, Object> diffMap = diffNode.parseDiff();
         //得到不同变化类型的文件函数节点，供我们进行查找
         // diffMap: {"difftype":"",<version,flag,[method/file]>} 其中flag标记我们的变化部分是函数节点还是文件节点
-        // TODO @1:直接把数据传送到前台，在本地数据的基础上添加标识符,不需要再重新在读取数据
-        // TODO @2:对这部分数据直接在在数据库中进行更改，type、change属性进行更改
-        // TODO 需要比较两种的执行效率。
         return handle(level, diffMap);
     }
 
@@ -72,7 +69,6 @@ public class ScanGraph {
         return diffCollections;
     }
 
-    // TODO
     // level扫描到的节点，不应该包含变化的节点
     //根据层次寻找改变函数被其他节点调用的地方，给与每层节点添加层次关系
     /*
@@ -94,7 +90,6 @@ public class ScanGraph {
         //setLevel==0
         mapconnectFiles.values().forEach(file -> file.setLevel(0));
         mapconnectMethods.values().forEach(method -> method.setLevel(0));
-
 
         // fileMethodCollections:diffType-> <fileDiff,methodDiff>
         for (int i = 0; i < level; i++) {
@@ -164,7 +159,7 @@ public class ScanGraph {
         }
         return files;
     }
-    //file、method的复制，深复制
+    //file、method的复制，深拷贝
 
     public File copyfile(File file) {
         File file1 = new File();

@@ -105,20 +105,6 @@ public class ParseUtil {
                 i++;
             }
         }
-//        for (VariableDeclarator variableDeclarator: this.field_variableDeclarators) {
-//            Boolean isGet = Boolean.FALSE;
-//            for (FieldAccessExpr fieldAccessExpr: fieldAccessExprs) {
-//                if (Objects.equals(variableDeclarator.getNameAsString(), fieldAccessExpr.getNameAsString())) {
-//                    fieldAccessExpr.setName("field" + j);
-//                    isGet = Boolean.TRUE;
-////                    field_done.put(fieldAccessExpr.getNameAsString(), "field" +j);
-//                }
-//            }
-//            if (isGet) {
-//                variableDeclarator.setName("field" + j);
-//                j++;
-//            }
-//        }
         for (Parameter parameter: parameters) {
             Boolean isGet = Boolean.FALSE;
             for (NameExpr nameExpr: nameExprs) {

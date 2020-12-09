@@ -48,19 +48,19 @@ public class Utils {
     }
 
     /**
-    * @Description: 获取当前函数声明中实例化的类对象(变量)名与类名的对应关系
-    * @Param:
-    * @return:
-    * @Author: Kangaroo
-    * @Date: 2019/10/23
-    */
-    public static HashMap<String, String> variableDeclaratorOfClass(MethodDeclaration methodDeclaration){
+     * @Description: 获取当前函数声明中实例化的类对象(变量)名与类名的对应关系
+     * @Param:
+     * @return:
+     * @Author: Kangaroo
+     * @Date: 2019/10/23
+     */
+    public static HashMap<String, String> variableDeclaratorOfClass(MethodDeclaration methodDeclaration) {
         HashMap<String, String> variableDeclaratorList = new HashMap<>();
 
         List<VariableDeclarator> variableDeclarators = methodDeclaration.findAll(VariableDeclarator.class);
 
-        for (VariableDeclarator variableDeclarator: variableDeclarators){
-            if (variableDeclarator.getType().isClassOrInterfaceType()){
+        for (VariableDeclarator variableDeclarator : variableDeclarators) {
+            if (variableDeclarator.getType().isClassOrInterfaceType()) {
                 String name = variableDeclarator.getNameAsString();
                 // TODO
                 //  type可能不是仅一个单独的字符串， 推测可能有 类名.类名 的情况
@@ -72,23 +72,23 @@ public class Utils {
     }
 
     /**
-    * @Description: 获取当前函数所属的类中声明的 类对象名与类名的对应关系
-    * @Param:
-    * @return:
-    * @Author: Kangaroo
-    * @Date: 2019/10/24
-    */
-    public static HashMap<String, String> variableDeclaratorOfClassInClass(MethodDeclaration methodDeclaration){
+     * @Description: 获取当前函数所属的类中声明的 类对象名与类名的对应关系
+     * @Param:
+     * @return:
+     * @Author: Kangaroo
+     * @Date: 2019/10/24
+     */
+    public static HashMap<String, String> variableDeclaratorOfClassInClass(MethodDeclaration methodDeclaration) {
         HashMap<String, String> variableDeclaratorList = new HashMap<>();
 
         // 父节点应该肯定存在，以防万一加上判断
-        if (methodDeclaration.getParentNode().isPresent() && methodDeclaration.getParentNode().get() instanceof ClassOrInterfaceDeclaration){
+        if (methodDeclaration.getParentNode().isPresent() && methodDeclaration.getParentNode().get() instanceof ClassOrInterfaceDeclaration) {
             ClassOrInterfaceDeclaration classOrInterfaceDeclaration =
                     ((ClassOrInterfaceDeclaration) methodDeclaration.getParentNode().get()).asClassOrInterfaceDeclaration();
 
-            for (FieldDeclaration fieldDeclaration: classOrInterfaceDeclaration.findAll(FieldDeclaration.class)){
-                for (VariableDeclarator variableDeclarator: fieldDeclaration.getVariables()){
-                    if (variableDeclarator.getType().isClassOrInterfaceType()){
+            for (FieldDeclaration fieldDeclaration : classOrInterfaceDeclaration.findAll(FieldDeclaration.class)) {
+                for (VariableDeclarator variableDeclarator : fieldDeclaration.getVariables()) {
+                    if (variableDeclarator.getType().isClassOrInterfaceType()) {
                         String name = variableDeclarator.getNameAsString();
                         String type = variableDeclarator.getTypeAsString();
                         variableDeclaratorList.put(name, type);
@@ -101,14 +101,13 @@ public class Utils {
     }
 
 
-
-    /** 
-    * @Description: 判断函数声明属于外部类或内部类中， 不属于的情况， new 类{ 函数()} 
-    * @Param:  
-    * @return:  
-    * @Author: Kangaroo
-    * @Date: 2019/10/22 
-    */ 
+    /**
+     * @Description: 判断函数声明属于外部类或内部类中， 不属于的情况， new 类{ 函数()}
+     * @Param:
+     * @return:
+     * @Author: Kangaroo
+     * @Date: 2019/10/22
+     */
     public static boolean containMethod(MethodDeclaration methodDeclaration, HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>> outclassMethods, HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>> innertclassMethods) {
         for (ClassOrInterfaceDeclaration classOrInterfaceDeclaration : outclassMethods.keySet()) {
             if (outclassMethods.get(classOrInterfaceDeclaration).contains(methodDeclaration)) {
@@ -134,13 +133,13 @@ public class Utils {
         return false;
     }
 
-    /** 
-    * @Description: 返回所有文件中包含的 内部函数声明 和 外部函数声明; 内部函数的类只保存第一层
-    * @Param:  
-    * @return:  
-    * @Author: Kangaroo
-    * @Date: 2019/10/22 
-    */ 
+    /**
+     * @Description: 返回所有文件中包含的 内部函数声明 和 外部函数声明; 内部函数的类只保存第一层
+     * @Param:
+     * @return:
+     * @Author: Kangaroo
+     * @Date: 2019/10/22
+     */
     public static List<HashMap<File, HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>>>> getFileMethodDeclarationMap(File[] files) {
         // 获得所有文件的内部函数声明和外部函数声明
         List<HashMap<File, HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>>>> fileMethodDeclarationMap = new ArrayList<>();
@@ -157,17 +156,17 @@ public class Utils {
         }
         fileMethodDeclarationMap.add(allInnerclassMethods);
         fileMethodDeclarationMap.add(allOutclassMethods);
-        
+
         return fileMethodDeclarationMap;
     }
 
-    /** 
-    * @Description: 保存调用函数的基本信息（如果存在），所属文件，类名，函数声明 
-    * @Param:  
-    * @return:  
-    * @Author: Kangaroo
-    * @Date: 2019/10/23 
-    */ 
+    /**
+     * @Description: 保存调用函数的基本信息（如果存在），所属文件，类名，函数声明
+     * @Param:
+     * @return:
+     * @Author: Kangaroo
+     * @Date: 2019/10/23
+     */
     public static ThreeTuple getCalledExprLocation(HashMap<ClassOrInterfaceDeclaration, String> candidateFile,
                                                    List<HashMap<File, HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>>>> fileMethodDeclarationMap,
                                                    MethodCallExpr methodCallExpr,
@@ -180,7 +179,7 @@ public class Utils {
         HashMap<File, HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>>> allInnerclassMethods = fileMethodDeclarationMap.get(0);
         HashMap<File, HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>>> allOutclassMethods = fileMethodDeclarationMap.get(1);
 
-        if (candidateFile.keySet().isEmpty()){
+        if (candidateFile.keySet().isEmpty()) {
             //候选集为空，不存在函数调用，返回空值。
             return calledExprLocation;
         }
@@ -201,15 +200,15 @@ public class Utils {
                         try {
                             targetClassList = classOrInterfaceDeclarationListHashMap.keySet().stream().
                                     filter(classOrInterfaceDeclaration1 -> classOrInterfaceDeclaration1
-                                    .getNameAsString().concat(".java").equals(filename))
+                                            .getNameAsString().concat(".java").equals(filename))
                                     .collect(Collectors.toList()); //外部类中，类名与文件全部一样
-                            if (targetClassList != null && targetClassList.size() > 0){
+                            if (targetClassList != null && targetClassList.size() > 0) {
                                 targetMethodList = classOrInterfaceDeclarationListHashMap.get(targetClassList.get(0)).stream().
                                         filter(methodDeclaration ->
                                                 methodDeclaration.getNameAsString().equals(methodCallExprName)
                                                         && methodDeclaration.getParameters().size() == methodCallExpr.getArguments().size())
                                         .collect(Collectors.toList());  //函数名一致，并且参数列表的长度一致
-                                if (targetMethodList != null && targetMethodList.size() > 0){
+                                if (targetMethodList != null && targetMethodList.size() > 0) {
                                     // 外部类
                                     calledExprLocation.setFile(file);
                                     calledExprLocation.setClassName(targetClassList.get(0).getNameAsString());
@@ -238,16 +237,16 @@ public class Utils {
                         try {
                             targetClassList = classOrInterfaceDeclarationListHashMap.keySet().stream()
                                     .filter(classOrInterfaceDeclaration1 -> classOrInterfaceDeclaration1
-                                    .getNameAsString().equals(classOrInterfaceDeclaration.getNameAsString()))
+                                            .getNameAsString().equals(classOrInterfaceDeclaration.getNameAsString()))
                                     .collect(Collectors.toList());
 
-                            if (targetClassList != null && targetClassList.size() > 0){
+                            if (targetClassList != null && targetClassList.size() > 0) {
                                 targetMethodList = classOrInterfaceDeclarationListHashMap.get(targetClassList.get(0)).stream()
                                         .filter(methodDeclaration ->
                                                 methodDeclaration.getNameAsString().equals(methodCallExprName)
                                                         && methodDeclaration.getParameters().size() == methodCallExpr.getArguments().size())
                                         .collect(Collectors.toList());
-                                if (targetMethodList != null && targetMethodList.size() > 0){
+                                if (targetMethodList != null && targetMethodList.size() > 0) {
                                     // 内部类
                                     calledExprLocation.setFile(file);
 //                                    calledExprLocation.setClassName(targetClassList.get(0).getNameAsString());
@@ -273,12 +272,12 @@ public class Utils {
     }
 
     /**
-    * @Description: 返回函数声明中调用函数，所属的类声明，文件名。 用于缩小下一步的范围
-    * @Param:
-    * @return:
-    * @Author: Kangaroo
-    * @Date: 2019/10/23
-    */
+     * @Description: 返回函数声明中调用函数，所属的类声明，文件名。 用于缩小下一步的范围
+     * @Param:
+     * @return:
+     * @Author: Kangaroo
+     * @Date: 2019/10/23
+     */
     public static HashMap<ClassOrInterfaceDeclaration, String> getCandidateFileByClass(MethodDeclaration methodDeclaration,
                                                                                        List<HashMap<File, HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>>>> fileMethodDeclarationMap,
                                                                                        ArrayList<String> classOrInterfaceNameInClass,
@@ -309,8 +308,8 @@ public class Utils {
                 try {
                     classOrInterfaceDeclarationList = fileMethodDeclarationMap.get(0).get(pFile.get(0)).keySet().stream()
                             .filter(classOrInterfaceDeclaration1 -> classOrInterfaceDeclaration1.getNameAsString()
-                            .equals(classOrInterfaceName)).collect(Collectors.toList());
-                    if (classOrInterfaceDeclarationList != null && classOrInterfaceDeclarationList.size() > 0){
+                                    .equals(classOrInterfaceName)).collect(Collectors.toList());
+                    if (classOrInterfaceDeclarationList != null && classOrInterfaceDeclarationList.size() > 0) {
                         candidateFile.put(classOrInterfaceDeclarationList.get(0), fileName.concat(".java"));
                     }
 
@@ -335,12 +334,12 @@ public class Utils {
                             -> classOrInterfaceDeclaration1.getNameAsString().equals(classOrInterfaceName))
                             .collect(Collectors.toList());
 
-                    if (classOrInterfaceDeclarationList != null && classOrInterfaceDeclarationList.size() > 0){
+                    if (classOrInterfaceDeclarationList != null && classOrInterfaceDeclarationList.size() > 0) {
                         candidateFile.put(classOrInterfaceDeclarationList.get(0), fileName.concat(".java"));
                     }
 
                 } catch (Exception e) {
-                    System.out.println("跳过越界异常");
+
                     continue;
                 }
             }
@@ -349,16 +348,15 @@ public class Utils {
     }
 
     /**
-    * @Description: 返回此函数声明中函数调用的信息 {文件名：{函数声明：类名}}
-    * @Param:
-    * @return:
-    * @Author: Kangaroo
-    * @Date: 2019/10/23
-    */
+     * @Description: 返回此函数声明中函数调用的信息 {文件名：{函数声明：类名}}
+     * @Param:
+     * @return:
+     * @Author: Kangaroo
+     * @Date: 2019/10/23
+     */
     public static HashMap<String, HashMap<MethodDeclaration, String>> getcallMethods(MethodDeclaration methodDeclaration, List<HashMap<File, HashMap<ClassOrInterfaceDeclaration, List<MethodDeclaration>>>> fileMethodDeclarationMap) {
         /**
-         找到所有函数调用所在的文件名，类名、函数申明
-         *
+         *找到所有函数调用所在的文件名，类名、函数申明
          * 通过类找到函数调用的位置，类中的函数必须通过类名或者接口来调用（提升查找效率）
          */
 
@@ -366,7 +364,7 @@ public class Utils {
         List<MethodCallExpr> methodCallExprList = methodDeclaration.findAll(MethodCallExpr.class);
 
         HashMap<String, String> variableDeclaratorOfClassInClass = variableDeclaratorOfClassInClass(methodDeclaration);
-        HashMap<String, String> variableDeclaratorOfClass= variableDeclaratorOfClass(methodDeclaration);
+        HashMap<String, String> variableDeclaratorOfClass = variableDeclaratorOfClass(methodDeclaration);
         HashMap<ClassOrInterfaceDeclaration, String> candidateFile = getCandidateFileByClass(
                 methodDeclaration,
                 fileMethodDeclarationMap,
@@ -384,9 +382,9 @@ public class Utils {
             } else {
                 //找到函数的位置
                 //[文件名，函数，类名],只存在一个3键对
-                if (CalledMethod.keySet().contains(Utils.getFileNameWithPath(calledExprLocation.getFile()))){
+                if (CalledMethod.keySet().contains(Utils.getFileNameWithPath(calledExprLocation.getFile()))) {
                     CalledMethod.get(Utils.getFileNameWithPath(calledExprLocation.getFile())).put(calledExprLocation.getMethodDeclaration(), calledExprLocation.getClassName());
-                }else{
+                } else {
                     CalledMethod.put(Utils.getFileNameWithPath(calledExprLocation.getFile()), new HashMap<MethodDeclaration, String>() {{
                         put(calledExprLocation.getMethodDeclaration(), calledExprLocation.getClassName());
                     }});
@@ -400,12 +398,12 @@ public class Utils {
     }
 
     /**
-    * @Description: 返回调用函数所属的文件名
-    * @Param:
-    * @return:
-    * @Author: Kangaroo
-    * @Date: 2019/10/23
-    */
+     * @Description: 返回调用函数所属的文件名
+     * @Param:
+     * @return:
+     * @Author: Kangaroo
+     * @Date: 2019/10/23
+     */
     public static String getMethodExprFileName(MethodCallExpr methodCallExpr,
                                                HashMap<String, String> variableDeclaratorOfClass,
                                                HashMap<String, String> variableDeclaratorOfClassInClass) {
@@ -420,27 +418,25 @@ public class Utils {
             //大写字母，静态类
             return split[0].concat(".java");
         } else {
-            //TODO 通过对像来调用，提前定义好对象，然后通过对象来调用方法
-            // 变量对应的类，如果是内部类，形如 A.B
 
             // 变量名.函数
             // Case 1:  a.test()
             // Case 2:  this.a.test()
             int index = 0;
-            if (split[0].equals("this")){
+            if (split[0].equals("this")) {
                 index = 1;
             }
 
             // 变量在当前函数中定义
-            for (String name: variableDeclaratorOfClass.keySet()){
-                if (name.equals(split[index])){
+            for (String name : variableDeclaratorOfClass.keySet()) {
+                if (name.equals(split[index])) {
                     return variableDeclaratorOfClass.get(name).split("\\.")[index].concat(".java");
                 }
             }
 
             // 变量在当前所属的类中定义，而不是当前函数中
-            for (String name: variableDeclaratorOfClassInClass.keySet()){
-                if (name.equals(split[index])){
+            for (String name : variableDeclaratorOfClassInClass.keySet()) {
+                if (name.equals(split[index])) {
                     return variableDeclaratorOfClassInClass.get(name).split("\\.")[0].concat(".java");
                 }
             }
@@ -451,26 +447,26 @@ public class Utils {
 
 
     /**
-    * @Description: 获取文件的路径（从所在项目根目录开始）
-    * @Param:
-    * @return:
-    * @Author: Kangaroo
-    * @Date: 2019/10/29
-    */
-    public static String getFileNameWithPath(File file){
+     * @Description: 获取文件的路径（从所在项目根目录开始）
+     * @Param:
+     * @return:
+     * @Author: Kangaroo
+     * @Date: 2019/10/29
+     */
+    public static String getFileNameWithPath(File file) {
         String[] array = file.getPath().split(Matcher.quoteReplacement(File.separator));
+
         String version = array[2];
         String res = file.getPath();
-
-        return res.substring(res.indexOf(version) + version.length() + 1).replace("\\","/");
+        return res.substring(res.indexOf(version) + version.length() + 1).replace("\\", "/");
     }
 
     /**
+     * @return java.lang.String
      * @Author Kangaroo
      * @Description 获取文件的版本号，
      * @Date 2019/12/2 22:11
      * @Param [file]
-     * @return java.lang.String
      **/
     public static String getVersion(File file) {
         int index = 2;

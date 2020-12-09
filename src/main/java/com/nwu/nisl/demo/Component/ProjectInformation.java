@@ -61,26 +61,24 @@ public class ProjectInformation {
         connectDiff.clear();
     }
 
+    /**
+     * Author:lp on 2019/12/2 21:15
+     * Param: []
+     * return: java.util.Map<java.lang.String,java.lang.Object>
+     * Description:修改空指针异常,把对文件的变化和函数的变化分别区分出来
+     */
     public Map<String, Object> getProjectInformation() {
         clean();
         Map<String, Object> res = new HashMap<>();
         fileNumber = fileRepository.getFileNumber(newVersion);
 
         if (!oldVersion.equals(newVersion)) {
-//            diffNode.setPath(diffPath);
             // Map<type, Map<String, Map<String, List<String>>>>
             // 节点类型，版本号，file/method，对应diff中文本内容
             // type -> NodeType.ADD_NODE, NodeType.DELETE_NODE, NodeType.MODIFY_NODE
             Map<String, Object> map = diffNode.parseDiff();
-
             if (!map.isEmpty()) {
-                /**
-                 *Author:lp on 2019/12/2 21:15
-                 *Param: []
-                 *return: java.util.Map<java.lang.String,java.lang.Object>
-                 *Description:修改空指针异常,把对文件的变化和函数的变化分别区分出来
-                 */
-                //TODO 增加文件数目、删除文件数目、修改文件数目
+                // 增加文件数目、删除文件数目、修改文件数目
                 if (!((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).isEmpty())
                     for (String fileOrMethod : ((Map<String, Map<String, List<String>>>) map.get(NodeType.ADD_NODE)).get(newVersion).keySet()) {
                         if (fileOrMethod == NodeType.FILE) {

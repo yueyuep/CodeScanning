@@ -77,7 +77,7 @@ public class DiffNode {
     /**
      * @return void
      * @Author Kangaroo
-     * @Description 解析diff文件中 adddiff、deleteddiff行，并将解析结果保存到对应的全局变量中
+     * @Description
      * @Date 2019/11/16 10:02
      * @Param [diff, res]
      **/

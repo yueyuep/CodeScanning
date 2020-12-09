@@ -180,26 +180,7 @@ public class ExtractMethod {
                                 changedFunction.getFunctionLineNumber()));
             }
         }
-        // 打印输出结果
-        // 保存parse result到文件
-//        for (GraphProcess.ChangedFilePair filePair: allChangedFilePairs) {
-//            System.out.println(filePair.getOldFileName());
-//            System.out.println(filePair.getNewFileName());
-//            System.out.println(filePair.getOldChangedLines());
-//            System.out.println(filePair.getNewChangedLines());
-//            for (GraphProcess.ChangedFunction changedFunction : filePair.getOldChangedFunctions()) {
-//                System.out.println(changedFunction.getFunctionName());
-//                System.out.println(changedFunction.getFunctionLineNumber());
-//                System.out.println(changedFunction.getFunctionParse());
-//
-//            }
-//            for (GraphProcess.ChangedFunction changedFunction : filePair.getNewChangedFunctions()) {
-//                System.out.println(changedFunction.getFunctionName());
-//                System.out.println(changedFunction.getFunctionLineNumber());
-//                System.out.println(changedFunction.getFunctionParse());
-//
-//            }
-//        }
+
 
         Gson gson = new Gson();
         String allChangedFilesJson = gson.toJson(allChangedFilePairs);

@@ -47,11 +47,11 @@ public class LoggerDisruptouQueue {
     }
 
     public static void publishEvent(LoggerMessage log) {
-        long sequence = ringBuffer.next();  // Grab the next sequence
+        long sequence = ringBuffer.next();
         try {
-            LoggerEvent event = ringBuffer.get(sequence); // Get the entry in the Disruptor
+            LoggerEvent event = ringBuffer.get(sequence);
             // for the sequence
-            event.setLoggerMessage(log);  // Fill with data
+            event.setLoggerMessage(log);
         } finally {
             ringBuffer.publish(sequence);
         }

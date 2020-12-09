@@ -51,23 +51,7 @@ public class GenerateGraph {
         logTem(gitFile.path_oldfile);
         mOldSubNetworks.clear();
         generateSubGraphsInRelate(oldAst2Graph, gitFile.old_funcs, gitFile.dellist, mOldSubNetworks);
-//        generateSubGraphs(oldAst2Graph, gitFile.old_funcs, gitFile.dellist, mOldSubNetworks);
-//        // 比较 old-new graph
-//        List<MutableNetwork> sameN = new ArrayList<>();
-//        List<MutableNetwork> sameO = new ArrayList<>();
-//        for (MutableNetwork newN : mNewSubNetworks) {
-//            for (MutableNetwork oldN : mOldSubNetworks) {
-//                if (newN.equals(oldN)) {
-//                    sameN.add(newN);
-//                    sameO.add(oldN);
-//                    System.out.println("+++++++++++++++++++++++++++++++");
-//                    System.out.println("+++++++++++++++++++++++++++++++");
-//                    System.out.println("+++++++++++++++++++++++++++++++");
-//                }
-//            }
-//        }
-//        mNewSubNetworks.removeAll(sameN);
-//        mNewSubNetworks.removeAll(sameO);
+
         writeGraphs(gitFile, "../npe_graph/false/", mNewSubNetworks);
 //        writeGraphs(gitFile, "../subGraphs/subGraphsGood/", mNewSubNetworks);
         mJsonIndex = 0;

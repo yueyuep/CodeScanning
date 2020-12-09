@@ -128,23 +128,6 @@ public class Json2Csv {
                     }
                     writer1.close();
 
-//                    for (Map.Entry<String, String> map: ((Map<String, String>) line.get("callMethodNameReferTo")).entrySet()) {
-//                        Files.write(Paths.get(this.node_method),
-//                                Arrays.asList(String.join(",",
-//                                        String.join(separator, fileMethodName, map.getKey()),
-//                                        String.join(separator, version, map.getValue()).replace(",", "."),
-//                                        "nodeCallMethod") + "\n"),
-//                                StandardOpenOption.APPEND);
-//                    }
-//
-//                    for (String call: ((Map<String, String>) line.get("callMethodNameReferTo")).values()) {
-//                        Files.write(Paths.get(this.method_method),
-//                                Arrays.asList(String.join(",",
-//                                        fileMethodName,
-//                                        String.join(separator, version, call).replace(",", "."),
-//                                        "methodCallMethod") + "\n"),
-//                                StandardOpenOption.APPEND);
-//                    }
                 }
 
 

@@ -38,7 +38,6 @@ public class ConnectDiff {
         Map<String, Object> endNode = new HashMap<>();
         //需要去掉重复元素
         removeSameNode(allNodes);
-        // TODO 存在同一个节点，但是被不同的变化所引用，导致同一节点被加注不同的变化，处理完成后，我们需要进行过滤
         int i = 0;
         for (Object object : allNodes) {
             if (typeDiff.get("add").get("file").contains(object) || typeDiff.get("add").get("method").contains(object)) {
@@ -62,7 +61,7 @@ public class ConnectDiff {
                     startNode.put("methodCallMethods", ((Method) object).getMethodCallMethods());
 
             } else {
-                //其他情况
+                //continue
             }
 
             //判断我们的startNode是否已经被计算过。如果计算过，则直接跳过

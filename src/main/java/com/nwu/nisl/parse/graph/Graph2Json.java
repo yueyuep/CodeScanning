@@ -23,46 +23,35 @@ import java.util.stream.Collectors;
 
 public class Graph2Json {
     private MutableNetwork mNetwork;
-//    @Expose
-//    @SerializedName(value = "fileName")
+
     @Setter
     @Getter
     private String fileName;
-//    @Expose
-//    @SerializedName(value = "Version")
+
     @Setter
     @Getter
     private String Version;
-//    @Expose
-//    @SerializedName(value = "MethodName")
+
     @Setter
     @Getter
     private String MethodName;
-//    @Expose
-//    @SerializedName(value = "callMethodNameReferTo")
+
     @Setter
     @Getter
     private HashMap<Integer,Map<String,String>>callMethodNameReferTo=new HashMap<>();//<节点ID，<访问的函数,函数所在的文件>>
-//    @Expose
-//    @SerializedName(value = "n_num")
+
     @Setter
     @Getter
     private int mNodeNumber;
-//    @Expose
-//    @SerializedName(value = "succs")
+
     @Setter
     @Getter
     private List<List<Integer>> mSuccessors = new ArrayList<>();
-//    @Expose
-//    @SerializedName(value = "featureString")//字符串特征
+
     @Setter
     @Getter
     private List<String> mFeatures = new ArrayList<>();
-    //@Expose
-    //@SerializedName(value = "Attribute")
-    //private List<ParseExpression> attribute=new ArrayList<>();
-//   @Expose(serialize = false,deserialize = false)
-//   @SerializedName(value = "featureDims")
+
     private List<List<Integer>> mFeatureDims = new ArrayList<>();//方法调用矩阵
     private StringBuilder mStringBuilder = new StringBuilder();
     private VecGenerator mVecGenerator;
@@ -122,9 +111,6 @@ public class Graph2Json {
         } else {
             mFeatures.add(node.toString());
         }
-        //！！！！！！！=======构建图数据第最后两个特征，构建图数据库添加特征的======================
-        //mFeatureDims.add(mVecGenerator.getVecOfNode(node));
-        //添加我们的特征矩阵
     }
 
 
@@ -134,15 +120,12 @@ public class Graph2Json {
             if (cls.startsWith("CPPAST")) {
                 cls = cls.replace("CPPAST", "");
             }
-//            mFeatures.add(SplitString.splitUntilUpperCase(Util.getClassLastName(node)));
             if (node instanceof IASTName) {
                 mFeatures.add(SplitString.splitUntilUpperCase(cls) + " " + node.toString());
             } else {
                 mFeatures.add(SplitString.splitUntilUpperCase(cls));
             }
-//            mFeatures.add(travelNode(((RangeNode) node).getNode()));
-//        } else if (node instanceof StringCapsule) {
-//            mFeatures.add(((StringCapsule) node).getString());
+
         } else if (node instanceof String) {
             mFeatures.add(node.toString());
         } else {

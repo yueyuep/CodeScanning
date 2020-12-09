@@ -24,31 +24,33 @@ public class CallPython {
     public void execute(String oldversion, String newversion) {
 
         // TODO Auto-generated method stub
-
         Process proc;
-
         try {
 
-            logger.info("=======caculating similarity cross version!=======");
+            logger.info("=======(stage-4 start)calculating similarity cross version!=======");
             String[] args = new String[]{pythonurl, mainstarturl, resulturl, oldversion, newversion};
 
             proc = Runtime.getRuntime().exec(args);// 执行py文件
 
             //用输入输出流来截取结果
 
+
+            //System.out.printf("python 脚本的位置" + mainstarturl);
+
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
             String line = null;
+
 
             while ((line = in.readLine()) != null) {
 
                 logger.info(line);
 
             }
-
             in.close();
 
             proc.waitFor();
+            logger.info("=======(stage-4 finished) calculate similarity cross version=======");
 
         } catch (IOException e) {
 

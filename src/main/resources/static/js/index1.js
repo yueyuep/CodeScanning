@@ -6,11 +6,11 @@
 var flag = true;
 $(".menu").mousedown(function () {
     $(this).toggleClass("closed");
-    $(".messages.button").text("stage3");
-    $(".music.button").text("stage2");
-    $(".home.button").text("stage1");
-    $(".places.button").text("stage4");
-    $(".bookmark.button").text("stage5");
+    $(".messages.button").text("SaveData");
+    $(".music.button").text("Json2csv");
+    $(".home.button").text("ParsingGraph");
+    $(".places.button").text("SimCompare");
+    $(".bookmark.button").text("Visual");
 
 
     if ($(this).hasClass("closed")) {
@@ -144,7 +144,7 @@ $(".bookmark.button").mousedown(function () {
                 dataType: "json",
                 success: function (result) {
                     //0号位置代表我们的nodes、links数据
-                    window.location.href = "http://127.0.0.1:8080/"
+                    window.location.href = "/"
                 },
                 error: function (result) {
                     alert("Error");

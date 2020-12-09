@@ -10,12 +10,8 @@
     <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
     <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
     <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
-
-
 </head>
-
 <body>
-
 <div style="text-align:center;clear:both">
 </div>
 
@@ -28,24 +24,25 @@
         <div class='bookmark button'></div>
         <div class='main button'>Menu</div>
     </div>
+    <div class="intro" style="margin-top: 28%">
+        <h1 style="font-size:38px;text-align: center">CodeScanning</h1>
+        <br>
+        <p style="font-family:宋体;font-size: 23px; margin-left:8%;margin-right: 8%;
+         ">CodeScanning is an incremental static analysis tool for java source code.it can help us understand the code changes between adjacent versions, and analyze the associated effects of the change nodes based on the function call relationship and data flow, and visualize the results.</p>
+    </div>
 
 </div>
 <div class="right" style="width: 58%; height:1000px;float: left">
     <button onclick="openSocket()">start log</button>
     <button onclick="closeSocket()">stop log</button>
     <div id="filelog-container"
-         style="height: 100%; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
+         style="height: 700px; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
         <div></div>
     </div>
 
 </div>
 
-<!--<h1>jvm进程内的日志</h1>-->
-<!--<button onclick="openSocket()">开启日志</button>-->
-<!--<button onclick="closeSocket()">关闭日志</button>-->
-<!--<div id="log-container" style="height: 300px; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">-->
-<!--    <div></div>-->
-<!--</div>-->
+
 
 <script src="/js/tools.js"></script>
 <script src='/js/jquery-2.2.4.min.js'></script>
@@ -60,7 +57,8 @@
 
     function openSocket() {
         if (stompClient == null) {
-            var socket = new SockJS('http://localhost:8080/websocket?token=kl');
+
+            var socket = new SockJS('http://www.nisl.org.cn:9090/websocket?token=kl');
             stompClient = Stomp.over(socket);
             stompClient.connect({token: "kl"}, function (frame) {
                 stompClient.subscribe('/log/pullFileLogger', function (event) {
@@ -87,6 +85,7 @@
             stompClient = null;
         }
     }
+
 </script>
 </body>
 </html>

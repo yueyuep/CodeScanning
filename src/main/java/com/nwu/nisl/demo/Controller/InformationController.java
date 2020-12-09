@@ -43,22 +43,6 @@ public class InformationController {
         return projectInformation.getProjectInformation();
     }
 
-    //-----------------------------------Test-------------------------------------------
 
-    @GetMapping("/testInformation")
-    public Map<String, Object> test1() {
-        String version = "0.9.22";
-        projectInformation.setAttribute(version, version);
-        return projectInformation.getProjectInformation();
-    }
-
-    @GetMapping("/testInformationCompare")
-    public Map<String, Object> test2( ) {
-        String oldVersion = "0.9.22";
-        String newVersion = "0.9.23";
-
-        projectInformation.setAttribute(oldVersion, newVersion);
-        return projectInformation.getProjectInformation();
-    }
 
 }

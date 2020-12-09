@@ -3,9 +3,6 @@ package com.nwu.nisl.parse.graph;
 import com.github.javaparser.Position;
 import com.github.javaparser.ast.Node;
 
-/**
- * @ Author     ：wxkong
- */
 public class NodePositionComparator {
 
     public static boolean isBeforePosition(Node a, Node b) {
