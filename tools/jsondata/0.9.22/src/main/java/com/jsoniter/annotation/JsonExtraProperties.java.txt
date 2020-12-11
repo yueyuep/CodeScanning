@@ -1,0 +1,1 @@
+{"fileName":"src/main/java/com/jsoniter/annotation/JsonExtraProperties.java","version":"0.9.22","hasMethodName":[]}

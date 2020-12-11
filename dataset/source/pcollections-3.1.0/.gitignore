@@ -1,6 +1,0 @@
-out
-build
-target/
-.idea
-.gradle
-*.iml

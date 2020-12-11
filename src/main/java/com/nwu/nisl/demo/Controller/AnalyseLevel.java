@@ -41,13 +41,5 @@ public class AnalyseLevel {
     }
 
 
-    //-----------------------------------Test-------------------------------------------
-
-    @GetMapping(value = "/test1")
-    public Map<String, Object> level() {
-
-        return levelAnalyseServices.getPartNodes("0.9.23", 1);
-    }
-
 
 }

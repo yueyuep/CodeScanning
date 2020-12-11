@@ -25,7 +25,6 @@ public class ConnectDiff {
         this.parseData = parseData;
         this.utils = utils;
     }
-
     public Map<String, Object> initstance(Map<String, Map<String, List<Object>>> typeDiff) {
         Collection<Object> allNodes = new ArrayList<>();
         //把我们的文件和函数节点全部放在一起。
@@ -38,23 +37,23 @@ public class ConnectDiff {
         Map<String, Object> endNode = new HashMap<>();
         //需要去掉重复元素
         removeSameNode(allNodes);
-        // TODO 存在同一个节点，但是被不同的变化所引用，导致同一节点被加注不同的变化，处理完成后，我们需要进行过滤
+        // 存在同一个节点，但是被不同的变化所引用，导致同一节点被加注不同的变化，处理完成后，我们需要进行过滤
         int i = 0;
         for (Object object : allNodes) {
-            if (typeDiff.get("add").get("file").contains(object) || typeDiff.get("add").get("method").contains(object)) {
+            if (isSameNode(typeDiff.get("add"), object)) {
                 startNode = utils.getNodeAttribute(object, "yes", "addConnectDiff");
                 if (object instanceof File) {
                     startNode.put("hasMethod", ((File) object).getMethods());
                 } else if (object instanceof Method)
                     startNode.put("methodCallMethods", ((Method) object).getMethodCallMethods());
-            } else if (typeDiff.get("delete").get("file").contains(object) || typeDiff.get("delete").get("method").contains(object)) {
+            } else if (isSameNode(typeDiff.get("delete"), object)) {
                 startNode = utils.getNodeAttribute(object, "yes", "deleteConnectDiff");
                 if (object instanceof File) {
                     startNode.put("hasMethod", ((File) object).getMethods());
                 } else if (object instanceof Method)
                     startNode.put("methodCallMethods", ((Method) object).getMethodCallMethods());
 
-            } else if (typeDiff.get("modify").get("file").contains(object) || typeDiff.get("modify").get("method").contains(object)) {
+            } else if (isSameNode(typeDiff.get("modify"), object)) {
                 startNode = utils.getNodeAttribute(object, "yes", "modifyConnectDiff");
                 if (object instanceof File) {
                     startNode.put("hasMethod", ((File) object).getMethods());
@@ -64,11 +63,7 @@ public class ConnectDiff {
             } else {
                 //其他情况
             }
-
             //判断我们的startNode是否已经被计算过。如果计算过，则直接跳过
-            if (isSameNode(nodes, startNode)) {
-                continue;
-            }
 
             if (!nodes.contains(startNode)) {
                 nodes.add(startNode);
@@ -145,20 +140,23 @@ public class ConnectDiff {
         objects.addAll(tmp.values());
     }
 
-    public boolean isSameNode(List<Map<String, Object>> maps, Map<String, Object> pnode) {
-        //判断pnode文件名是否在pnode中出现，只是名字是否重复
+    public boolean isSameNode(Map<String, List<Object>> maps, Object pnode) {
+        //判断pnode文件名是否在map中出现，通过名字来判断
         String pname = "";
-        if (pnode.get("nodeType") == "method") {
-            pname = pnode.get("fileMethodName").toString();
-        } else {
-            pname = pnode.get("fileName").toString();
+        String nodeType = "";
+        if (pnode instanceof Method) {
+            pname = ((Method) pnode).getFileMethodName();
+            nodeType = "method";
+        } else if (pnode instanceof File) {
+            pname = ((File) pnode).getFileName();
+            nodeType = "file";
         }
-        for (Map<String, Object> target : maps) {
-            if (target.get("nodeType") == "method" && target.get("fileMethodName").equals(pname)) return true;
-            if (target.get("nodeType") == "file" && target.get("fileName").equals(pname)) return true;
-
+        for (Object object : maps.get(nodeType)) {
+            if (object instanceof File && ((File) object).getFileName() == pname) return true;
+            if (object instanceof Method && ((Method) object).getFileMethodName() == pname) return true;
         }
         return false;
+
 
     }
 

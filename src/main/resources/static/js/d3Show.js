@@ -80,7 +80,7 @@ function show(graph, leftforce, leftsvg) {
         })
         .style("fill", function (node) {
             if (node.changed == "no") {
-                //每有发生修改
+                //没有发生修改
                 if (node.nodeType == "node")
                     return "#239965";
                 else if (node.nodeType == "method")
@@ -88,9 +88,11 @@ function show(graph, leftforce, leftsvg) {
                 else
                     return "#968D99";
             } else {
-                //发生修改
+                //发生修改，不同代码进行标注
                 if (node.level == 1)
+                /*关联节点*/
                     return "#07B4FF";
+                /*todo 待优化*/
                 if (node.type == "deleteConnectDiff" || node.type == "delete")
                     return "#585956";
                 else if (node.type == "addConnectDiff" || node.type == "add")
@@ -101,6 +103,7 @@ function show(graph, leftforce, leftsvg) {
                     //其他类型，还没有处理
                 }
             }
+
 
         })
         .call(leftforce.drag);

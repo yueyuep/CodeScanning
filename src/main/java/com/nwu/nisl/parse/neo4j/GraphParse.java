@@ -1,5 +1,4 @@
 package com.nwu.nisl.parse.neo4j;
-
 import com.nwu.nisl.parse.graph.Util;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
@@ -98,34 +97,6 @@ public class GraphParse {
                         System.out.println(methodDeclaration.getNameAsString() + "\t:内外部类函数构造异常");
                         continue;
                     }
-
-                } else {
-                    System.out.println("函数声明的其他情况发生");
-
-                    //  函数申明不在内部类外部类函数中
-                    // 代码中实例化的函数,比如在新建接口，需要对接口中的方法进行实现，有可能直接在new花括号中直接实现。这部分会被
-                    // 这部分会被当成函数调用，注意这种格式一般是函数被重写(目前是按照这种格式来处理的)
-//                    if (methodDeclaration.getParentNode().isPresent() && methodDeclaration.getParentNode().get() instanceof ObjectCreationExpr) {
-//                        //这个是new实例化中的方法重写
-//                        //标记方法用新建对象的new A(){}中的A作为我们的类对象。
-//                        String newClassName = ((ObjectCreationExpr) methodDeclaration.getParentNode().get()).getTypeAsString();
-//                        //获得类名
-//                        String classNameOfMethod = PareClassOrInterfaces.concatName(newClassName);
-//                        //  在OuterClassMethod2Json中完成了函数名的划分
-//                        callMethod = Utils.getcallMethods(pfile, methodDeclaration, fileMethodDeclarationMap);//<文件名，<函数申明，类名_>>
-//                        try {
-//                            new GraphParse().methodOfJson(pfile, methodDeclaration, targetPath + pfile.getName() + ".txt");
-////                            PreocessingMethod(ast2Graph, methodDeclaration, classNameOfMethod.concat("_") + methodDeclaration.getNameAsString(), pfile, callMethod, targetPath);
-//                        } catch (NumberFormatException e) {
-//                            System.out.println(methodDeclaration.getNameAsString() + "\t:实例化函数构造异常");
-//                            continue;
-//                        }
-//
-//
-//                    } else {
-//                        // TODO 可能存在其他的情况，还没想到
-//                    }
-
 
                 }
 

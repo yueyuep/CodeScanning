@@ -86,6 +86,7 @@ public class Process {
             String version = scanner.next();
 
             System.out.println("Parsing:");
+
             String sourcePath = data + File.separator + version;
             String targetPath = json + File.separator + version;
             File dir = new File(sourcePath);
@@ -135,6 +136,8 @@ public class Process {
             logger.info("===============Start Parsing:" + version + "===============");
             String sourcePath = data + File.separator + version;
             String targetPath = json + File.separator + version;
+            logger.info("sourcepath" + sourcePath);
+            logger.info("targetpath" + targetPath);
             File dir = new File(sourcePath);
             ExtractJavaFile javaFile = new ExtractJavaFile(dir);
             javaFile.getFileList(dir);
@@ -160,15 +163,12 @@ public class Process {
         json2Csv.clear();
         json2Csv.generateCsv();
         logger.info("===============End " + oldversion + " save2csv！......===============");
-
-
         logger.info("===============Running" + newversion + " json to csv......===============");
         sourcePath = json + File.separator + newversion;
         targetPath = csv;
         json2Csv = new Json2Csv(sourcePath, targetPath);
         json2Csv.generateCsv();
         logger.info("===============End " + newversion + " save2csv！......===============");
-
 
     }
 

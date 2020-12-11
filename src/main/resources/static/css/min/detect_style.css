@@ -1,0 +1,137 @@
+@charset "utf-8";
+/* CSS Document */
+
+html, body {
+	height: 100%;
+	/*	background-image: url(../images/banner.jpg);
+	background-size: cover;*/
+}
+#content,html, body{
+	background-color: rgba(255,255,255,1.00);
+	background-image: url(../images/brushed_alu_@2X.png);
+
+}
+#content{
+	width: 40%;
+	float: left;
+
+}
+#filedrag
+{
+	display: none;
+	font-weight: bold;
+	text-align: center;
+	padding: 3em 0;
+	margin: 1em 0;
+	color: #555;
+	border: 2px dashed #555;
+	border-radius: 7px;
+	cursor: default;
+}
+
+#filedrag.hover
+{
+	color: #f00;
+	border-color: #f00;
+	border-style: solid;
+	box-shadow: inset 0 3px 4px #888;
+}
+
+pre
+{
+	width: 95%;
+	height: 8em;
+	font-family: monospace;
+	font-size: 0.9em;
+	padding: 1px 2px;
+	margin: 0 0 1em auto;
+	border: 1px inset #666;
+	background-color: #eee;
+	overflow: auto;
+}
+.main{
+	text-align: center;
+	color:black;
+	height: 500px;
+}
+/*大标题*/
+.row{
+	color: black;
+	padding-top: 60px;
+	display: inline-block;
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+}
+.wrap-col .bt1{
+	font-size: 50px;
+	line-height: 50px;
+	font-weight: 500;
+	position: relative;
+	left: -580px;
+}
+.wrap-col .bt2{
+	margin-left: 10px;
+	font-size: 40px;
+	line-height: 40px;
+	padding-top: 30px;
+	font-weight: 400;
+
+	left: -250px;
+	
+}
+
+fieldset{
+	border: 2px solid rgba(0,0,0,1.00);
+	padding-bottom: 1em;
+	margin: 0.5em 1em;
+}
+legend{
+	font-size:25px;
+	line-height: 70px;
+	text-align: center;
+}
+fieldset div{
+	font-size: 20px;
+}
+
+#messages
+{
+	margin: 1em 1em 1em 1em;
+	border: 1.5px solid #000000;
+}
+#messages p{
+	color: black;
+	height: 30px;
+	text-align: center;
+}
+
+
+.footer{
+	margin-bottom: 0px;
+	height: 60px;
+	background-color: #444;
+	color: rgba(255,255,255,0.75);
+	line-height: 60px;
+	text-align: center;
+	margin-top: 100px;
+}
+#myButton{
+	float: right;
+	margin-right: 20px;
+	width: 120px;
+	font-size: 20px;
+	height: 2em;
+	line-height: 2em;
+}
+
+input[type="submit"]{
+	float: right;
+    margin-right: -120px;
+	width: 120px;
+	box-sizing:border-box;
+	font-size: 20px;
+	margin-top: 50px;
+	display: inline-block;
+	height: 2em;
+	line-height: 2em;
+}
+

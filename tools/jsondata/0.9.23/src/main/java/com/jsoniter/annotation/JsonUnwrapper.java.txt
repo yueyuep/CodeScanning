@@ -1,0 +1,1 @@
+{"fileName":"src/main/java/com/jsoniter/annotation/JsonUnwrapper.java","version":"0.9.23","hasMethodName":[]}

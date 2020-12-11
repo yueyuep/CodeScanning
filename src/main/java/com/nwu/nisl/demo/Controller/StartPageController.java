@@ -2,11 +2,7 @@ package com.nwu.nisl.demo.Controller;
 
 import com.nwu.nisl.demo.Component.Process;
 import com.nwu.nisl.demo.Component.Utils;
-import com.nwu.nisl.demo.Services.StartProcessServices;
 import com.nwu.nisl.demo.pytools.CallPython;
-import com.nwu.nisl.parse.graph.Util;
-import org.python.antlr.ast.Str;
-import org.python.modules._hashlib;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +31,7 @@ public class StartPageController {
     @GetMapping(value = "/main")
     public String main() {
         //启动start页面
-        return "start";
+        return "start2";
 
 
     }

@@ -1,1 +1,0 @@
-{"fileName":"src/main/java/org/fluentd/logger/Config.java","version":"12420.0","hasMethodName":[]}

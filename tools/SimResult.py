@@ -138,7 +138,7 @@ if __name__ == '__main__':
 
     oldversion = sys.argv[2]
     newversion = sys.argv[3]
-
+    print("oldV:"+oldversion+"newV"+newversion)
     low_version = os.path.join(ospwd, os.path.join("jsondata", oldversion))
     high_version = os.path.join(ospwd, os.path.join("jsondata", newversion))
     base_file_list = []
@@ -159,4 +159,4 @@ if __name__ == '__main__':
     dic["adddiff"] = adddiff
     dic["nomatch"] = nomatch
     toText(dic, saveurl, "result.txt", oldversion, newversion)
-    print("done!")
+    # print("done!")

@@ -1,16 +1,11 @@
-//document.write("<script type='text/javascript' src='./d3Show.js'></script>");
 $("#header li").click(function (e) {
-    //alert($(this).text());
-    // make sure we cannot click the slider
+
     if ($(this).hasClass('slider')) {
         return;
     }
-    /* Add the slider movement */
 
-    // what tab was pressed
     var whatTab = $(this).index();
 
-    // Work out how far the slider needs to go
     var howFar = 380 * whatTab;
 
     $(".slider").css({
@@ -49,21 +44,31 @@ $("#header li").click(function (e) {
         top: y + 'px',
         left: x + 'px'
     }).addClass("rippleEffect");
-    if ($(this).text() == "Version 1.0") {
-        var input = prompt("Please enter the older version of Project!");
-        //显示版本1.0的图
-        parame = {"version": input};
+    if ($(this).text() == "OldVersion") {
+        //t = prompt("Please enter the older version of Project!");
+
+        /*显示旧版本数据图*/
+        var oldversion = getcookies("oldversion");
+        if (oldversion == "") {
+            alert("未解析数据")
+            return;
+        }
+        parame = {"version": oldversion};
         url = "/callMethod";
         result = pareurl(parame, url);
         projectInfoClear();
         projectInfo(result);
         requestData(result, "diff");
 
-    } else if ($(this).text() == "Version 1.1") {
-
+    } else if ($(this).text() == "NewVersion") {
         //显示版本1.1的图
-        var input = prompt("Please enter the older version of Project!");
-        parame = {"version": input};
+        //var input = prompt("Please enter the older version of Project!");
+        var newversion = getcookies("newversion");
+        if (newversion == "") {
+            alert("未解析数据")
+            return;
+        }
+        parame = {"version": newversion};
         url = "/callMethod";
         var result = pareurl(parame, url);
         projectInfoClear();
@@ -71,25 +76,27 @@ $("#header li").click(function (e) {
         requestData(result, "diff");
 
 
-    } else if ($(this).text() == "Diff show") {
-        var input = prompt("Please enter the two versions of Project(0.9.22&0.9.23)!");
-        var version = input.split("&");
-        if (version.length < 2) {
-            alert("format Error!");
-
+    } else if ($(this).text() == "ChangeNode") {
+        //var input = prompt("Please enter the two versions of Project(0.9.22&0.9.23)!");
+        var oldversion = getcookies("oldversion");
+        var newversion = getcookies("newversion");
+        if (oldversion == "" || newversion == "") {
+            alert("未解析数据")
+            return;
         }
-        result = diffshow(version[0], version[1]);
+        result = diffshow(oldversion, newversion);
         projectInfoClear();
         projectInfo(result);
         diffInfo(result);
         requestData(result, "diff")
 
 
-    } else if ($(this).text() == "Level One") {
-        var version = prompt("Please enter the new versions of Project!");
-        if (version.length < 1) {
-            alert("format Error!");
-
+    } else if ($(this).text() == "ConnectNodeI") {
+        //var version = prompt("Please enter the new versions of Project!");
+        var version = getcookies("newversion");
+        if (version == "") {
+            alert("未解析数据")
+            return;
         }
         //显示版l1层次的图,需要借助diff返回的结果集
         var level = 1;
@@ -104,12 +111,13 @@ $("#header li").click(function (e) {
 
     } else {
         //显示版l2层次的图
-        var version = prompt("Please enter the new versions of Project!");
-        if (version.length < 1) {
-            alert("format Error!");
-
+        //var version = prompt("Please enter the new versions of Project!");
+        var version = getcookies("newversion");
+        if (version == "") {
+            alert("未解析数据")
+            return;
         }
-        var level = 3;
+        var level = 2;
         parame = {"version": version, "level": level};
         url = "/analyse/connectLevelDiff";
         analyseResult = pareurl(parame, url);
@@ -170,5 +178,27 @@ function pareurl(parame, url) {
     });
     return data;
 
+}
+
+function getcookies(cookieName) {
+    var cookieStr = unescape(document.cookie);
+    var arr = cookieStr.split("; ");
+    var cookieValue = "";
+    for (var i = 0; i < arr.length; i++) {
+        var temp = arr[i].split("=");
+        if (temp[0] == cookieName) {
+            cookieValue = temp[1];
+            break;
+        }
+    }
+    return cookieValue;
+
+}
+
+function removecookies() {
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    var cval = getcookies(name);
+    document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
 }
 

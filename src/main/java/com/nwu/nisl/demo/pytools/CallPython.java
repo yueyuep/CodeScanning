@@ -29,7 +29,7 @@ public class CallPython {
 
         try {
 
-            logger.info("=======caculating similarity cross version!=======");
+            logger.info("=======(stage-4 start)calculating similarity cross version!=======");
             String[] args = new String[]{pythonurl, mainstarturl, resulturl, oldversion, newversion};
 
             proc = Runtime.getRuntime().exec(args);// 执行py文件
@@ -49,6 +49,7 @@ public class CallPython {
             in.close();
 
             proc.waitFor();
+            logger.info("=======(stage-4 finished) calculate similarity cross version=======");
 
         } catch (IOException e) {
 

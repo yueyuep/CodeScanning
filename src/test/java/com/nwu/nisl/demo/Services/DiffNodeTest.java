@@ -12,6 +12,7 @@ public class DiffNodeTest {
     private DiffNode diffNode;
     @Test
     public void test1(){
+        System.out.printf("测试");
 //        diffNode.ToList();
 //        if (diffNode ==null)
 //            System.out.println("注入失败");

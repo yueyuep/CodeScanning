@@ -67,7 +67,7 @@
     display: inline-block;
     width: 20%;
     height: 60px;
-    background: #39CCCC;
+    background: rgba(68,68,68,1.00);
     font-size: 16px;
     text-align: center;
     line-height: 60px;

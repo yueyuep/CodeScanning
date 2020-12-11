@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 //这个是在解析语法树之后进行处理，ParseUtil中包含了很多解析java语言的各种接口函数
 
 public class AST2Graph extends ParseUtil implements Graph {//实现了图的接口，图模型上的修改
-
     public List<Range> mVisitedNodes = new ArrayList<>();
     public String mParseResult;
     public MutableValueGraph<Object, String> mGraph;//多值网络
@@ -33,7 +32,6 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
     public ArrayList<Node> mPreTempNodes = new ArrayList<>();
     // For CG
     public ArrayList<MethodDeclaration> mCalledMethodDecls = new ArrayList<>();
-
 
     public AST2Graph(String srcFilePath) throws FileNotFoundException {
         //调用构造方法，ParseUtil中，解析java代码，获得对应的方法声明
@@ -85,47 +83,47 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
         }
     }
 
-    public static void main(String[] args) {
-        String srcFilePath = "data/BenchmarkTest00159.java";
-       // ExtractSubGraphs.ExtractSQLI(srcFilePath, srcFilePath.replace(".java", "__.txt"));
-//        String srcFilePath = "data/tsExpStmt.java";
-        //调用上面的方法创建实例对象
-        AST2Graph ast2Graph = AST2Graph.newInstance(srcFilePath);
-        if (ast2Graph == null) {
-            return;
-        }
-        List<MethodDeclaration> methodDeclarations = ast2Graph.getMethodDeclarations();
-        if (methodDeclarations.size() <= 0) {
-            logInfo("There is no method declaration.");
-            System.exit(0);
-        }
-        //初始化网络
-        ast2Graph.initNetwork();
-        MethodDeclaration method = ast2Graph.getCompilationUnit().findAll(MethodDeclaration.class).stream()
-                .filter(methodDeclaration -> methodDeclaration.getNameAsString().equals("doPost"))
-                .collect(Collectors.toList()).get(0);
-        ast2Graph.constructNetwork(method);
-        MutableNetwork<Object, String> network = ast2Graph.getNetwork();
-//        ast2Graph.renameNetworkVar();
-        for (Object nodeU : network.nodes()) {
-            for (Object nodeV : network.adjacentNodes(nodeU)) {
-                for (String edge : network.edgesConnecting(nodeU, nodeV)) {
-                    System.out.println("=============");
-                    System.out.println(edge);
-                    System.out.println(nodeU);
-                    System.out.println(nodeV);
-                }
-            }
-        }
-        for (String edge : network.edges()) {
-            System.out.println(edge);
-            for (Object pair : network.incidentNodes(edge)) {
-//                System.out.println(((RangeNode)pair).getOptionalRange());
-            }
-        }
-        Graph2Json graph2Json = Graph2Json.newInstance(ast2Graph.mNetwork);
-        graph2Json.saveToJson(srcFilePath.replace(".java", "_.txt"));
-    }//main结束
+//    public static void main(String[] args) {
+//        String srcFilePath = "data/BenchmarkTest00159.java";
+//       // ExtractSubGraphs.ExtractSQLI(srcFilePath, srcFilePath.replace(".java", "__.txt"));
+////        String srcFilePath = "data/tsExpStmt.java";
+//        //调用上面的方法创建实例对象
+//        AST2Graph ast2Graph = AST2Graph.newInstance(srcFilePath);
+//        if (ast2Graph == null) {
+//            return;
+//        }
+//        List<MethodDeclaration> methodDeclarations = ast2Graph.getMethodDeclarations();
+//        if (methodDeclarations.size() <= 0) {
+//            logInfo("There is no method declaration.");
+//            System.exit(0);
+//        }
+//        //初始化网络
+//        ast2Graph.initNetwork();
+//        MethodDeclaration method = ast2Graph.getCompilationUnit().findAll(MethodDeclaration.class).stream()
+//                .filter(methodDeclaration -> methodDeclaration.getNameAsString().equals("doPost"))
+//                .collect(Collectors.toList()).get(0);
+//        ast2Graph.constructNetwork(method);
+//        MutableNetwork<Object, String> network = ast2Graph.getNetwork();
+////        ast2Graph.renameNetworkVar();
+//        for (Object nodeU : network.nodes()) {
+//            for (Object nodeV : network.adjacentNodes(nodeU)) {
+//                for (String edge : network.edgesConnecting(nodeU, nodeV)) {
+//                    System.out.println("=============");
+//                    System.out.println(edge);
+//                    System.out.println(nodeU);
+//                    System.out.println(nodeV);
+//                }
+//            }
+//        }
+//        for (String edge : network.edges()) {
+//            System.out.println(edge);
+//            for (Object pair : network.incidentNodes(edge)) {
+////                System.out.println(((RangeNode)pair).getOptionalRange());
+//            }
+//        }
+//        Graph2Json graph2Json = Graph2Json.newInstance(ast2Graph.mNetwork);
+//        graph2Json.saveToJson(srcFilePath.replace(".java", "_.txt"));
+//    }//main结束
 
     public void constructNetwork(Node node) {
         travelNodeForCFG(node);//控制流信息的构造（if/switch/for/do 类似语句的处理）
