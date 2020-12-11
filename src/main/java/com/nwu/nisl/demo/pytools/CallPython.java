@@ -24,9 +24,7 @@ public class CallPython {
     public void execute(String oldversion, String newversion) {
 
         // TODO Auto-generated method stub
-
         Process proc;
-
         try {
 
             logger.info("=======(stage-4 start)calculating similarity cross version!=======");
@@ -36,16 +34,19 @@ public class CallPython {
 
             //用输入输出流来截取结果
 
+
+            //System.out.printf("python 脚本的位置" + mainstarturl);
+
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
             String line = null;
+
 
             while ((line = in.readLine()) != null) {
 
                 logger.info(line);
 
             }
-
             in.close();
 
             proc.waitFor();

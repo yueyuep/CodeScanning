@@ -35,7 +35,7 @@ public class AnalyseLevel {
 
     @GetMapping(value = "/connectDiff")
     public Map<String, Map<String, List<Object>>> connectDiff() {
-        //目前只是传入一个level参数，我们只是在最近的版本代码进行分析。
+        //level 层次
 
         return scanGraph.initInstance(2);
     }

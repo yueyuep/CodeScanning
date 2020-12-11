@@ -10,21 +10,13 @@ import java.util.ArrayList;
 
 public class ExtractParse {
 
-//    private String mParseResultFile;
-//    private String mToOldJsonFile;
-//    private String mToOldCorpusFile;
-//    private String mToNewJsonFile;
-//    private String mToNewCorpusFile;
+
     private String mParseResultFile;        //"data/parseMethodResult.json";
     private String mToOldJsonFile;          //"data/parseMethodResultOld.txt";
     private String mToOldCorpusFile;        //"data/parseMethodResultOldCorpus.txt";
     private String mToNewJsonFile;          //"data/parseMethodResultNew.txt";
     private String mToNewCorpusFile;        //"data/parseMethodResultNewCorpus.txt";
-//    private String mParseResultFile = "data/parseMethodResult.json";
-//    private String mToOldJsonFile = "data/parseMethodResult.json.Old.txt";
-//    private String mToOldCorpusFile = "data/parseMethodResult.json.OldCorpus.txt";
-//    private String mToNewJsonFile = "data/parseMethodResult.json.New.txt";
-//    private String mToNewCorpusFile = "data/parseMethodResult.json.NewCorpus.txt";
+
 
     private static String sSymbolRegex = "([\\p{Pd}-\\p{Po}]|\\p{S})";
 

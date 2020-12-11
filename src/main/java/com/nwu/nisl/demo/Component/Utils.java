@@ -116,12 +116,13 @@ public class Utils {
         String path;
         if (isSource) {
             //原数据文件
-            path = sourceurl + "\\" + version;
+            path = sourceurl + "/" + version;
         } else {
             //json数据文件
-            path = jsonurl + "\\" + version;
+            path = jsonurl + "/" + version;
         }
         java.io.File file = new java.io.File(path);
+
         if (file.exists()) {
             return true;
         } else return false;

@@ -54,20 +54,7 @@ public class RangeNode {
         return mOptionalRange;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (o instanceof RangeNode) {
-//            return mNode.equals(((RangeNode) o).getNode()) && mOptionalRange.equals(((RangeNode) o).getOptionalRange());
-//        } else {
-//            return false;
-//        }
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(mNode, mOptionalRange);
-////        return 31 * mNode.hashCode() + mOptionalRange.hashCode();
-//    }
+
 
     @Override
     public String toString() {
