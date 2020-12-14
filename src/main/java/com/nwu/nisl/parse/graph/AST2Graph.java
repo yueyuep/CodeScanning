@@ -83,47 +83,6 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
         }
     }
 
-//    public static void main(String[] args) {
-//        String srcFilePath = "data/BenchmarkTest00159.java";
-//       // ExtractSubGraphs.ExtractSQLI(srcFilePath, srcFilePath.replace(".java", "__.txt"));
-////        String srcFilePath = "data/tsExpStmt.java";
-//        //调用上面的方法创建实例对象
-//        AST2Graph ast2Graph = AST2Graph.newInstance(srcFilePath);
-//        if (ast2Graph == null) {
-//            return;
-//        }
-//        List<MethodDeclaration> methodDeclarations = ast2Graph.getMethodDeclarations();
-//        if (methodDeclarations.size() <= 0) {
-//            logInfo("There is no method declaration.");
-//            System.exit(0);
-//        }
-//        //初始化网络
-//        ast2Graph.initNetwork();
-//        MethodDeclaration method = ast2Graph.getCompilationUnit().findAll(MethodDeclaration.class).stream()
-//                .filter(methodDeclaration -> methodDeclaration.getNameAsString().equals("doPost"))
-//                .collect(Collectors.toList()).get(0);
-//        ast2Graph.constructNetwork(method);
-//        MutableNetwork<Object, String> network = ast2Graph.getNetwork();
-////        ast2Graph.renameNetworkVar();
-//        for (Object nodeU : network.nodes()) {
-//            for (Object nodeV : network.adjacentNodes(nodeU)) {
-//                for (String edge : network.edgesConnecting(nodeU, nodeV)) {
-//                    System.out.println("=============");
-//                    System.out.println(edge);
-//                    System.out.println(nodeU);
-//                    System.out.println(nodeV);
-//                }
-//            }
-//        }
-//        for (String edge : network.edges()) {
-//            System.out.println(edge);
-//            for (Object pair : network.incidentNodes(edge)) {
-////                System.out.println(((RangeNode)pair).getOptionalRange());
-//            }
-//        }
-//        Graph2Json graph2Json = Graph2Json.newInstance(ast2Graph.mNetwork);
-//        graph2Json.saveToJson(srcFilePath.replace(".java", "_.txt"));
-//    }//main结束
 
     public void constructNetwork(Node node) {
         travelNodeForCFG(node);//控制流信息的构造（if/switch/for/do 类似语句的处理）
@@ -264,7 +223,7 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
             } else if (isContain(nodeClassPackage, "ClassOrInterfaceDeclaration")) {
                 ClassOrInterfaceDeclaration classOrInterfaceDeclaration = (ClassOrInterfaceDeclaration) node;
                 stringPrint(nodeClass);
-               addChildTokenList(classOrInterfaceDeclaration, classOrInterfaceDeclaration.getAnnotations());
+                addChildTokenList(classOrInterfaceDeclaration, classOrInterfaceDeclaration.getAnnotations());
                 addChildModifiers(classOrInterfaceDeclaration, classOrInterfaceDeclaration.getModifiers());
                 addChildToken(classOrInterfaceDeclaration, classOrInterfaceDeclaration.getName());
                 addChildNextTokenList(classOrInterfaceDeclaration, classOrInterfaceDeclaration.getImplementedTypes());
@@ -720,7 +679,6 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
         putEdge(RangeNode.newInstance(caller), RangeNode.newInstance(called), EDGE_METHOD_CALL);
         mCalledMethodDecls.add(called);
     }
-
     public void travelCalled() {
         if (mCalledMethodDecls.isEmpty()) {
             return;
@@ -970,7 +928,6 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
         mLastWrite = specificName;
         logInfo("==========");
         logInfo(specificName);
-//        logInfo(getAssignsOrStmtsContains(parent, specificName).size());
         // Process the data flow between neighbor nodes of variableDeclarator and nodes in assign or Stmts.
         updateBlockDataFlow(parent, specificName, dataFlowBeforeNode);
     }
@@ -1343,20 +1300,20 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
             IntegerLiteralExpr integerLiteralExpr = (IntegerLiteralExpr) node;
             try {
                 // 如果asInt时数据超过 范围，会抛出异常
-                if(integerLiteralExpr.asInt() == 0){
+                if (integerLiteralExpr.asInt() == 0) {
                     addChildTokenForObjectV(node, "Zero " + nodeClass);
                     stringPrint("Zero " + nodeClass);
-                } else{
+                } else {
                     addChildTokenForObjectV(node, nodeClass);
                     stringPrint(nodeClass);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 addChildTokenForObjectV(node, nodeClass);
                 stringPrint(nodeClass);
             }
         } else if (isContain(nodeClassPackage, "LongLiteralExpr")) {
             LongLiteralExpr longLiteralExpr = (LongLiteralExpr) node;
-            try{
+            try {
                 if (longLiteralExpr.asLong() == 0L) {
                     addChildTokenForObjectV(node, "Zero " + nodeClass);
                     stringPrint("Zero " + nodeClass);
@@ -1364,7 +1321,7 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
                     addChildTokenForObjectV(node, nodeClass);
                     stringPrint(nodeClass);
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 addChildTokenForObjectV(node, nodeClass);
                 stringPrint(nodeClass);
             }
@@ -1539,7 +1496,7 @@ public class AST2Graph extends ParseUtil implements Graph {//实现了图的接�
             }
             if ((mNetwork.hasEdgeConnecting(node, adjNode) &&
                     hasConnectingBelongs(node, adjNode, new String[]{EDGE_COMPUTED_FROM, EDGE_LAST_USE,
-                    EDGE_LAST_WRITE, EDGE_LAST_LEXICAL_USE, EDGE_FORMAL_ARG_NAME})) ||
+                            EDGE_LAST_WRITE, EDGE_LAST_LEXICAL_USE, EDGE_FORMAL_ARG_NAME})) ||
                     (mNetwork.hasEdgeConnecting(node, adjNode)
                             && hasConnectingBelongs(adjNode, node, new String[]{EDGE_LAST_USE, //  TODO: EDGE_FORMAL_ARG_NAME 可以看到var所在的方法体被谁调用
                             EDGE_LAST_WRITE, EDGE_LAST_LEXICAL_USE}))) {

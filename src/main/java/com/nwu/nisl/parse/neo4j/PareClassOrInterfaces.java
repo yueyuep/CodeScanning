@@ -68,7 +68,7 @@ public class PareClassOrInterfaces {
             if (methodCallExpr.getScope().isPresent()) {
                 //型如这种方式：类.函数调用
                 //使用空格和.作为分隔符
-                // TODO 可能存在异常，按照.来切分
+                // 按照.来切分
                 String name = methodCallExpr.getScope().get().toString();
                 if (name.startsWith("new")) {
                     classNameList.add(
@@ -76,7 +76,7 @@ public class PareClassOrInterfaces {
                 } else if (name.charAt(0) < 'Z') {
                     classNameList.add(concatName(name));
                 } else {
-                    // TODO 小写字母，需要追踪变量定义的位置，直接添加本函数中的所有的类和接口，这个变量的类型一定在里面，下面@1解决此处问题
+                    // 小写字母，需要追踪变量定义的位置，直接添加本函数中的所有的类和接口，这个变量的类型一定在里面，下面@1解决此处问题
                 }
 
             } else {
@@ -85,9 +85,6 @@ public class PareClassOrInterfaces {
                 classNameList.add(FunctionParse.getClassOfMethod(this.methodDeclaration));//添加本函数所在的类名
             }
         }
-        // TODO @1
-        // 如果参数是某个类的对象，则classNameList同样会将此类名添加进去
-
         // Data: 2019年10月31日20:39:07
         // 这里不处理变量的问题，在此函数被调用的后续进行处理
 //        methodDeclaration.findAll(ClassOrInterfaceType.class).forEach(classOrInterfaceType -> classNameList.add(classOrInterfaceType.getNameAsString()));

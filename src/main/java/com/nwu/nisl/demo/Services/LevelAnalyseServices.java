@@ -8,18 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Map;
 
 /**
- * Create by lp on 2019/11/15
+ * @Author:yueyue on 2020/12/13 16:52
+ * @Param: :Description:根据变化的部分分析周围的关联变化的地方,
+ * getLevelNodes() 返回全部的节点信息
+ * getLevelPartNodes返回部分节点信息
  */
 @Service
 public class LevelAnalyseServices {
-    /**
-     * Author:lp on 2019/11/15 21:24
-     * Param: level diff
-     * return:
-     * Description:根据变化的部分分析周围的关联变化的地方,
-     * getLevelNodes() 返回全部的节点信息
-     * getLevelPartNodes返回部分节点信息
-     */
+
     @Autowired
     private CallGraph callGraph;
 
@@ -34,6 +30,9 @@ public class LevelAnalyseServices {
 
     @Transactional(readOnly = true)
     public Map<String, Object> getPartNodes(String version, int level) {
+
+
+        //返回关联分析的结果
         return callGraph.getLevelPartNodes(version, level);
     }
 }

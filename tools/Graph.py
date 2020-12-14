@@ -14,7 +14,7 @@ class ParseGraph:
         self.succs = method["succs"]
         self.attribute = method["attribute"]
         self.callMethodNameReferTo = method["callMethodNameReferTo"]
-        # TODO 这个直接加上MethodName字段的名字
+        # 这个直接加上MethodName字段的名字
         self.methodName = method["methodName"]
         self.Version = method["version"]
 
@@ -42,7 +42,7 @@ class ParseGraph:
                     g.add_edge(u, v, connection="include")  # 后继节点类型
                     # g.add_node()
 
-        # TODO 添加函数调用节点，用文件名节点代替表示
+        #添加函数调用节点，用文件名节点代替表示
         for callnode in self.callMethodNameReferTo.keys():
             calledmethodname = self.callMethodNameReferTo[callnode]  # 被调用函数的名字
             recallnode = str(callnode) + "_" + self.methodName
@@ -77,7 +77,7 @@ class ParseGraph:
                     # g.add_node()
 
         # 添加函数调用节点，用文件名节点代替表示
-        # TODO {"1"："HelloWord.java_HelloWord.Innerclass_main_String[]"}
+        # {"1"："HelloWord.java_HelloWord.Innerclass_main_String[]"}
         for callnode in self.callMethodNameReferTo.keys():
             callednamedic = self.callMethodNameReferTo[callnode]
             calledfilename = list(callednamedic.keys())[0]  # 被调用函数所在的文件名

@@ -64,7 +64,6 @@ public class Utils {
         for (VariableDeclarator variableDeclarator : variableDeclarators) {
             if (variableDeclarator.getType().isClassOrInterfaceType()) {
                 String name = variableDeclarator.getNameAsString();
-                // TODO
                 //  type可能不是仅一个单独的字符串， 推测可能有 类名.类名 的情况
                 String type = variableDeclarator.getTypeAsString();
                 variableDeclaratorList.put(name, type);
@@ -186,9 +185,6 @@ public class Utils {
             return calledExprLocation;
         }
         for (ClassOrInterfaceDeclaration classOrInterfaceDeclaration : candidateFile.keySet()) {
-            //首先
-            // TODO
-            //  存在逻辑问题，如果文件的外部类和内部类都在候选集中，有同名且参数个数相同的函数，判断会出错（若正确匹配在内部类中，但当前逻辑为先判断外部类中是否存在，导致匹配错误）
             if (classOrInterfaceDeclaration.getNameAsString().concat(".java").equals(candidateFile.get(classOrInterfaceDeclaration))) {
                 //文件名和类名一样，在外部类中调用
                 //得到函数调用所在的函数名字
@@ -296,8 +292,6 @@ public class Utils {
 
 
         for (String className : classOrInterfaceNameList) {
-            // TODO
-            //  考虑不完整，多层类嵌套
             if (className.contains(".")) {
                 //处理GsonCompatibilityMode.Builder这种类型的数据，前一个是外部类，后一个是内部类，scope作为修饰符
                 String fileName = className.split("\\.")[0];
@@ -421,9 +415,6 @@ public class Utils {
             //大写字母，静态类
             return split[0].concat(".java");
         } else {
-            //TODO 通过对像来调用，提前定义好对象，然后通过对象来调用方法
-            // 变量对应的类，如果是内部类，形如 A.B
-
             // 变量名.函数
             // Case 1:  a.test()
             // Case 2:  this.a.test()

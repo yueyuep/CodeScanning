@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 /**
- * Author:lp on 2019/11/29 22:26
- * Param:
- * return:
- * Description:给三种不同变化的类型添加变化标注，
- */
+ *@Author:yueyue on 2020/12/14 9:30
+ *@Param:
+ *@return:
+ *@Description:关联节点
+*/
 @Component
 public class ConnectDiff {
     private Utils utils;
@@ -25,6 +25,7 @@ public class ConnectDiff {
         this.parseData = parseData;
         this.utils = utils;
     }
+
     public Map<String, Object> initstance(Map<String, Map<String, List<Object>>> typeDiff) {
         Collection<Object> allNodes = new ArrayList<>();
         //把我们的文件和函数节点全部放在一起。
@@ -44,21 +45,27 @@ public class ConnectDiff {
                 startNode = utils.getNodeAttribute(object, "yes", "addConnectDiff");
                 if (object instanceof File) {
                     startNode.put("hasMethod", ((File) object).getMethods());
-                } else if (object instanceof Method)
+                } else if (object instanceof Method) {
                     startNode.put("methodCallMethods", ((Method) object).getMethodCallMethods());
+                }
+
             } else if (isSameNode(typeDiff.get("delete"), object)) {
                 startNode = utils.getNodeAttribute(object, "yes", "deleteConnectDiff");
                 if (object instanceof File) {
                     startNode.put("hasMethod", ((File) object).getMethods());
-                } else if (object instanceof Method)
+                } else if (object instanceof Method) {
                     startNode.put("methodCallMethods", ((Method) object).getMethodCallMethods());
+
+                }
 
             } else if (isSameNode(typeDiff.get("modify"), object)) {
                 startNode = utils.getNodeAttribute(object, "yes", "modifyConnectDiff");
                 if (object instanceof File) {
                     startNode.put("hasMethod", ((File) object).getMethods());
-                } else if (object instanceof Method)
+                } else if (object instanceof Method) {
                     startNode.put("methodCallMethods", ((Method) object).getMethodCallMethods());
+                }
+
 
             } else {
                 //其他情况

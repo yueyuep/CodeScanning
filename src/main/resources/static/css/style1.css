@@ -4,9 +4,28 @@ html {
     background: #f8f7f2;
 }
 
+.page1 {
+    height: 1100px;
+}
+
 .Parsing {
-    height: 500px;
+    /*    height: 500px;*/
+    height: 62%;
     background-color: #f9fbff;
+}
+
+.main {
+    color: #030f01;
+    /* height: 350px;*/
+    height: 38%;
+    text-align: left;
+    mix-blend-mode: normal;
+    line-height: 30px;
+    -webkit-box-shadow: 0 0 0 5px rgba(3, 15, 1, 0.1);
+    box-shadow: 0 0 0 5px rgba(3, 15, 1, 0.1);
+    -webkit-transition: border-color 0.75s, color 0.75s;
+    transition: border-color 0.75s, color 0.75s;
+    will-change: color, border-color, background;
 }
 
 blockquote {
@@ -14,7 +33,7 @@ blockquote {
     font-style: italic;
     margin: 0 0 2em 0;
     padding: 0.5em 0 0.5em 2em;
-    font-size: 32px;
+    font-size: 27px;
     line-height: 2.0em;
     font-weight: 300;
     color: #414141;
@@ -67,18 +86,6 @@ blockquote {
     transform: translate3d(0, 0, 0) !important;
 }
 
-.main {
-    color: #030f01;
-    height: 350px;
-    text-align: left;
-    mix-blend-mode: normal;
-    line-height: 30px;
-    -webkit-box-shadow: 0 0 0 5px rgba(3, 15, 1, 0.1);
-    box-shadow: 0 0 0 5px rgba(3, 15, 1, 0.1);
-    -webkit-transition: border-color 0.75s, color 0.75s;
-    transition: border-color 0.75s, color 0.75s;
-    will-change: color, border-color, background;
-}
 
 .closed .main {
     color: #f8f7f2;

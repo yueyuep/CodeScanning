@@ -118,10 +118,6 @@ public class DataToJson {
                         vistedMethodCallex.put(methodCallExpr, index);
                         for (String fileName : this.calledMethod.keySet()) {
                             for (MethodDeclaration methodDeclaration : this.calledMethod.get(fileName).keySet()) {
-                                // TODO
-                                //  MethodCallExpr和 MethodDeclation的比较这部分逻辑问题
-                                //  目前： 仅仅通过函数名，和参数个数来进行匹配
-                                //  待完善： 通过函数名和参数类型来进行匹配
                                 if (methodDeclaration.getNameAsString().equals(methodCallExpr.getNameAsString()) && methodDeclaration.getParameters().size() == methodCallExpr.getArguments().size()) {
                                     String className = this.calledMethod.get(fileName).get(methodDeclaration);
                                     String res = fileName.concat("?").concat(methodDeclaration.getNameAsString()).concat("-").concat(className).concat("-").concat(new GraphParse().getMethodParameter(methodDeclaration));

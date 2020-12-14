@@ -33,12 +33,6 @@ public class AnalyseLevel {
         return levelAnalyseServices.getPartNodes(version, level);
     }
 
-    @GetMapping(value = "/connectDiff")
-    public Map<String, Map<String, List<Object>>> connectDiff() {
-        //level 层次
-
-        return scanGraph.initInstance(2);
-    }
 
 
 

@@ -1,22 +1,21 @@
 package com.nwu.nisl.demo.Controller;
 
-import com.nwu.nisl.demo.Component.Message;
 import com.nwu.nisl.demo.Component.Process;
-import com.nwu.nisl.demo.Component.Unzip;
+import com.nwu.nisl.demo.Component.FileUtil;
 import com.nwu.nisl.demo.Component.Utils;
-import com.nwu.nisl.demo.Entity.HasMethod;
 import com.nwu.nisl.demo.pytools.CallPython;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 /**
@@ -28,13 +27,15 @@ public class Run {
     Logger logger = LoggerFactory.getLogger(Run.class);
     @Value("${com.nwu.nisl.data.source}")
     private String path;
+    @Value("${user.dir}")
+    private String dir;
 
     private Process process;
     private CallPython callPython;
     private Utils utils;
     String savepath = "";
-    String oldversion;
-    String newversion;
+    String oldversion = "";
+    String newversion = "";
 
     public Run(Process process, CallPython callPython, Utils utils) {
         this.process = process;
@@ -63,14 +64,14 @@ public class Run {
                 oldversion = dic.replace("old", "");
                 /*解压上传的文件*/
                 savepath = path + oldversion;
-                Unzip.unZip(dir, savepath);
+                FileUtil.unZip(dir, savepath);
                 logger.info("上传旧项目版本" + oldversion);
 
             } else if (dic.contains("new")) {
                 newversion = dic.replace("new", "");
                 /*解压上传的文件*/
                 savepath = path + newversion;
-                Unzip.unZip(dir, savepath);
+                FileUtil.unZip(dir, savepath);
                 logger.info("上传新项目版本" + newversion);
             } else {
                 /**/
@@ -88,7 +89,7 @@ public class Run {
     @ResponseBody
     public HashMap<String, Object> parse() {
         HashMap<String, Object> msg = new HashMap<>();
-        if (oldversion.equals("") || newversion.equals("")) {
+        if ("".equals(oldversion) || "".equals(newversion)) {
             logger.info("请上传完整版本数据");
             msg.put("status", "needile");
             return msg;
@@ -123,5 +124,17 @@ public class Run {
         /*状态信息*/
         msg.put("status", "succes");
         return msg;
+    }
+
+    @GetMapping("start/data/download")
+    @ResponseBody
+    public String downloadFile(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        String fileName = "res.txt";// 文件名
+        File file = new File(dir + File.separator + fileName);
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; fileName=" + fileName + ";filename*=utf-8''" + URLEncoder.encode(fileName, "UTF-8"));
+        String res=FileUtil.download(file, response, request);
+        return res;
     }
 }

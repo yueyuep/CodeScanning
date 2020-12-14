@@ -22,8 +22,6 @@ public class CallPython {
     private Logger logger = LoggerFactory.getLogger(CallPython.class);
 
     public void execute(String oldversion, String newversion) {
-
-        // TODO Auto-generated method stub
         Process proc;
         try {
 

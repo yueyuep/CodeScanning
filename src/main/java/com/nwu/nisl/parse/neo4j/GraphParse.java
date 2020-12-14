@@ -160,13 +160,13 @@ public class GraphParse {
             if (methodDeclaration.getParentNode().get() instanceof ClassOrInterfaceDeclaration) {
                 allClassName.add(((ClassOrInterfaceDeclaration) methodDeclaration.getParentNode().get()).getName().toString());
             } else if (methodDeclaration.getParentNode().get() instanceof ObjectCreationExpr) {
-                // TODO
+                //
                 // 函数定义在 new 类名(){}中的情况暂不完善
                 //
 //                allClassName.add(((ObjectCreationExpr)methodDeclaration.getParentNode().get()).getTypeAsString());
 
             } else {
-                // TODO
+                //
                 // 第二种情况再往上遍历时，会找到其他类型的节点
 
 //                System.out.println("此情况未考虑");

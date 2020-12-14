@@ -62,13 +62,13 @@ public class ParameterCompare {
 
     private List<String> getParOfMethodCallexpr() {
         List<String> list = new ArrayList<>();
-        // TODO 函数调用的是具体的变量，需要定位到变量的类型。
+        //函数调用的是具体的变量，需要定位到变量的类型。
         NodeList<Expression> nodeList = methodCallExpr.getArguments();
         return list;
     }
 
     String getTypeOfVariable(String variable) {
-        // TODO 寻找变量的类型
+        // 寻找变量的类型
         String lists = "";
         return lists;
     }

@@ -91,7 +91,7 @@ $("#header li").click(function (e) {
         requestData(result, "diff")
 
 
-    } else if ($(this).text() == "ConnectNodeI") {
+    } else if ($(this).text() == "ConnectNode") {
         //var version = prompt("Please enter the new versions of Project!");
         var version = getcookies("newversion");
         if (version == "") {
@@ -99,7 +99,7 @@ $("#header li").click(function (e) {
             return;
         }
         //显示版l1层次的图,需要借助diff返回的结果集
-        var level = 1;
+        var level = 2;
         parame = {"version": version, "level": level};
         url = "/analyse/connectLevelDiff";
         analyseResult = pareurl(parame, url);
@@ -109,20 +109,6 @@ $("#header li").click(function (e) {
         //adddiff(diffResult, analyseResult);
 
 
-    } else {
-        //显示版l2层次的图
-        //var version = prompt("Please enter the new versions of Project!");
-        var version = getcookies("newversion");
-        if (version == "") {
-            alert("未解析数据")
-            return;
-        }
-        var level = 2;
-        parame = {"version": version, "level": level};
-        url = "/analyse/connectLevelDiff";
-        analyseResult = pareurl(parame, url);
-        //diffResult = diffshow();
-        requestData(analyseResult, "level");
     }
 
 
@@ -136,8 +122,6 @@ $("#header li").click(function (e) {
  */
 function diffData(result) {
     //获得变化的这部分数据，需要将其运用到我们的最新callgraph图上
-    // TODO 如果本地含有callgraph图，我们直接从缓存中读取，不会再次请求，一方面我们的callgraph(0.9.23已经请求过了)
-    //重新请求一次数据
     //diff数据集
     var oldVersion = "0.9.22";
     var newVersion = "0.9.23";
@@ -201,4 +185,5 @@ function removecookies() {
     var cval = getcookies(name);
     document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
 }
+
 

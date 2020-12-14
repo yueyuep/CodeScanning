@@ -84,7 +84,7 @@ public class FunctionParse {
                 }
             } else {
                 System.out.println("Case 3");
-                // TODO 这种情况可以认为也是内部类，直接new的后面的类型作为我们函数重写的外部类。
+                //这种情况可以认为也是内部类，直接new的后面的类型作为我们函数重写的外部类。
                 //直接父节点不是类的情况
                 //函数声明可能是在新建接口过程中，重写了接口中的方法，这部分先不处理
             }
@@ -97,7 +97,7 @@ public class FunctionParse {
             classname = ((ClassOrInterfaceDeclaration) methodDeclaration.getParentNode().get()).getNameAsString();
             return classname;
         } else {
-            // TODO 父节点不是ClassOrInterfaceDeclaration类型的。未处理
+            //  父节点不是ClassOrInterfaceDeclaration类型的。
         }
         return classname;
 

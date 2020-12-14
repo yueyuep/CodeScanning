@@ -36,7 +36,7 @@ function show(graph, leftforce, leftsvg) {
         .attr("opacity", 0.0);
     var len = graph.nodes.length;
     leftforce.nodes(graph.nodes).links(graph.links).start();
-    //TODO 需要根据不同的边关系，设置不同的颜色
+    //需要根据不同的边关系，设置不同的颜色
     var link = leftsvg.selectAll(".link")
         .data(graph.links).enter()
         .append("line").attr("class", "link")
@@ -92,7 +92,6 @@ function show(graph, leftforce, leftsvg) {
                 if (node.level == 1)
                 /*关联节点*/
                     return "#07B4FF";
-                /*todo 待优化*/
                 if (node.type == "deleteConnectDiff" || node.type == "delete")
                     return "#585956";
                 else if (node.type == "addConnectDiff" || node.type == "add")

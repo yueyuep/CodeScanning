@@ -34,7 +34,7 @@ class SimResult:
                 for methodDictkey in self.sim[file].keys():
                     # 人为标记"sim"字段
                     if methodDictkey == 'sim':
-                        # TODO 这部分数据可能有问题
+                        # 这部分数据可能有问题
                         start = len(
                             os.path.join(os.path.split(os.path.realpath(__file__))[0], "jsondata//" + self.version))
                         pfile = file.replace(".txt", "")
@@ -57,7 +57,7 @@ class SimResult:
                     else:
                         self.PareMethodResult(file, methodDictkey, dic)
             else:
-                # TODO 存在文件残缺对,直接扫描扫描文件即可,无法分清函数的增加还是删除，这部分不会执行，上面使用change进行标注，已经解决了。
+                # 存在文件残缺对,直接扫描扫描文件即可,无法分清函数的增加还是删除，这部分不会执行，上面使用change进行标注，已经解决了。
                 # self.normaldiff.append(file.replace(".txt", ""))
                 # print("是否进入")
                 pass
@@ -67,7 +67,7 @@ class SimResult:
         # 比较的两个函数对
         methodTupeKey = methodDictkey
         # 函数的相似度
-        # TODO 这里得拆分可能有问题[文件全名_版本号]
+        # 这里得拆分可能有问题[文件全名_版本号]
         candiate_filename1 = methodDictkey[0]
         candiate_filename2 = methodDictkey[1]
         methodTupeValue = dic[methodDictkey]
@@ -89,7 +89,7 @@ class SimResult:
                 print("simMethod:{name}".format(name=methodTupeKey[1]))
             else:
                 # 发生了变化，需要根据程度进行判断，分析相关的部分
-                # TODO 这个需要把前面的路径去掉。
+                # 这个需要把前面的路径去掉。
                 pfile = file.replace(".txt", "")
                 filename = pfile[start:len(pfile)]
                 #############################################
@@ -111,7 +111,7 @@ class SimResult:
         """
 
     def Node2NodeConnect(self, fieUrl, diffmethodName):
-        # TODO 新函数的函数调用和旧函数的函数的调用的callreferto信息均需要参考
+        # 新函数的函数调用和旧函数的函数的调用的callreferto信息均需要参考
         with open(fieUrl, 'rt', encoding='utf-8') as file:
             lines = file.readlines()
             methodLines = lines[1:]
@@ -123,7 +123,7 @@ class SimResult:
                     # 找到变化的函数
                     callMethodNameReferT = method["callMethodNameReferTo"]
                     for referFile in callMethodNameReferT.values():
-                        # TODO referFile可能需要进行文件名的解析
+                        #referFile可能需要进行文件名的解析
                         self.connectdiff.append(referFile)
                         print("callReferMethod：{name}".format(name=referFile))
 

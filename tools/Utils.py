@@ -52,7 +52,6 @@ def getpairFile(basefileList, targetfileList):
 # 修复文件数目不一样的情况
 def getpairFile1(basefileList, targetfileList):
     # [base:target]文件对
-    # TODO 2019/10/29 待完成任务
     diff = []
     flag = 0
     # 2019/11/14 修复函数对的匹配问题
@@ -61,13 +60,13 @@ def getpairFile1(basefileList, targetfileList):
         base_split = base.split("\\")
         # 这里的使用函数名匹配存在问题，一般而言，项目的位置不会发生变化，因此我们可以把项目的路径加上，去版本后的路径进行比较
         # 'H:\\GraphSimWeb\\jsondata\\0.9.23\\android-demo\\src\\androidTest\\java\\com\\example\\myapplication\\ExampleInstrumentedTest.java.txt'
-        # TODO 取 s0.9.23后面的内容进行比较,start是开始的位置
+        # 取 s0.9.23后面的内容进行比较,start是开始的位置
         start = len((os.path.join(os.path.split(os.path.realpath(__file__))[0], "jsondata\\placeholder")).split("\\"))
         base_name = base_split[start:len(base_split)]
         for target in targetfileList:
             target_split = target.split("\\")
             target_name = target_split[start:len(target_split)]
-            # TODO 这个不影响，我们函数名增加了更多的字段信息，但是还是字符串比较
+            # 这个不影响，我们函数名增加了更多的字段信息，但是还是字符串比较
             if base_name == target_name:
                 flag = 1
                 break
@@ -80,10 +79,9 @@ def getpairFile1(basefileList, targetfileList):
     for base in targetfileList:
         base_split = base.split("\\")
         base_name = base_split[start:len(base_split)]
-        # TODO 这个函数对的匹配有点问题
         for target in basefileList:
             target_split = target.split("\\")
-            # TODO 比较对象
+            #比较对象
             target_name = target_split[start:len(target_split)]
             if base_name == target_name:
                 # 找到函数匹配对
@@ -124,7 +122,7 @@ def getpairMethodGraph(basefileList, targetfileList):
 
                 if (len(baseMethodGraphList) == 0):
                     filename = paifile[1]
-                    # TODO 不存在函数这部分是接口类
+                    #不存在函数这部分是接口类
                     pairMethod[filename] = {"change": "nomethod"}
                     continue
                 tempdic = {}

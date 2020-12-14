@@ -63,6 +63,7 @@ public class RemoveNode extends AST2Graph {
         mAddDataLink = false;
     }
 
+    @Override
     public void constructNetwork(Node node) {
         travelNodeForTaint(node);
         travelNodeForCFG(node);
@@ -97,6 +98,7 @@ public class RemoveNode extends AST2Graph {
         travelCalled();
     }
 
+    @Override
     public void travelCalled() {
         if (mCalledMethodDecls.isEmpty()) {
             return;
@@ -639,7 +641,7 @@ public class RemoveNode extends AST2Graph {
                 return false;
             }
             {
-                //TODO: 其他情况
+                //其他情况
 //                addChildNodeList(node, node.getChildNodes());
 //                stringPrint(nodeClass);
 //                nodePrint(node);

@@ -6,20 +6,20 @@ import com.nwu.nisl.demo.Entity.Node;
 import com.nwu.nisl.demo.Repository.FileRepository;
 import com.nwu.nisl.demo.Repository.MethodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.*;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @ProjectName: demo
- * @Package: com.nwu.nisl.demo.Component
- * @ClassName: Graph
- * @Author: Kangaroo
- * @Description: 根据要求，返回对应的callGraph图
- * @Date: 2019/11/27 17:27
- * @Version: 1.0
- */
+ *@Author:yueyue on 2020/12/14 9:28
+ *@Param:
+ *@return:
+ *@Description:根据callgraph和dataflow分析关联节点
+*/
 @Component
 public class CallGraph {
     @Autowired
@@ -36,6 +36,9 @@ public class CallGraph {
     private ScanGraph scanGraph;
     @Autowired
     private ConnectDiff connectDiff;
+
+    @Value("${com.nwu.nisl.download.res}")
+    private String outpath;
 
     public CallGraph() {
     }
@@ -89,15 +92,66 @@ public class CallGraph {
         return parseData.graph(version, files, methods, nodes);
     }
 
-    /*
-     *Author:lp on 2019/11/29 22:14
-     *Description:显示部分变化节点的callgraph图
-     */
     public Map<String, Object> getLevelPartNodes(String version, int level) {
         Map<String, Map<String, List<Object>>> typediff = scanGraph.initInstance(level);
+        /*写入关联代码的结果*/
+        change2txt(typediff);
+        System.out.printf("done");
         return connectDiff.initstance(typediff);
 
 
     }
+
+    public void change2txt(Map<String, Map<String, List<Object>>> typediff) {
+        List<String> changeList = new ArrayList<>();
+        List<String> connectList = new ArrayList<>();
+        for (String changetype : typediff.keySet()) {
+            Map<String, List<Object>> sp_change_type = typediff.get(changetype);
+            for (String fileOrMethod : sp_change_type.keySet()) {
+                List<Object> sp_fileOrMethod = sp_change_type.get(fileOrMethod);
+                for (Object change : sp_fileOrMethod) {
+                    if (change instanceof File) {
+                        if (((File) change).getLevel() == 0) {
+                            changeList.add(((File) change).getFileName());
+                        } else {
+                            connectList.add(((File) change).getFileName());
+                        }
+                    } else if (change instanceof Method) {
+                        if (((Method) change).getLevel() == 0) {
+                            changeList.add(((Method) change).getFileMethodName());
+                        } else {
+                            connectList.add(((Method) change).getFileMethodName());
+                        }
+
+                    }
+                }
+            }
+        }
+        //将changeList和connectList写入res.txt文件
+        try {
+            java.io.File file = new java.io.File(outpath + java.io.File.separator + "res.txt");
+            if (file.exists()) {
+                file.delete();
+                file.createNewFile();
+            }
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outpath + java.io.File.separator + "res.txt", true)));
+
+            out.write("---------------------changeNode---------------------" + "\r\n");
+            for (String text : changeList) {
+                out.write(text + "\r\n");
+
+            }
+            out.write("---------------------connectNode---------------------" + "\r\n");
+            for (String text : connectList) {
+                out.write(text + "\r\n");
+            }
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
 }
